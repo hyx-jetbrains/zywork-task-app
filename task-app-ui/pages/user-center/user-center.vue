@@ -1,0 +1,206 @@
+<template>
+	<view>
+		<view class="zy-user-container" v-if="isUserLogin">
+			<image class="zy-headicon" :src="user.headicon"></image>
+			<text class="zy-name">{{user.nickname}}</text>
+		</view>
+		<view class="zy-user-container" v-else>
+			<image class="zy-headicon" :src="user.headicon"></image>
+			<text class="zy-name" @click="toLogin">请登录</text>
+		</view>
+		<view class="zy-user-balance">
+			<view @click="toAccountDetail">
+				<text class="zy-data-text" v-if="isUserLogin">1000</text>
+				<text class="zy-data-text" v-else>0</text>
+				<text class="zy-small-text">积分 ></text>
+			</view>
+			<view class="zy-user-balance-opt">
+				<view @click="toFundsRecharge">充值</view>
+				<view @click="toFundsWithdraw">提现</view>
+			</view>
+		</view>
+		<uni-list>
+			<zywork-list-item title="我的微信二维码" show-extra-icon="true" :extra-icon="{color: '#2DC7D3',size: '18',type: 'iconico'}"
+			 @click="toWeixinBarcode"></zywork-list-item>
+			<zywork-list-item title="我的微信认证" show-extra-icon="true" :extra-icon="{color: '#009688',size: '18',type: 'iconrenzheng'}"
+			 @click="toWeixinCertification"></zywork-list-item>
+			<zywork-list-item title="我添加的微信好友" show-extra-icon="true" :extra-icon="{color: '#FF9800',size: '18',type: 'iconwodehaoyou'}"
+			 @click="toWeixinFriend"></zywork-list-item>
+			 <zywork-list-item title="我的消息" show-extra-icon="true" :extra-icon="{color: '#BD16A1',size: '18',type: 'iconxiaoxi'}"
+			  @click="toMyMessage"></zywork-list-item>
+			<zywork-list-item title="帮助中心" show-extra-icon="true" :extra-icon="{color: '#E51C23',size: '18',type: 'iconbangzhu'}"
+			 @click="toHelp"></zywork-list-item>
+			<zywork-list-item title="关于TaskApp" show-extra-icon="true" :extra-icon="{color: '#535CA7',size: '18',type: 'iconguanyu'}"
+			 @click="toAbout"></zywork-list-item>
+		</uni-list>
+		<view class="zy-list-button" @click="logout" v-if="isUserLogin">退出登录</view>
+	</view>
+</template>
+
+<script>
+	import {isUserTokenExist, removeUserToken, toLoginPage} from '../../common/util.js'
+	
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import zyworkListItem from '@/components/zywork-list-item/zywork-list-item.vue'
+	export default {
+		components:{
+			uniList,
+			zyworkListItem
+		},
+		data() {
+			return {
+				isUserLogin: false,
+				user: {
+					headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png',
+					nickname: 'TaskApp'
+				}
+			}
+		},
+		onLoad() {
+			
+		},
+		onShow() {
+			this.judgeUserLogin()
+		},
+		methods: {
+			judgeUserLogin() {
+				if (isUserTokenExist()) {
+					this.isUserLogin = true
+				} else {
+					this.isUserLogin = false
+				}
+			},
+			toLogin() {
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
+			},
+			toAccountDetail() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/account-detail/account-detail'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toFundsRecharge() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/funds-recharge/funds-recharge'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toFundsWithdraw() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/funds-withdraw/funds-withdraw'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toWeixinBarcode() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/weixin-barcode/weixin-barcode'
+					})
+				} else {
+					toLoginPage()
+				}
+			},	
+			toWeixinCertification() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/weixin-certification/weixin-certification'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toWeixinFriend() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/weixin-friend/weixin-friend'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toMyMessage() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/my-message/my-message'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toHelp() {
+				uni.navigateTo({
+					url: '/pages/help/help'
+				})
+			},
+			toAbout() {
+				uni.navigateTo({
+					url: '/pages/about/about'
+				})
+			},
+			logout() {
+				removeUserToken()
+				this.isUserLogin = false
+				uni.showToast({
+					title: '已退出登录',
+					duration: 2000
+				})
+				
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import '../../common/zywork-main.scss';
+	
+	.zy-user-balance {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: $primary-backcolor;
+		padding: 10upx;
+		margin-bottom: 10upx;
+	}
+	
+	.zy-data-text {
+		padding: 10upx;
+		font-size: 42upx;
+		color: $primary-color;
+	}
+	
+	.zy-small-text {
+		font-size: 24upx;
+		color: $primary-color;
+		margin-left: 10upx;
+	}
+	
+	.zy-user-balance-opt {
+		width: 60%;
+		margin-top: 30upx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+	
+	.zy-user-balance-opt view {
+		padding: 10upx;
+		text-align: center;
+		flex-grow: 1;
+	}
+	
+	.zy-user-balance-opt view:first-child {
+		border-right: 1px solid $primary-page-backcolor;
+	}
+</style>

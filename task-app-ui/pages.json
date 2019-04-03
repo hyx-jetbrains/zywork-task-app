@@ -1,0 +1,213 @@
+{
+	"pages": [
+		{
+			"path": "pages/task-list/task-list",
+			"style": {
+				"navigationBarTitleText": "最新任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/publish-task/publish-task",
+			"style": {
+				"navigationBarTitleText": "发布任务",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/my-task/my-task",
+			"style": {
+				"navigationBarTitleText": "我的任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/user-center/user-center",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-task-list/weixin-task-list",
+			"style": {
+				"navigationBarTitleText": "微信任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/taobao-task-list/taobao-task-list",
+			"style": {
+				"navigationBarTitleText": "淘宝任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-task-list-publish/weixin-task-list-publish",
+			"style": {
+				"navigationBarTitleText": "发布的微信任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-task-list-join/weixin-task-list-join",
+			"style": {
+				"navigationBarTitleText": "参与的微信任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/taobao-task-list-publish/taobao-task-list-publish",
+			"style": {
+				"navigationBarTitleText": "发布的淘宝任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/taobao-task-list-join/taobao-task-list-join",
+			"style": {
+				"navigationBarTitleText": "参与的淘宝任务",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/notice-list/notice-list",
+			"style": {
+				"navigationBarTitleText": "所有公告",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/account-detail/account-detail",
+			"style": {
+				"navigationBarTitleText": "积分明细",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/funds-recharge/funds-recharge",
+			"style": {
+				"navigationBarTitleText": "充值",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/funds-withdraw/funds-withdraw",
+			"style": {
+				"navigationBarTitleText": "提现",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-barcode/weixin-barcode",
+			"style": {
+				"navigationBarTitleText": "微信二维码",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-certification/weixin-certification",
+			"style": {
+				"navigationBarTitleText": "微信认证",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-friend/weixin-friend",
+			"style": {
+				"navigationBarTitleText": "微信好友",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/my-message/my-message",
+			"style": {
+				"navigationBarTitleText": "我的消息",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/help/help",
+			"style": {
+				"navigationBarTitleText": "帮助中心",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/about/about",
+			"style": {
+				"navigationBarTitleText": "关于TaskApp",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/privacy/privacy",
+			"style": {
+				"navigationBarTitleText": "用户协议与隐私声明",
+				"backgroundTextStyle": "light"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "TaskApp",
+		"navigationBarBackgroundColor": "#0A98D5",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#6D6D6D",
+		"selectedColor": "#0A98D5",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [
+			{
+				"text": "最新任务",
+				"pagePath": "pages/task-list/task-list",
+				"iconPath": "static/icon/task-list-default.png",
+				"selectedIconPath": "static/icon/task-list.png"
+			},
+			{
+				"text": "发布任务",
+				"pagePath": "pages/publish-task/publish-task",
+				"iconPath": "static/icon/publish-default.png",
+				"selectedIconPath": "static/icon/publish.png"
+			},
+			{
+				"text": "我的任务",
+				"pagePath": "pages/my-task/my-task",
+				"iconPath": "static/icon/my-task-default.png",
+				"selectedIconPath": "static/icon/my-task.png"
+			},
+			{
+				"text": "个人中心",
+				"pagePath": "pages/user-center/user-center",
+				"iconPath": "static/icon/user-default.png",
+				"selectedIconPath": "static/icon/user.png"
+			}
+		]
+	}
+}
