@@ -19,7 +19,6 @@
 			"path": "pages/my-task/my-task",
 			"style": {
 				"navigationBarTitleText": "我的任务",
-				"enablePullDownRefresh": true,
 				"backgroundTextStyle": "light"
 			}
 		},
@@ -61,6 +60,54 @@
 			}
 		},
 		{
+			"path": "pages/weixin-task-detail/weixin-task-detail",
+			"style": {
+				"navigationBarTitleText": "任务详情",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-task-detail-publish/weixin-task-detail-publish",
+			"style": {
+				"navigationBarTitleText": "任务详情",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/weixin-task-detail-join/weixin-task-detail-join",
+			"style": {
+				"navigationBarTitleText": "任务详情",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/taobao-task-detail/taobao-task-detail",
+			"style": {
+				"navigationBarTitleText": "任务详情",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/taobao-task-detail-publish/taobao-task-detail-publish",
+			"style": {
+				"navigationBarTitleText": "任务详情",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/taobao-task-detail-join/taobao-task-detail-join",
+			"style": {
+				"navigationBarTitleText": "任务详情",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
 			"path": "pages/weixin-task-list-publish/weixin-task-list-publish",
 			"style": {
 				"navigationBarTitleText": "发布的微信任务",
@@ -96,6 +143,14 @@
 			"path": "pages/notice-list/notice-list",
 			"style": {
 				"navigationBarTitleText": "所有公告",
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/notice-detail/notice-detail",
+			"style": {
+				"navigationBarTitleText": "公告详情",
 				"backgroundTextStyle": "light"
 			}
 		},
@@ -103,6 +158,7 @@
 			"path": "pages/account-detail/account-detail",
 			"style": {
 				"navigationBarTitleText": "积分明细",
+				"enablePullDownRefresh": true,
 				"backgroundTextStyle": "light"
 			}
 		},

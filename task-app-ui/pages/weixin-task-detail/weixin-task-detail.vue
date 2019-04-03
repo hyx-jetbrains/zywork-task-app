@@ -1,6 +1,6 @@
 <template>
 	<view>
-		积分明细
+		微信任务详情
 	</view>
 </template>
 
@@ -12,12 +12,6 @@
 			}
 		},
 		onLoad() {
-		},
-		onPullDownRefresh() {
-			
-		},
-		onReachBottom() {
-			
 		},
 		methods: {
 		}

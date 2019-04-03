@@ -13,6 +13,12 @@
 		},
 		onLoad() {
 		},
+		onPullDownRefresh() {
+			
+		},
+		onReachBottom() {
+			
+		},
 		methods: {
 		}
 	}

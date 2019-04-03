@@ -1,6 +1,6 @@
 <template>
 	<view>
-		积分明细
+		参与的淘宝任务详情
 	</view>
 </template>
 
@@ -12,12 +12,6 @@
 			}
 		},
 		onLoad() {
-		},
-		onPullDownRefresh() {
-			
-		},
-		onReachBottom() {
-			
 		},
 		methods: {
 		}

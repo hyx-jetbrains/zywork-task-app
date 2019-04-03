@@ -18,7 +18,7 @@
 		<view class="zy-task-list">
 			<view @click="toWeixinTasks">微信任务-<text class="zy-text-info-strong">更多</text></view>
 			<view v-if="weixinTaskList.length > 0">
-				<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index">
+				<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail">
 					<image class="headicon" :src="item.user.headicon" />
 					<view class="zy-info">
 						<view>{{item.title}}</view>
@@ -31,7 +31,7 @@
 		<view class="zy-task-list">
 			<view @click="toTaobaoTasks">淘宝任务-<text class="zy-text-info-strong">更多</text></view>
 			<view v-if="taobaoTaskList.length > 0">
-				<view class="zy-task-item" v-for="(item, index) in taobaoTaskList" :key="index">
+				<view class="zy-task-item" v-for="(item, index) in taobaoTaskList" :key="index" @click="toTaobaoTaskDetail">
 					<image class="headicon" :src="item.user.headicon" />
 					<view class="zy-info">
 						<view>{{item.title}}</view>
@@ -114,6 +114,16 @@
 				}
 				uni.navigateTo({
 					url: '/pages/taobao-task-list/taobao-task-list'
+				})
+			},
+			toWeixinTaskDetail() {
+				uni.navigateTo({
+					url: '/pages/weixin-task-detail/weixin-task-detail'
+				})
+			},
+			toTaobaoTaskDetail() {
+				uni.navigateTo({
+					url: '/pages/taobao-task-detail/taobao-task-detail'
 				})
 			}
 		}

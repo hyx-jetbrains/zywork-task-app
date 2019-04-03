@@ -1,6 +1,6 @@
 <template>
 	<view zy-task-list>
-		<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index">
+		<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail">
 			<image class="headicon" :src="item.user.headicon" />
 			<view class="zy-info">
 				<view>{{item.title}}</view>
@@ -35,7 +35,18 @@
 			}
 		},
 		onLoad() {},
+		onPullDownRefresh() {
+			
+		},
+		onReachBottom() {
+			
+		},
 		methods: {
+			toWeixinTaskDetail() {
+				uni.navigateTo({
+					url: '/pages/weixin-task-detail-publish/weixin-task-detail-publish'
+				})
+			}
 		}
 	}
 </script>
