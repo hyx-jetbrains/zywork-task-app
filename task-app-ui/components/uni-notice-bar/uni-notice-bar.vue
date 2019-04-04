@@ -183,14 +183,13 @@
 	}
 
 	.uni-noticebar__content-more {
-		width: 180upx;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		justify-content: flex-end;
 		word-break: keep-all;
-		margin-left: 10upx;
+		margin-left: 50upx;
 		color: #999
 	}
 
