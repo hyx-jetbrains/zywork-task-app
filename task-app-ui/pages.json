@@ -155,6 +155,20 @@
 			}
 		},
 		{
+			"path": "pages/nickname/nickname",
+			"style": {
+				"navigationBarTitleText": "我的昵称",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/password-setting/password-setting",
+			"style": {
+				"navigationBarTitleText": "密码设置",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
 			"path": "pages/account-detail/account-detail",
 			"style": {
 				"navigationBarTitleText": "积分明细",

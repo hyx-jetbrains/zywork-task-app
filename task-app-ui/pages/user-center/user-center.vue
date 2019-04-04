@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="zy-user-container" v-if="isUserLogin">
-			<image class="zy-headicon" :src="user.headicon"></image>
+			<image class="zy-headicon" :src="user.headicon" @click="chooseImage"></image>
 			<text class="zy-name">{{user.nickname}}</text>
 		</view>
 		<view class="zy-user-container" v-else>
@@ -20,6 +20,8 @@
 			</view>
 		</view>
 		<uni-list>
+			<zywork-list-item title="我的昵称" show-extra-icon="true" :note="user.nickname" :extra-icon="{color: '#2889D3',size: '18',type: 'icon6nichengzhao'}"
+			 @click="toNickname"></zywork-list-item>
 			<zywork-list-item title="我的微信二维码" show-extra-icon="true" :extra-icon="{color: '#2DC7D3',size: '18',type: 'iconico'}"
 			 @click="toWeixinBarcode"></zywork-list-item>
 			<zywork-list-item title="我的微信认证" show-extra-icon="true" :extra-icon="{color: '#009688',size: '18',type: 'iconrenzheng'}"
@@ -28,6 +30,8 @@
 			 @click="toWeixinFriend"></zywork-list-item>
 			 <zywork-list-item title="我的消息" show-extra-icon="true" :extra-icon="{color: '#BD16A1',size: '18',type: 'iconxiaoxi'}"
 			  @click="toMyMessage"></zywork-list-item>
+			  <zywork-list-item title="密码设置" show-extra-icon="true" :extra-icon="{color: '#1234A1',size: '18',type: 'iconmima'}"
+			   @click="toPasswordSetting"></zywork-list-item>
 			<zywork-list-item title="帮助中心" show-extra-icon="true" :extra-icon="{color: '#E51C23',size: '18',type: 'iconbangzhu'}"
 			 @click="toHelp"></zywork-list-item>
 			<zywork-list-item title="关于TaskApp" show-extra-icon="true" :extra-icon="{color: '#535CA7',size: '18',type: 'iconguanyu'}"
@@ -70,6 +74,20 @@
 					this.isUserLogin = false
 				}
 			},
+			chooseImage() {
+				uni.chooseImage({
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'], 
+					count: 1,
+					success: (res) => {
+						this.user.headicon = res.tempFilePaths
+						
+					},
+					fail: (res) => {
+						console.log(res)
+					}
+				})
+			},
 			toLogin() {
 				uni.navigateTo({
 					url: '/pages/login/login'
@@ -97,6 +115,15 @@
 				if (isUserTokenExist()) {
 					uni.navigateTo({
 						url: '/pages/funds-withdraw/funds-withdraw'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toNickname() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/nickname/nickname'
 					})
 				} else {
 					toLoginPage()
@@ -133,6 +160,15 @@
 				if (isUserTokenExist()) {
 					uni.navigateTo({
 						url: '/pages/my-message/my-message'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toPasswordSetting() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/password-setting/password-setting'
 					})
 				} else {
 					toLoginPage()
