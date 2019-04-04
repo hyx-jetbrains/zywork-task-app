@@ -15,7 +15,7 @@
 					<input class="uni-input" password placeholder="请再次输入新密码" />
 				</view>
 				<view class="uni-form-item">
-					<button type="primary" style="width: 100%;" @click="changeNickname">修改登录密码</button>
+					<button type="primary" style="width: 100%;" @click="loginPwd">修改登录密码</button>
 				</view>
 			</view>
 			<view class="zy-form" v-if="current === 1">
@@ -29,7 +29,7 @@
 					<input class="uni-input" password placeholder="请再次输入新密码" />
 				</view>
 				<view class="uni-form-item">
-					<button type="primary" style="width: 100%;" @click="changeNickname">修改支付密码</button>
+					<button type="primary" style="width: 100%;" @click="payPwd">修改支付密码</button>
 				</view>
 			</view>
 		</view>
@@ -56,6 +56,12 @@
 				if (this.current !== index) {
 					this.current = index;
 				}
+			},
+			loginPwd() {
+				
+			},
+			payPwd() {
+				
 			}
 		}
 	}

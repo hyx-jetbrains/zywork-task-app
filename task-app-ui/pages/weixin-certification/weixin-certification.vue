@@ -24,7 +24,7 @@
 					sourceType: ['album'], 
 					count: 1,
 					success: (res) => {
-						this.weixinCer = res.tempFilePaths
+						this.weixinCer = res.tempFilePaths[0]
 						
 					},
 					fail: (res) => {

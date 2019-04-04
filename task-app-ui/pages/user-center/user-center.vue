@@ -80,7 +80,7 @@
 					sourceType: ['album', 'camera'], 
 					count: 1,
 					success: (res) => {
-						this.user.headicon = res.tempFilePaths
+						this.user.headicon = res.tempFilePaths[0]
 						
 					},
 					fail: (res) => {
@@ -199,6 +199,29 @@
 
 <style lang="scss">
 	@import '../../common/zywork-main.scss';
+	
+	.zy-user-container {
+		width: 100%;
+		padding-top: 15upx;
+		padding-bottom: 15upx;
+		margin-bottom: 10upx;
+		background-color: $primary-color;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+		
+	.zy-user-container .zy-headicon {
+		width: 120upx;
+		height: 120upx;
+		border-radius: 60upx;
+	}
+		
+	.zy-user-container .zy-name {
+		font-size: 30upx;
+		font-weight: bold;
+		color: #FFFFFF;
+	}
 	
 	.zy-user-balance {
 		display: flex;

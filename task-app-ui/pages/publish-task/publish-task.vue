@@ -25,6 +25,9 @@
 			<view class="uni-form-item">
 				<button type="primary" style="width: 100%;" @click="publishWeixinTask">发布微信任务</button>
 			</view>
+			<view class="uni-form-item">
+				<button type="primary" style="width: 100%;" @click="publishTaobaoTask">重置微信任务</button>
+			</view>
 		</view>
 		<view class="zy-form" v-if="task === 'taobao'">
 			<view class="uni-form-item uni-column">
@@ -33,9 +36,20 @@
 			<view class="uni-form-item uni-column">
 				<input class="uni-input" placeholder="请输入每单奖励积分" />
 			</view>
+			<view class="uni-form-item uni-column">
+				<view class="uni-textarea">
+					<textarea rows="3" placeholder="请输入宝贝链接"/>
+				</view>
+			</view>
+			<view style="text-align: center;">淘宝任务发布功能即将上线……</view>
+			<!--
 			<view class="uni-form-item">
 				<button type="primary" style="width: 100%;" @click="publishTaobaoTask">发布淘宝任务</button>
 			</view>
+			<view class="uni-form-item">
+				<button type="primary" style="width: 100%;" @click="publishTaobaoTask">重置淘宝任务</button>
+			</view>
+			-->
 		</view>
 	</view>
 </template>
@@ -119,5 +133,9 @@
 	
 	.zy-task-opt .zy-select i {
 		color: $primary-color;
+	}
+	
+	.uni-textarea textarea {
+		padding-left: 25upx;
 	}
 </style>

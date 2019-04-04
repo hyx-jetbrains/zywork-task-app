@@ -9,10 +9,9 @@
 				</swiper-item>
 			</swiper>
 		</view>
-
-		<view class="zy-notice" @click="toNoticeList">
-			<i class="iconfont icongonggao zy-notice-icon"></i>
-			<text>最新公告</text>
+		
+		<view style="margin-top: 10upx;">
+			<uni-notice-bar @getmore="toNoticeList" :show-get-more="true" more-text="查看更多" show-icon="true" single="true" text="最新公告最新公告最新公告"></uni-notice-bar>
 		</view>
 
 		<view class="zy-task-list">
@@ -21,8 +20,10 @@
 				<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail">
 					<image class="headicon" :src="item.user.headicon" />
 					<view class="zy-info">
-						<view>{{item.title}}</view>
-						<view>{{item.createTime}}</view>
+						<view class="zy-text-bold">{{item.title}}</view>
+						<view>奖励：{{item.integral}}</view>
+						<view>人数：{{item.joinTotal}}/{{item.total}}</view>
+						<view class="zy-time-text">{{item.createTime}}</view>
 					</view>
 				</view>
 			</view>
@@ -34,8 +35,10 @@
 				<view class="zy-task-item" v-for="(item, index) in taobaoTaskList" :key="index" @click="toTaobaoTaskDetail">
 					<image class="headicon" :src="item.user.headicon" />
 					<view class="zy-info">
-						<view>{{item.title}}</view>
-						<view>{{item.createTime}}</view>
+						<view class="zy-text-bold">{{item.title}}</view>
+						<view>奖励：{{item.integral}}</view>
+						<view>人数：{{item.joinTotal}}/{{item.total}}</view>
+						<view class="zy-time-text">{{item.createTime}}</view>
 					</view>
 				</view>
 			</view>
@@ -45,7 +48,12 @@
 </template>
 
 <script>
+	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	
 	export default {
+		components: {
+			uniNoticeBar
+		},
 		data() {
 			return {
 				indicatorDots: true,
@@ -66,6 +74,9 @@
 							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
 						},
 						title: '任务',
+						integral: 10,
+						total: 10,
+						joinTotal: 8,
 						createTime: '2019-04-01 15:30:00'
 
 					},
@@ -74,6 +85,9 @@
 							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
 						},
 						title: '任务',
+						integral: 10,
+						total: 10,
+						joinTotal: 8,
 						createTime: '2019-04-01 15:30:00'
 
 					}
@@ -104,14 +118,6 @@
 				})
 			},
 			toTaobaoTasks() {
-				if (this.taobaoTaskList.length <= 0) {
-					uni.showToast({
-						title: '暂无淘宝任务',
-						icon: 'none',
-						duration: 2000
-					})
-					return
-				}
 				uni.navigateTo({
 					url: '/pages/taobao-task-list/taobao-task-list'
 				})
@@ -145,27 +151,9 @@
 		line-height: 300px;
 		text-align: center;
 	}
-
-	.zy-notice {
-		padding: 10upx;
-		margin-top: 10upx;
-		background-color: $primary-backcolor;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-	}
-
-	.zy-notice-icon {
-		font-size: 32upx;
-		margin-right: 20upx;
-	}
-
+	
 	.zy-task-list {
 		margin-top: 10upx;
-	}
-
-	.zy-task-list view:first-child {
-		padding: 10upx;
 	}
 
 	.zy-task-item {

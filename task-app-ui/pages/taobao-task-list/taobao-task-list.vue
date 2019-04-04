@@ -1,10 +1,15 @@
 <template>
 	<view zy-task-list>
-		<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toTaobaoTaskDetail">
-			<image class="headicon" :src="item.user.headicon" />
-			<view class="zy-info">
-				<view>{{item.title}}</view>
-				<view>{{item.createTime}}</view>
+		<view v-if="taobaoTaskList.length <= 0" style="text-align: center;">暂无淘宝任务</view>
+		<view v-else>
+			<view class="zy-task-item" v-for="(item, index) in taobaoTaskList" :key="index" @click="toTaobaoTaskDetail">
+				<image class="headicon" :src="item.user.headicon" />
+				<view class="zy-info">
+					<view class="zy-text-bold">{{item.title}}</view>
+					<view>奖励：{{item.integral}}</view>
+					<view>人数：{{item.joinTotal}}/{{item.total}}</view>
+					<view class="zy-time-text">{{item.createTime}}</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -14,23 +19,6 @@
 	export default {
 		data() {
 			return {
-				weixinTaskList: [{
-						user: {
-							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
-						},
-						title: '任务',
-						createTime: '2019-04-01 15:30:00'
-
-					},
-					{
-						user: {
-							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
-						},
-						title: '任务',
-						createTime: '2019-04-01 15:30:00'
-
-					}
-				],
 				taobaoTaskList: []
 			}
 		},
@@ -56,10 +44,6 @@
 
 	.zy-task-list {
 		margin-top: 10upx;
-	}
-
-	.zy-task-list view:first-child {
-		padding: 10upx;
 	}
 
 	.zy-task-item {

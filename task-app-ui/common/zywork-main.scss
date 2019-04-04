@@ -58,6 +58,10 @@ button[type=primary][plain] {
 	border-bottom: 1px solid $border-color;
 }
 
+.zy-text-bold {
+	font-weight: bold;
+}
+
 .zy-text-info {
 	margin-bottom: 20upx;
 }
@@ -65,86 +69,11 @@ button[type=primary][plain] {
 .zy-text-info-strong {
 	color: $primary-color;
 }
-	
-.zy-des-tag {
-	margin-top: 10upx;
-	margin-bottom: 10upx;
-}
-	
-.zy-des-tag text {
-	display: inline-block;
-	margin-right: 10upx;
-	padding-left: 10upx;
-	padding-right: 10upx;
-	border: 1px solid $tag-text-color;
-	border-radius: 10upx;
-	font-size: 24upx;
-	color: $tag-text-color;
-}
-	
-.zy-search-bar {
-	padding-left: 10upx;
-	padding-right: 10upx;
-	padding-bottom: 10upx;
-	margin-bottom: 10upx;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	background-color: $primary-backcolor;
-}
-	
-.zy-search-bar .zy-address {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin-right: 20upx;
+
+.zy-time-text {
+	font-size: 28upx;
 }
 
-.zy-search-bar .zy-input-view {
-	position: relative;
-	flex-grow: 1;
-	flex-basis: 25%;
-}
-	
-.zy-search-bar .zy-input-view input {
-	text-align: right;
-	padding-right: 50upx;
-	border: 1px solid $default-text-color;
-	border-radius: 15upx;
-	box-sizing: border-box;
-}
-
-.zy-search-bar .zy-search-icon {
-	position: absolute;
-	top: 3upx;
-	right: 10upx;
-	font-size: 32upx;
-}
-
-.zy-user-container {
-	width: 100%;
-	padding-top: 15upx;
-	padding-bottom: 15upx;
-	margin-bottom: 10upx;
-	background-color: $primary-color;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-	
-.zy-user-container .zy-headicon {
-	width: 120upx;
-	height: 120upx;
-	border-radius: 60upx;
-}
-	
-.zy-user-container .zy-name {
-	font-size: 30upx;
-	font-weight: bold;
-	color: #FFFFFF;
-}
-	
 .zy-logo-img {
 	width: 300upx; 
 	height: 200upx;	

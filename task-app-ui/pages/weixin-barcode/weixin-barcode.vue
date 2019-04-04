@@ -21,7 +21,7 @@
 					sourceType: ['album'], 
 					count: 1,
 					success: (res) => {
-						this.weixinBarcode = res.tempFilePaths
+						this.weixinBarcode = res.tempFilePaths[0]
 						
 					},
 					fail: (res) => {
