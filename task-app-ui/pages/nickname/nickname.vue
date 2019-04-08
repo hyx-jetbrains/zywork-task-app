@@ -2,7 +2,7 @@
 	<view class="zy-page">
 		<view class="zy-form">
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" placeholder="请输入昵称" />
+				<input v-model="user.nickname" class="uni-input" placeholder="请输入昵称" />
 			</view>
 			<view class="uni-form-item">
 				<button type="primary" style="width: 100%;" @click="changeNickname">修改昵称</button>
@@ -12,15 +12,21 @@
 </template>
 
 <script>
-	import {saveUserToken} from '../../common/util.js'
+	import {updateNickname} from '../../common/user.js'
 	export default {
 		data() {
-			return {}
+			return {
+				user: {
+					nickname: null
+				}
+			}
 		},
-		onLoad() {},
+		onLoad(option) {
+			this.user.nickname = option.nickname
+		},
 		methods: {
 			changeNickname() {
-				
+				updateNickname(this)
 			}
 		}
 	}

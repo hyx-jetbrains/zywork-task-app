@@ -43,7 +43,7 @@
 
 <script>
 	import {isUserTokenExist, removeUserToken, toLoginPage} from '../../common/util.js'
-	import {logout} from '../../common/user.js'
+	import {userDetail, logout} from '../../common/user.js'
 	
 	import uniList from '@/components/uni-list/uni-list.vue'
 	import zyworkListItem from '@/components/zywork-list-item/zywork-list-item.vue'
@@ -55,14 +55,15 @@
 		data() {
 			return {
 				isUserLogin: false,
+				getUserInfo: false,
 				user: {
-					headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png',
-					nickname: 'TaskApp'
+					headicon: '/static/icon/headicon.png',
+					nickname: null,
+					wechatQrcode: null
 				}
 			}
 		},
 		onLoad() {
-			
 		},
 		onShow() {
 			this.judgeUserLogin()
@@ -73,6 +74,10 @@
 					this.isUserLogin = true
 				} else {
 					this.isUserLogin = false
+				}
+				if (!this.getUserInfo && this.isUserLogin) {
+					userDetail(this)
+					this.getUserInfo = true
 				}
 			},
 			chooseImage() {
@@ -123,8 +128,13 @@
 			},
 			toNickname() {
 				if (isUserTokenExist()) {
+					const self = this
+					this.$event.$on('changeNickname', function(data) {
+						self.user.nickname = data.nickname
+						self.$event.$off('changeNickname')
+					});
 					uni.navigateTo({
-						url: '/pages/nickname/nickname'
+						url: '/pages/nickname/nickname?nickname=' + this.user.nickname
 					})
 				} else {
 					toLoginPage()

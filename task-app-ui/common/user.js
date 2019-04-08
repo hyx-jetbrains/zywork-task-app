@@ -57,9 +57,71 @@ export const logout = (self) => {
 			if (res.data.code === 1001) {
 				removeUserToken()
 				self.isUserLogin = false
+				self.user.nickname = null
+				self.user.headicon = '/static/icon/headicon.png'
 				uni.showToast({
 					title: '已退出登录',
 					duration: 2000
+				})
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const userDetail = (self) => {
+	uni.request({
+		url: BASE_URL + '/user-detail/user/one',
+		method: 'GET',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.user.nickname = res.data.data.nickname
+				self.user.headicon = res.data.data.headicon === null ? '/static/icon/headicon.png' : res.data.data.headicon
+				self.user.wechatQrcode = res.data.data.wechatQrcode
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const updateNickname = (self) => {
+	uni.request({
+		url: BASE_URL + '/user-detail/user/update',
+		method: 'POST',
+		data: {
+			nickname: self.user.nickname
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.$event.$emit('changeNickname', {'nickname': self.user.nickname})
+				uni.navigateBack({
+					
 				})
 			} else {
 				uni.showModal({
