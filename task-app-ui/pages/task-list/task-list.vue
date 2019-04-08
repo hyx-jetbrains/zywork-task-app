@@ -11,7 +11,7 @@
 		</view>
 		
 		<view style="margin-top: 10upx;">
-			<uni-notice-bar @getmore="toNoticeList" :show-get-more="true" more-text="查看更多" show-icon="true" single="true" text="最新公告最新公告最新公告"></uni-notice-bar>
+			<uni-notice-bar @getmore="toNoticeList" :show-get-more="true" more-text="查看更多" show-icon="true" single="true" text="最新公告最新公告最新公告最新公告最新公告最新公告最新公告最新公告最新公告"></uni-notice-bar>
 		</view>
 
 		<view class="zy-task-list">

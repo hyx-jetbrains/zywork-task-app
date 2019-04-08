@@ -29,11 +29,11 @@
 				const rule = [
 					{name:'integral', checkType : 'betweenD', checkRule: '1,1000',  errorMsg:'请输入1-' + '1000的整数积分'}
 				]
-				const checkRes = graceChecker.check(this.withdrawForm, rule);
+				const checkRes = graceChecker.check(this.withdrawForm, rule)
 				if(checkRes){
-					uni.showToast({title:"验证通过!", icon:"none"});
+					uni.showToast({title:"验证通过!", icon:"none"})
 				}else{
-					uni.showToast({ title: graceChecker.error, icon: "none" });
+					uni.showToast({ title: graceChecker.error, icon: "none" })
 				}
 			}
 		}

@@ -1,4 +1,5 @@
-export const USER_TOKEN_KEY ="userToken"
+export const BASE_URL = 'http://192.168.203.132:8088'
+export const USER_TOKEN_KEY = 'userToken'
 
 export const isEmpty = (data) => {
 	return data === null || data === undefined || data === ''
@@ -34,4 +35,10 @@ export const toLoginPage = () => {
 		icon: 'none',
 		duration: 2000
 	})
+}
+
+export const clearForm = (form) => {
+	for (var key in form) {
+		form[key] = null
+	}
 }

@@ -43,6 +43,7 @@
 
 <script>
 	import {isUserTokenExist, removeUserToken, toLoginPage} from '../../common/util.js'
+	import {logout} from '../../common/user.js'
 	
 	import uniList from '@/components/uni-list/uni-list.vue'
 	import zyworkListItem from '@/components/zywork-list-item/zywork-list-item.vue'
@@ -185,13 +186,7 @@
 				})
 			},
 			logout() {
-				removeUserToken()
-				this.isUserLogin = false
-				uni.showToast({
-					title: '已退出登录',
-					duration: 2000
-				})
-				
+				logout(this)
 			}
 		}
 	}

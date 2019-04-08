@@ -5,10 +5,10 @@
 		</view>
 		<view class="zy-form">
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" placeholder="请输入手机号" />
+				<input v-model="loginForm.username" class="uni-input" placeholder="请输入手机号" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" password placeholder="请输入密码" />
+				<input v-model="loginForm.password" class="uni-input" password placeholder="请输入密码" />
 			</view>
 			<view class="uni-form-item">
 				<button type="primary" style="width: 100%;" @click="login">登录</button>
@@ -20,18 +20,20 @@
 </template>
 
 <script>
-	import {saveUserToken} from '../../common/util.js'
+	import {login} from '../../common/user.js'
 	export default {
 		data() {
-			return {}
+			return {
+				loginForm: {
+					username: null,
+					password: null
+				}
+			}
 		},
 		onLoad() {},
 		methods: {
 			login() {
-				saveUserToken('user_token')
-				uni.switchTab({
-					url: '/pages/user-center/user-center'
-				})
+				login(this)
 			},
 			toReg() {
 				uni.navigateTo({

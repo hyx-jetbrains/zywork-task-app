@@ -14,13 +14,18 @@
 		</view>
 		<view class="zy-form" v-if="task === 'weixin'">
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" placeholder="请输入任务标题" />
+				<input v-model="weixinTaskForm.title" class="uni-input" placeholder="请输入任务标题" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" type="number" placeholder="请输入加友总数" />
+				<input v-model="weixinTaskForm.totalNumber" class="uni-input" type="number" placeholder="请输入加友总数" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" type="number" placeholder="请输入单人奖励积分" />
+				<input v-model="weixinTaskForm.integral" class="uni-input" type="number" placeholder="请输入单人奖励积分" />
+			</view>
+			<view class="uni-form-item uni-column">
+				<view class="uni-textarea">
+					<textarea v-model="weixinTaskForm.description" rows="3" placeholder="请输入任务描述"/>
+				</view>
 			</view>
 			<view class="uni-form-item">
 				<button type="primary" style="width: 100%;" @click="publishWeixinTask">发布微信任务</button>
@@ -31,14 +36,19 @@
 		</view>
 		<view class="zy-form" v-if="task === 'taobao'">
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" placeholder="请输入任务标题" />
+				<input v-model="taobaoTaskForm.title" class="uni-input" placeholder="请输入任务标题" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" placeholder="请输入每单奖励积分" />
+				<input v-model="taobaoTaskForm.integral" class="uni-input" placeholder="请输入每单奖励积分" />
+			</view>
+			<view class="uni-form-item uni-column">
+				<view v-model="taobaoTaskForm.goodsLink" class="uni-textarea">
+					<textarea rows="3" placeholder="请输入宝贝链接"/>
+				</view>
 			</view>
 			<view class="uni-form-item uni-column">
 				<view class="uni-textarea">
-					<textarea rows="3" placeholder="请输入宝贝链接"/>
+					<textarea v-model="taobaoTaskForm.description" rows="3" placeholder="请输入任务描述"/>
 				</view>
 			</view>
 			<view style="text-align: center;">淘宝任务发布功能即将上线……</view>
@@ -56,10 +66,23 @@
 
 <script>
 	import {isUserTokenExist, toLoginPage} from '../../common/util.js'
+	import {createTask} from '../../common/weixin-task.js'
 	export default {
 		data() {
 			return {
-				task: 'weixin'
+				task: 'weixin',
+				weixinTaskForm: {
+					title: null,
+					integral: null,
+					totalNumber: null,
+					description: null
+				},
+				taobaoTaskForm: {
+					title: null,
+					integral: null,
+					goodsLink: null,
+					description: null
+				}
 			}
 		},
 		onLoad() {
@@ -74,7 +97,7 @@
 			},
 			publishWeixinTask() {
 				if (isUserTokenExist()) {
-					
+					createTask(this)
 				} else {
 					toLoginPage()
 				}
