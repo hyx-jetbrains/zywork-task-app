@@ -57,6 +57,7 @@ export const logout = (self) => {
 			if (res.data.code === 1001) {
 				removeUserToken()
 				self.isUserLogin = false
+				self.getUserInfo = false
 				self.user.nickname = null
 				self.user.headicon = '/static/icon/headicon.png'
 				uni.showToast({
