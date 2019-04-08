@@ -1,4 +1,4 @@
-import {BASE_URL, saveUserToken, removeUserToken, getUserToken, clearForm} from './util.js'
+import {BASE_URL, saveUserToken, removeUserToken, getUserToken, clearForm, networkError} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -25,6 +25,8 @@ export const login = (self) => {
 					uni.switchTab({
 						url: '/pages/user-center/user-center'
 					})
+				} else if (res.data.code === 1006) {
+					invalidToken()
 				} else {
 					uni.showModal({
 						title: '提示',
@@ -36,11 +38,7 @@ export const login = (self) => {
 				}
 			},
 			fail: () => {
-				uni.showToast({
-					title: '网络有问题哦~',
-					icon: 'none',
-					duration: 2000
-				})
+				networkError()
 			}
 		})
 	}else{
@@ -74,11 +72,7 @@ export const logout = (self) => {
 			}
 		},
 		fail: () => {
-			uni.showToast({
-				title: '网络有问题哦~',
-				icon: 'none',
-				duration: 2000
-			})
+			networkError()
 		}
 	})
 }

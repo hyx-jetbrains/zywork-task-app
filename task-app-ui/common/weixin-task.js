@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, clearForm} from './util.js'
+import {BASE_URL, getUserToken, clearForm, invalidToken, networkError} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -25,6 +25,8 @@ export const createTask = (self) => {
 						duration: 2000
 					})
 					clearForm(self.weixinTaskForm)
+				} else if (res.data.code === 1006) {
+					invalidToken()
 				} else {
 					uni.showModal({
 						title: '提示',
@@ -36,11 +38,7 @@ export const createTask = (self) => {
 				}
 			},
 			fail: () => {
-				uni.showToast({
-					title: '网络有问题哦~',
-					icon: 'none',
-					duration: 2000
-				})
+				networkError()
 			}
 		})
 	}else{

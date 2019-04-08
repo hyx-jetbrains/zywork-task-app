@@ -42,3 +42,22 @@ export const clearForm = (form) => {
 		form[key] = null
 	}
 }
+
+export const invalidToken = () => {
+	uni.navigateTo({
+		url: '/pages/login/login'
+	})
+	uni.showToast({
+		title: '用户Token错误或已失效，请重新登录',
+		icon: 'none',
+		duration: 2000
+	})
+}
+
+export const networkError = () => {
+	uni.showToast({
+		title: '网络有问题哦~',
+		icon: 'none',
+		duration: 2000
+	})
+}
