@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import {isUserTokenExist, removeUserToken, toLoginPage} from '../../common/util.js'
+	import {DEFAULT_HEADICON, isUserTokenExist, removeUserToken, toLoginPage} from '../../common/util.js'
 	import {userDetail, logout} from '../../common/user.js'
 	
 	import uniList from '@/components/uni-list/uni-list.vue'
@@ -57,7 +57,7 @@
 				isUserLogin: false,
 				getUserInfo: false,
 				user: {
-					headicon: '/static/icon/headicon.png',
+					headicon: DEFAULT_HEADICON,
 					nickname: null,
 					wechatQrcode: null
 				}

@@ -1,4 +1,4 @@
-import {BASE_URL, saveUserToken, removeUserToken, getUserToken, clearForm, networkError} from './util.js'
+import {BASE_URL, DEFAULT_HEADICON, saveUserToken, removeUserToken, getUserToken, clearForm, networkError} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -59,7 +59,7 @@ export const logout = (self) => {
 				self.isUserLogin = false
 				self.getUserInfo = false
 				self.user.nickname = null
-				self.user.headicon = '/static/icon/headicon.png'
+				self.user.headicon = DEFAULT_HEADICON
 				uni.showToast({
 					title: '已退出登录',
 					duration: 2000
@@ -88,9 +88,10 @@ export const userDetail = (self) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
+			console.log(res.data.code)
 			if (res.data.code === 1001) {
 				self.user.nickname = res.data.data.nickname
-				self.user.headicon = res.data.data.headicon === null ? '/static/icon/headicon.png' : res.data.data.headicon
+				self.user.headicon = res.data.data.headicon === null ? DEFAULT_HEADICON : res.data.data.headicon
 				self.user.wechatQrcode = res.data.data.wechatQrcode
 			} else {
 				uni.showModal({
