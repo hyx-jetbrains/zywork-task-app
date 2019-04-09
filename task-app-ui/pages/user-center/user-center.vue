@@ -51,7 +51,8 @@
 	} from '../../common/util.js'
 	import {
 		userDetail,
-		logout
+		logout,
+		uploadHeadicon
 	} from '../../common/user.js'
 	import {
 		userWallet
@@ -96,18 +97,7 @@
 				}
 			},
 			chooseImage() {
-				uni.chooseImage({
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album', 'camera'],
-					count: 1,
-					success: (res) => {
-						this.user.headicon = res.tempFilePaths[0]
-
-					},
-					fail: (res) => {
-						console.log(res)
-					}
-				})
+				uploadHeadicon(this)
 			},
 			toLogin() {
 				uni.navigateTo({
@@ -158,7 +148,7 @@
 			toWeixinBarcode() {
 				if (isUserTokenExist()) {
 					uni.navigateTo({
-						url: '/pages/weixin-barcode/weixin-barcode'
+						url: '/pages/weixin-barcode/weixin-barcode?wechatQrcode=' + this.user.wechatQrcode
 					})
 				} else {
 					toLoginPage()

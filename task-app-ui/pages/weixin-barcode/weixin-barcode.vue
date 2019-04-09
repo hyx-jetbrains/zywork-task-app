@@ -1,33 +1,26 @@
 <template>
 	<view class="zy-page">
-		<image :src="weixinBarcode"/>
+		<view v-if="weixinBarcode === ''">未上传微信二维码</view>
+		<image v-else :src="weixinBarcode"/>
 		<text class="zy-text-info-strong" @click="chooseImage">上传我的微信二维码</text>
 	</view>
 </template>
 
 <script>
+	import {uploadWechatQrcode} from '../../common/user.js'
+	
 	export default {
 		data() {
 			return {
-				weixinBarcode: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
+				weixinBarcode: ''
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			this.weixinBarcode = option.wechatQrcode
 		},
 		methods: {
 			chooseImage() {
-				uni.chooseImage({
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album'], 
-					count: 1,
-					success: (res) => {
-						this.weixinBarcode = res.tempFilePaths[0]
-						
-					},
-					fail: (res) => {
-						console.log(res)
-					}
-				})
+				uploadWechatQrcode(this)
 			}
 		}
 	}

@@ -98,6 +98,8 @@ export const userDetail = (self) => {
 					title: '请登录',
 					duration: 2000
 				})
+				self.isUserLogin = false
+				self.getUserInfo = false
 				removeUserToken()
 			} else {
 				uni.showModal({
@@ -145,6 +147,92 @@ export const updateNickname = (self) => {
 		},
 		fail: () => {
 			networkError()
+		}
+	})
+}
+
+export const uploadHeadicon = (self) => {
+	uni.chooseImage({
+		sizeType: ['original', 'compressed'],
+		sourceType: ['album', 'camera'],
+		count: 1,
+		success: (res) => {
+			self.user.headicon = res.tempFilePaths[0]
+			uni.uploadFile({
+				url: BASE_URL +　'/user-detail/user/upload-headicon',
+				filePath: res.tempFilePaths[0],
+				name: 'file',
+				header: {
+					'Authorization': 'Bearer ' + getUserToken()
+				},
+				success: (uploadFileRes) => {
+					const json = JSON.parse(uploadFileRes.data)
+					if (json.code === 1001) {
+						uni.showToast({
+							title: '上传成功'
+						});
+					} else if (json.code === 1006) {
+						invalidToken()
+					} else {
+						uni.showModal({
+							title: '提示',
+							content:json.message,
+							showCancel: false,
+							success: function (resp) {
+							}
+						})
+					}
+				},
+				fail: () => {
+					networkError()
+				}
+			})
+		},
+		fail: (res) => {
+			console.log(res)
+		}
+	})
+}
+
+export const uploadWechatQrcode = (self) => {
+	uni.chooseImage({
+		sizeType: ['original', 'compressed'],
+		sourceType: ['album', 'camera'],
+		count: 1,
+		success: (res) => {
+			self.weixinBarcode = res.tempFilePaths[0]
+			uni.uploadFile({
+				url: BASE_URL +　'/user-detail/user/upload-wx-qrcode',
+				filePath: res.tempFilePaths[0],
+				name: 'file',
+				header: {
+					'Authorization': 'Bearer ' + getUserToken()
+				},
+				success: (uploadFileRes) => {
+					const json = JSON.parse(uploadFileRes.data)
+					if (json.code === 1001) {
+						uni.showToast({
+							title: '上传成功'
+						});
+					} else if (json.code === 1006) {
+						invalidToken()
+					} else {
+						uni.showModal({
+							title: '提示',
+							content:json.message,
+							showCancel: false,
+							success: function (resp) {
+							}
+						})
+					}
+				},
+				fail: () => {
+					networkError()
+				}
+			})
+		},
+		fail: (res) => {
+			console.log(res)
 		}
 	})
 }
