@@ -10,8 +10,7 @@
 		</view>
 		<view class="zy-user-balance">
 			<view @click="toAccountDetail">
-				<text class="zy-data-text" v-if="isUserLogin">1000</text>
-				<text class="zy-data-text" v-else>0</text>
+				<text class="zy-data-text">{{userWallet.integral}}</text>
 				<text class="zy-small-text">积分 ></text>
 			</view>
 			<view class="zy-user-balance-opt">
@@ -26,12 +25,14 @@
 			 @click="toWeixinBarcode"></zywork-list-item>
 			<zywork-list-item title="我的微信认证" show-extra-icon="true" :extra-icon="{color: '#009688',size: '18',type: 'iconrenzheng'}"
 			 @click="toWeixinCertification"></zywork-list-item>
+			<zywork-list-item title="我的银行卡" show-extra-icon="true" :extra-icon="{color: '#FF9699',size: '18',type: 'iconshuaqiaqiapianyinhangqia'}"
+			 @click="toBankCard"></zywork-list-item>
 			<zywork-list-item title="我添加的微信好友" show-extra-icon="true" :extra-icon="{color: '#FF9800',size: '18',type: 'iconwodehaoyou'}"
 			 @click="toWeixinFriend"></zywork-list-item>
-			 <zywork-list-item title="我的消息" show-extra-icon="true" :extra-icon="{color: '#BD16A1',size: '18',type: 'iconxiaoxi'}"
-			  @click="toMyMessage"></zywork-list-item>
-			  <zywork-list-item title="密码设置" show-extra-icon="true" :extra-icon="{color: '#1234A1',size: '18',type: 'iconmima'}"
-			   @click="toPasswordSetting"></zywork-list-item>
+			<zywork-list-item title="我的消息" show-extra-icon="true" :extra-icon="{color: '#BD16A1',size: '18',type: 'iconxiaoxi'}"
+			 @click="toMyMessage"></zywork-list-item>
+			<zywork-list-item title="密码设置" show-extra-icon="true" :extra-icon="{color: '#1234A1',size: '18',type: 'iconmima'}"
+			 @click="toPasswordSetting"></zywork-list-item>
 			<zywork-list-item title="帮助中心" show-extra-icon="true" :extra-icon="{color: '#E51C23',size: '18',type: 'iconbangzhu'}"
 			 @click="toHelp"></zywork-list-item>
 			<zywork-list-item title="关于TaskApp" show-extra-icon="true" :extra-icon="{color: '#535CA7',size: '18',type: 'iconguanyu'}"
@@ -42,13 +43,24 @@
 </template>
 
 <script>
-	import {DEFAULT_HEADICON, isUserTokenExist, removeUserToken, toLoginPage} from '../../common/util.js'
-	import {userDetail, logout} from '../../common/user.js'
-	
+	import {
+		DEFAULT_HEADICON,
+		isUserTokenExist,
+		removeUserToken,
+		toLoginPage
+	} from '../../common/util.js'
+	import {
+		userDetail,
+		logout
+	} from '../../common/user.js'
+	import {
+		userWallet
+	} from '../../common/funds.js'
+
 	import uniList from '@/components/uni-list/uni-list.vue'
 	import zyworkListItem from '@/components/zywork-list-item/zywork-list-item.vue'
 	export default {
-		components:{
+		components: {
 			uniList,
 			zyworkListItem
 		},
@@ -60,13 +72,16 @@
 					headicon: DEFAULT_HEADICON,
 					nickname: null,
 					wechatQrcode: null
+				},
+				userWallet: {
+					integral: 0
 				}
 			}
 		},
-		onLoad() {
-		},
+		onLoad() {},
 		onShow() {
 			this.judgeUserLogin()
+			userWallet(this)
 		},
 		methods: {
 			judgeUserLogin() {
@@ -83,11 +98,11 @@
 			chooseImage() {
 				uni.chooseImage({
 					sizeType: ['original', 'compressed'],
-					sourceType: ['album', 'camera'], 
+					sourceType: ['album', 'camera'],
 					count: 1,
 					success: (res) => {
 						this.user.headicon = res.tempFilePaths[0]
-						
+
 					},
 					fail: (res) => {
 						console.log(res)
@@ -120,7 +135,7 @@
 			toFundsWithdraw() {
 				if (isUserTokenExist()) {
 					uni.navigateTo({
-						url: '/pages/funds-withdraw/funds-withdraw'
+						url: '/pages/funds-withdraw/funds-withdraw?integral=' + this.userWallet.integral
 					})
 				} else {
 					toLoginPage()
@@ -148,11 +163,20 @@
 				} else {
 					toLoginPage()
 				}
-			},	
+			},
 			toWeixinCertification() {
 				if (isUserTokenExist()) {
 					uni.navigateTo({
 						url: '/pages/weixin-certification/weixin-certification'
+					})
+				} else {
+					toLoginPage()
+				}
+			},
+			toBankCard() {
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/bank-card/bank-card'
 					})
 				} else {
 					toLoginPage()
@@ -204,7 +228,7 @@
 
 <style lang="scss">
 	@import '../../common/zywork-main.scss';
-	
+
 	.zy-user-container {
 		width: 100%;
 		padding-top: 15upx;
@@ -215,19 +239,19 @@
 		flex-direction: column;
 		align-items: center;
 	}
-		
+
 	.zy-user-container .zy-headicon {
 		width: 120upx;
 		height: 120upx;
 		border-radius: 60upx;
 	}
-		
+
 	.zy-user-container .zy-name {
 		font-size: 30upx;
 		font-weight: bold;
 		color: #FFFFFF;
 	}
-	
+
 	.zy-user-balance {
 		display: flex;
 		flex-direction: column;
@@ -236,19 +260,19 @@
 		padding: 10upx;
 		margin-bottom: 10upx;
 	}
-	
+
 	.zy-data-text {
 		padding: 10upx;
 		font-size: 42upx;
 		color: $primary-color;
 	}
-	
+
 	.zy-small-text {
 		font-size: 24upx;
 		color: $primary-color;
 		margin-left: 10upx;
 	}
-	
+
 	.zy-user-balance-opt {
 		width: 60%;
 		margin-top: 30upx;
@@ -257,13 +281,13 @@
 		align-items: center;
 		justify-content: space-between;
 	}
-	
+
 	.zy-user-balance-opt view {
 		padding: 10upx;
 		text-align: center;
 		flex-grow: 1;
 	}
-	
+
 	.zy-user-balance-opt view:first-child {
 		border-right: 1px solid $primary-page-backcolor;
 	}

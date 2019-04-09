@@ -40,7 +40,7 @@ export const toLoginPage = () => {
 }
 
 export const clearForm = (form) => {
-	for (var key in form) {
+	for (let key in form) {
 		form[key] = null
 	}
 }
@@ -49,8 +49,9 @@ export const invalidToken = () => {
 	uni.navigateTo({
 		url: '/pages/login/login'
 	})
+	removeUserToken()
 	uni.showToast({
-		title: '用户Token错误或已失效，请重新登录',
+		title: '登录已失效，请重新登录',
 		icon: 'none',
 		duration: 2000
 	})

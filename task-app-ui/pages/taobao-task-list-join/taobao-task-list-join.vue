@@ -8,7 +8,7 @@
 					<view class="zy-text-bold">{{item.title}}</view>
 					<view>奖励：{{item.integral}}</view>
 					<view>人数：{{item.joinTotal}}/{{item.total}}</view>
-					<view class="zy-time-text">{{item.createTime}}</view>
+					<view class="zy-small-text">{{item.createTime}}</view>
 				</view>
 			</view>
 		</view>

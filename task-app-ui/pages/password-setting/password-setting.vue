@@ -19,6 +19,7 @@
 				</view>
 			</view>
 			<view class="zy-form" v-if="current === 1">
+				<view class="zy-small-text">第一次修改支付密码，不需要填写原密码</view>
 				<view class="uni-form-item uni-column">
 					<input class="uni-input" password placeholder="请输入原密码" />
 				</view>

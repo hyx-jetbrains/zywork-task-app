@@ -191,6 +191,27 @@
 			}
 		},
 		{
+			"path": "pages/funds-withdraw-list/funds-withdraw-list",
+			"style": {
+				"navigationBarTitleText": "提现记录",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/bank-card/bank-card",
+			"style": {
+				"navigationBarTitleText": "我的银行卡",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
+			"path": "pages/bank-card-add/bank-card-add",
+			"style": {
+				"navigationBarTitleText": "添加银行卡",
+				"backgroundTextStyle": "light"
+			}
+		},
+		{
 			"path": "pages/weixin-barcode/weixin-barcode",
 			"style": {
 				"navigationBarTitleText": "微信二维码",
