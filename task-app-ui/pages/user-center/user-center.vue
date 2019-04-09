@@ -10,8 +10,10 @@
 		</view>
 		<view class="zy-user-balance">
 			<view @click="toAccountDetail">
-				<text class="zy-data-text">{{userWallet.integral}}</text>
-				<text class="zy-small-text">积分 ></text>
+				<view>
+					<text class="zy-data-text">{{userWallet.usableIntegral}}/{{userWallet.integral}}</text>
+					<text class="zy-small-text">积分 ></text>
+				</view>
 			</view>
 			<view class="zy-user-balance-opt">
 				<view @click="toFundsRecharge">充值</view>
@@ -75,7 +77,8 @@
 					wechatQrcode: null
 				},
 				userWallet: {
-					integral: 0
+					integral: 0,
+					usableIntegral: 0
 				}
 			}
 		},
@@ -125,7 +128,7 @@
 			toFundsWithdraw() {
 				if (isUserTokenExist()) {
 					uni.navigateTo({
-						url: '/pages/funds-withdraw/funds-withdraw?integral=' + this.userWallet.integral
+						url: '/pages/funds-withdraw/funds-withdraw?integral=' + this.userWallet.usableIntegral
 					})
 				} else {
 					toLoginPage()
