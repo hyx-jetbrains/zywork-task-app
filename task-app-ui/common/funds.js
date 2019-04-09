@@ -11,7 +11,7 @@ export const userWallet = (self) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				self.userWallet.integral = res.data.data.integral
+				self.userWallet.integral = res.data.data.rmbBalance
 			}
 		},
 		fail: () => {
