@@ -10,8 +10,8 @@
 			</swiper>
 		</view>
 		
-		<view style="margin-top: 10upx;">
-			<uni-notice-bar @getmore="toNoticeList" :show-get-more="true" more-text="查看更多" show-icon="true" single="true" text="最新公告最新公告最新公告最新公告最新公告最新公告最新公告最新公告最新公告"></uni-notice-bar>
+		<view v-if="latestNotice !== null" style="margin-top: 10upx;">
+			<uni-notice-bar @getmore="toNoticeList" :show-get-more="true" more-text="查看更多" show-icon="true" single="true" :text="latestNotice"></uni-notice-bar>
 		</view>
 
 		<view class="zy-task-list">
@@ -50,6 +50,7 @@
 <script>
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	import {IMAGE_BASE_URL} from '../../common/util.js'
+	import {latestNotice} from '../../common/notice.js'
 	import {taskList} from '../../common/weixin-task.js'
 	
 	export default {
@@ -71,17 +72,19 @@
 						contentUrl: "http://39.108.116.103:8080/"
 					}
 				],
+				latestNotice: null,
 				weixinTaskList: [],
+				taobaoTaskList: [],
 				pager: {
 					pageNo: 1,
 					pageSize: 5
 				},
-				taobaoTaskList: [],
 				imgBaseUrl: IMAGE_BASE_URL
 			}
 		},
 		onLoad() {
-			taskList(this,'')
+			latestNotice(this)
+			taskList(this)
 		},
 		methods: {
 			showSwiperDetail(contentUrl) {
