@@ -219,3 +219,64 @@ export const listJoin = (self, type) => {
 		}
 	})
 }
+
+export const taskDetail = (self, taskId) => {
+	uni.request({
+		url: BASE_URL + '/WeixinUserTask/user/task-apply-user/' + taskId,
+		method: 'GET',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.taskDetail = res.data.data
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const taskApplyUser = (self, taskId) => {
+	uni.request({
+		url: BASE_URL + '/WeixinUserTaskApply/user/pager-cond',
+		method: 'POST',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize,
+			weixinTaskApplyTaskId: taskId
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.applyUsers = self.applyUsers.concat(res.data.data.rows)
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}

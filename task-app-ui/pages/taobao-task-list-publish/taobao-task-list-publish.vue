@@ -3,7 +3,9 @@
 		<view v-if="taobaoTaskList.length <= 0" style="text-align: center;">暂无淘宝任务</view>
 		<view v-else>
 			<view class="zy-task-item" v-for="(item, index) in taobaoTaskList" :key="index" @click="toTaobaoTaskDetail">
-				<image class="headicon" :src="item.user.headicon" />
+				<view>
+					<image class="headicon" :src="item.user.headicon" />
+				</view>
 				<view class="zy-info">
 					<view class="zy-text-bold">{{item.title}}</view>
 					<view>
