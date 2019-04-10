@@ -39,7 +39,7 @@
 				accountDetails: [],
 				pager: {
 					pageNo: 1,
-					pageSize: 20
+					pageSize: 15
 				},
 				showLoadMore: false,
 				loadMoreText: "加载中..."
