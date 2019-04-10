@@ -27,4 +27,8 @@ public interface WeixinTaskApplyDAO extends BaseDAO {
     Long countByCondition(@Param("query") Object queryObj);
 
     Object getByTaskId(@Param("query") Object queryObj);
+
+    Object getByUserId(@Param("taskId") Long taskId,@Param("userId") Long userId);
+
+    Long getWeixinFriendCount(@Param("pubUserId") Long pubUserId,@Param("appUserId") Long appUserId);
 }

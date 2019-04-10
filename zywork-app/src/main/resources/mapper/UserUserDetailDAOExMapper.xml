@@ -4,9 +4,10 @@
 
 <mapper namespace="top.zywork.dao.UserUserDetailDAO">
 
+	<!-- userCreateTime 查询的是报名表中报名者确认时间 -->
 	<select id="weiXinFriend" resultType="userUserDetailDO" parameterType="userUserDetailDO">
 		SELECT
-			t_user.id as userId, t_user.phone as userPhone, t_user.email as userEmail, t_user.create_time as userCreateTime, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon, t_user_detail.gender as userDetailGender, t_user_detail.birthday as userDetailBirthday, t_user_detail.age as userDetailAge, t_user_detail.qq as userDetailQq, t_user_detail.qq_qrcode as userDetailQqQrcode, t_user_detail.wechat as userDetailWechat, t_user_detail.wechat_qrcode as userDetailWechatQrcode, t_user_detail.alipay as userDetailAlipay, t_user_detail.alipay_qrcode as userDetailAlipayQrcode, t_user_detail.share_code as userDetailShareCode, t_user_detail.version as userDetailVersion
+			t_user.id as userId, t_user.phone as userPhone, t_user.email as userEmail, t_weixin_task_apply.app_confirm_time as userCreateTime, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon, t_user_detail.gender as userDetailGender, t_user_detail.birthday as userDetailBirthday, t_user_detail.age as userDetailAge, t_user_detail.qq as userDetailQq, t_user_detail.qq_qrcode as userDetailQqQrcode, t_user_detail.wechat as userDetailWechat, t_user_detail.wechat_qrcode as userDetailWechatQrcode, t_user_detail.alipay as userDetailAlipay, t_user_detail.alipay_qrcode as userDetailAlipayQrcode, t_user_detail.share_code as userDetailShareCode, t_user_detail.version as userDetailVersion
 		FROM
 			t_user,
 			t_user_detail,
@@ -17,6 +18,7 @@
 			AND pub_confirm_status = 1
 			AND app_confirm_status = 1
 			AND t_user.id = #{query.userId}
+			order by t_weixin_task_apply.app_confirm_time desc
 			limit #{query.beginIndex}, #{query.pageSize}
 	</select>
 

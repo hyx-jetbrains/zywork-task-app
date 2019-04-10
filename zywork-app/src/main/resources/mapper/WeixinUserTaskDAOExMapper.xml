@@ -49,4 +49,30 @@
 			and t_weixin_task_apply.user_id = #{query.weixinTaskUserId}
     </select>
 
+	<select id="getByweixinTaskId" parameterType="long" resultType="weixinUserTaskDO">
+		select
+			t_weixin_task.id AS weixinTaskId,
+			t_weixin_task.user_id AS weixinTaskUserId,
+			t_weixin_task.title AS weixinTaskTitle,
+			t_weixin_task.total_number AS weixinTaskTotalNumber,
+			t_weixin_task.confirm_number AS weixinTaskConfirmNumber,
+			t_weixin_task.integral AS weixinTaskIntegral,
+			t_weixin_task.description AS weixinTaskDescription,
+			t_weixin_task.task_status AS weixinTaskTaskStatus,
+			t_weixin_task.create_time AS weixinTaskCreateTime,
+			t_weixin_task.update_time AS weixinTaskUpdateTime,
+			t_weixin_task.version AS weixinTaskVersion,
+			t_weixin_task.is_active AS weixinTaskIsActive,
+			t_user_detail.nickname AS userDetailNickname,
+			t_user_detail.headicon AS userDetailHeadicon,
+			t_user.phone AS userPhone
+		from
+			t_weixin_task,
+			t_weixin_task_apply,
+			t_user_detail,
+			t_user
+		where
+			t_weixin_task.id = #{weixinTaskId}
+	</select>
+
 </mapper>

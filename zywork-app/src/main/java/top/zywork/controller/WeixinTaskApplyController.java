@@ -38,6 +38,7 @@ public class WeixinTaskApplyController extends BaseController {
 
     private WeixinTaskApplyService weixinTaskApplyService;
 
+    @PostMapping("user/confirm-weixin-task-apply")
     public ResponseStatusVO confirmWeinxinTaskApply(@RequestBody @Validated WeixinTaskApplyVO weixinTaskApplyVO, BindingResult bindingResult) {
         JwtUser jwtUser = SecurityUtils.getJwtUser();
         if (jwtUser == null) {
@@ -50,6 +51,19 @@ public class WeixinTaskApplyController extends BaseController {
 
         weixinTaskApplyVO.setUserId(jwtUser.getUserId());
         return weixinTaskApplyService.confirmTaskApply(weixinTaskApplyVO);
+    }
+
+    @PostMapping("user/join-weixin-task")
+    public ResponseStatusVO joinWeixinTask(@RequestBody @Validated WeixinTaskApplyVO weixinTaskApplyVO, BindingResult bindingResult) {
+        JwtUser jwtUser = SecurityUtils.getJwtUser();
+        if (jwtUser == null) {
+            return ResponseStatusVO.authenticationError();
+        }
+
+        if (bindingResult.hasErrors()) {
+            return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
+        }
+        return weixinTaskApplyService.joinWeixinTask(weixinTaskApplyVO);
     }
 
     @PostMapping("admin/save")

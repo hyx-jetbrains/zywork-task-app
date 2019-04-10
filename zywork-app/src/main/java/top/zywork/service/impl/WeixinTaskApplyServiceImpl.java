@@ -52,15 +52,19 @@ public class WeixinTaskApplyServiceImpl extends AbstractBaseService implements W
         Object obj  = weixinTaskDAO.getById(weixinTaskApplyVO.getTaskId());
         if(obj != null) {
             WeixinTaskVO weixinTaskVO = BeanUtils.copy(obj, WeixinTaskVO.class);
+
             weixinTaskApplyVO.setTaskId(weixinTaskVO.getId());
             Object applyobj = weixinTaskApplyDAO.getByTaskId(weixinTaskApplyVO);
             WeixinTaskApplyVO apply = BeanUtils.copy(applyobj, WeixinTaskApplyVO.class);
 
             weixinTaskApplyVO.setId(apply.getId());
             if(apply.getUserId() == weixinTaskApplyVO.getUserId()) { // 报名方确认
-                weixinTaskApplyVO.setAppConfirmStatus((byte)1);
+                Object appObj =  weixinTaskApplyDAO.getByUserId(weixinTaskVO.getId(), weixinTaskApplyVO.getUserId());
+                if(appObj == null) {
+                    return ResponseStatusVO.dataError("您还未报名该任务", null);
+                }
+                weixinTaskApplyVO.setAppConfirmStatus((byte) 1);
                 weixinTaskApplyVO.setAppConfirmTime(new Date());
-
                 userTransferService.saveTransferFrozen(weixinTaskVO.getUserId(), apply.getUserId(), weixinTaskVO.getIntegral());
             } else { // 发布方确认
                 weixinTaskApplyVO.setPubConfirmStatus((byte)1);
@@ -68,6 +72,24 @@ public class WeixinTaskApplyServiceImpl extends AbstractBaseService implements W
             }
             weixinTaskApplyDAO.update(weixinTaskApplyVO);
             return ResponseStatusVO.ok("确认成功", null);
+        }
+        return ResponseStatusVO.error("微信任务不存在", null);
+    }
+
+    @Override
+    public ResponseStatusVO joinWeixinTask(WeixinTaskApplyVO weixinTaskApplyVO) {
+        Object obj  = weixinTaskDAO.getById(weixinTaskApplyVO.getTaskId());
+        if(obj != null) {
+            WeixinTaskVO weixinTaskVO = BeanUtils.copy(obj, WeixinTaskVO.class);
+            Long count = weixinTaskApplyDAO.getWeixinFriendCount(weixinTaskVO.getUserId(), weixinTaskApplyVO.getUserId());
+            if(count == 0) {
+                Object appObj = weixinTaskApplyDAO.getByUserId(weixinTaskVO.getId(), weixinTaskApplyVO.getUserId());
+                if(appObj == null) {
+                    weixinTaskApplyDAO.save(weixinTaskApplyVO);
+                }
+                return ResponseStatusVO.dataError("你已参加任务，请勿重新参加", null);
+            }
+            return ResponseStatusVO.dataError("已经是对方好友", null);
         }
         return ResponseStatusVO.error("微信任务不存在", null);
     }

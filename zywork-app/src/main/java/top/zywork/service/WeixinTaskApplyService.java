@@ -15,4 +15,6 @@ import top.zywork.vo.WeixinTaskVO;
 public interface WeixinTaskApplyService extends BaseService {
 
     ResponseStatusVO confirmTaskApply(WeixinTaskApplyVO weixinTaskApplyVO);
+
+    ResponseStatusVO joinWeixinTask(WeixinTaskApplyVO weixinTaskApplyVO);
 }

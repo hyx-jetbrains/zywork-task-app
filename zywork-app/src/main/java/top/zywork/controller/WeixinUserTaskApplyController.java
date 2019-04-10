@@ -63,6 +63,11 @@ public class WeixinUserTaskApplyController extends BaseController {
         return ResponseStatusVO.ok("查询成功", pagerVO);
     }
 
+    @PostMapping("user/pager-cond")
+    public ResponseStatusVO userListPageByCondition(@RequestBody WeixinUserTaskApplyQuery weixinUserTaskApplyQuery) {
+        return listPageByCondition(weixinUserTaskApplyQuery);
+    }
+
     @Autowired
     public void setWeixinUserTaskApplyService(WeixinUserTaskApplyService weixinUserTaskApplyService) {
         this.weixinUserTaskApplyService = weixinUserTaskApplyService;

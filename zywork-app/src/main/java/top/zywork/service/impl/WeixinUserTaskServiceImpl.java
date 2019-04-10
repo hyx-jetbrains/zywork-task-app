@@ -40,11 +40,14 @@ public class WeixinUserTaskServiceImpl extends AbstractBaseService implements We
     public PagerDTO listJoin(Object queryObj) {
         PagerDTO pageDTO = new PagerDTO();
         Long count = weixinUserTaskDAO.listJoinCount(queryObj);
-        if(count > 0) {
-            List<Object> list = weixinUserTaskDAO.listJoin(queryObj);
-            pageDTO.setRows(list);
-            pageDTO.setTotal(count);
-        }
+        List<Object> list = weixinUserTaskDAO.listJoin(queryObj);
+        pageDTO.setRows(list);
+        pageDTO.setTotal(count);
         return pageDTO;
+    }
+
+    @Override
+    public Object getByweixinTaskId(Long weixinTaskId) {
+        return weixinUserTaskDAO.getByweixinTaskId(weixinTaskId);
     }
 }

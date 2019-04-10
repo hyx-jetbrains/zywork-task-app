@@ -62,6 +62,16 @@ public class WeixinUserTaskController extends BaseController {
         return ResponseStatusVO.ok("查询成功", pagerVO);
     }
 
+    @GetMapping("user/multi/{id}")
+    public ResponseStatusVO multi(@PathVariable("id") Long id) {
+        WeixinUserTaskVO weixinUserTaskVO = new WeixinUserTaskVO();
+        Object obj = weixinUserTaskService.getByweixinTaskId(id);
+        if(obj != null) {
+            weixinUserTaskVO = BeanUtils.copy(obj, WeixinUserTaskVO.class);
+        }
+        return ResponseStatusVO.ok("查询成功", weixinUserTaskVO);
+    }
+
     @GetMapping("admin/multi/{id}")
     public ResponseStatusVO listById(@PathVariable("id") Long id) {
         PagerDTO pagerDTO = weixinUserTaskService.listById(id);

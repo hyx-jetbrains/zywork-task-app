@@ -6,9 +6,29 @@
 
     <select id="getByTaskId" parameterType="weixinTaskApplyDO" resultType="weixinTaskApplyDO">
         select
-        id as id, task_id as taskId, user_id as userId, pub_confirm_status as pubConfirmStatus, pub_confirm_time as pubConfirmTime, app_confirm_status as appConfirmStatus, app_confirm_time as appConfirmTime, create_time as createTime, update_time as updateTime, version as version, is_active as isActive
+            id as id, task_id as taskId, user_id as userId, pub_confirm_status as pubConfirmStatus, pub_confirm_time as pubConfirmTime, app_confirm_status as appConfirmStatus, app_confirm_time as appConfirmTime, create_time as createTime, update_time as updateTime, version as version, is_active as isActive
         from t_weixin_task_apply
         where task_id = #{query.taskId}
+    </select>
+
+    <select id="getByUserId" resultType="weixinTaskApplyDO">
+        select
+            id as id, task_id as taskId, user_id as userId, pub_confirm_status as pubConfirmStatus, pub_confirm_time as pubConfirmTime, app_confirm_status as appConfirmStatus, app_confirm_time as appConfirmTime, create_time as createTime, update_time as updateTime, version as version, is_active as isActive
+        from
+            t_weixin_task_apply
+        where
+            task_id = #{taskId}
+            and user_id = #{userId}
+    </select>
+
+    <select id="getWeixinFriendCount" resultType="long">
+        select count(*) from
+            t_weixin_task_apply, t_weixin_task
+        where t_weixin_task_apply.task_id = t_weixin_task.id
+            and t_weixin_task.user_id = #{pubUserId}
+            and t_weixin_task_apply.user_id = #{appUserId}
+            and t_weixin_task_apply.pub_confirm_status = 1
+            and t_weixin_task_apply.app_confirm_status = 1
     </select>
 
 </mapper>

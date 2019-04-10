@@ -15,5 +15,7 @@ import java.util.List;
  */
 public interface WeixinUserTaskService extends BaseService {
 
-    PagerDTO listJoin(@Param("query") Object queryObj);
+    PagerDTO listJoin(Object queryObj);
+
+    Object getByweixinTaskId(Long weixinTaskId);
 }

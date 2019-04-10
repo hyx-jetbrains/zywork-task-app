@@ -29,4 +29,6 @@ public interface WeixinUserTaskDAO extends BaseDAO {
     List<Object> listJoin(@Param("query") Object queryObj);
 
     Long listJoinCount(@Param("query") Object queryObj);
+
+    Object getByweixinTaskId(@Param("weixinTaskId") Long weixinTaskId);
 }
