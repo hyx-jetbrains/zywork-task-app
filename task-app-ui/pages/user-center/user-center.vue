@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="zy-user-container" v-if="isUserLogin">
-			<image class="zy-headicon" :src="user.headicon" @click="chooseImage"></image>
+			<image class="zy-headicon" :src="imgBaseUrl + '/' + user.headicon" @click="chooseImage"></image>
 			<text class="zy-name">{{user.nickname}}</text>
 		</view>
 		<view class="zy-user-container" v-else>
@@ -46,6 +46,7 @@
 
 <script>
 	import {
+		IMAGE_BASE_URL,
 		DEFAULT_HEADICON,
 		isUserTokenExist,
 		removeUserToken,
@@ -80,7 +81,8 @@
 					integral: 0,
 					usableIntegral: 0,
 					frezeeIntegral: 0
-				}
+				},
+				imgBaseUrl: IMAGE_BASE_URL
 			}
 		},
 		onLoad() {},
