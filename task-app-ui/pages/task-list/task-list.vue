@@ -87,7 +87,10 @@
 		},
 		onLoad() {
 			latestNotice(this)
-			taskList(this)
+			taskList(this, '')
+		},
+		onPullDownRefresh() {
+			taskList(this, 'pullDown')
 		},
 		methods: {
 			showSwiperDetail(contentUrl) {

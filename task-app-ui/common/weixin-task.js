@@ -47,7 +47,7 @@ export const createTask = (self) => {
 	
 }
 
-export const taskList = (self) => {
+export const taskList = (self, type) => {
 	uni.request({
 		url: BASE_URL + '/WeixinUserTask/user/listOngoing',
 		data: {
@@ -61,6 +61,9 @@ export const taskList = (self) => {
 		success: (res) => {
 			if (res.data.code === 1001) {
 				self.weixinTaskList = res.data.data.rows
+				if(type === 'pullDown') {
+					uni.stopPullDownRefresh()
+				}
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
@@ -92,7 +95,7 @@ export const taskListAll = (self, type) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				if(type == 'pullDown') {
+				if(type === 'pullDown') {
 					self.weixinTaskList = res.data.data.rows
 					uni.stopPullDownRefresh()
 					self.showLoadMore = false
@@ -104,7 +107,99 @@ export const taskListAll = (self, type) => {
 					} else {
 						self.loadMoreText = '已加载全部'
 					}
-				} else if(type == '') {
+				} else if(type === '') {
+					self.weixinTaskList = res.data.data.rows
+				}
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const listPublish = (self, type) => {
+	uni.request({
+		url: BASE_URL + '/WeixinUserTask/user/list-publish',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize
+		},
+		method: 'POST',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				if(type === 'pullDown') {
+					self.weixinTaskList = res.data.data.rows
+					uni.stopPullDownRefresh()
+					self.showLoadMore = false
+					self.loadMoreText = '加载中...'
+				} else if(type === 'reachBottom') {
+					if(res.data.data.rows.length > 0) {
+						self.weixinTaskList = self.accountDetails.concat(res.data.data.rows)
+						self.loadMoreText = '加载更多'
+					} else {
+						self.loadMoreText = '已加载全部'
+					}
+				} else if(type === '') {
+					self.weixinTaskList = res.data.data.rows
+				}
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const listJoin = (self, type) => {
+	uni.request({
+		url: BASE_URL + '/WeixinUserTask/user/list-join',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize
+		},
+		method: 'POST',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				if(type === 'pullDown') {
+					self.weixinTaskList = res.data.data.rows
+					uni.stopPullDownRefresh()
+					self.showLoadMore = false
+					self.loadMoreText = '加载中...'
+				} else if(type === 'reachBottom') {
+					if(res.data.data.rows.length > 0) {
+						self.weixinTaskList = self.accountDetails.concat(res.data.data.rows)
+						self.loadMoreText = '加载更多'
+					} else {
+						self.loadMoreText = '已加载全部'
+					}
+				} else if(type === '') {
 					self.weixinTaskList = res.data.data.rows
 				}
 			} else if (res.data.code === 1006) {
