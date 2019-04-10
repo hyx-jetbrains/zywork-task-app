@@ -14,6 +14,7 @@
 				<view>{{userWallet.frezeeIntegral}}</view>
 			</view>
 		</view>
+		<view v-if="accountDetails.length <= 0">暂无积分明细</view>
 		<view class="zy-account-detail" v-for="(item, index) in accountDetails" :key="index">
 			<view class="zy-text-info-strong zy-padding">{{item.transactionNo}}</view>
 			<view class="zy-text-bold zy-padding">{{item.amount}}</view>

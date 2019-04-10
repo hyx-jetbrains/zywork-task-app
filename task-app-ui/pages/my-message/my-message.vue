@@ -1,5 +1,6 @@
 <template>
 	<view class="zy-page">
+		<view v-if="messageList.length <= 0">暂无消息</view>
 		<view class="zy-message-detail" v-for="(item, index) in messageList" :key="index">
 			<view class="zy-text-info-strong zy-padding">{{item.messageTitle}}</view>
 			<view class="zy-padding">{{item.messageContent}}</view>
