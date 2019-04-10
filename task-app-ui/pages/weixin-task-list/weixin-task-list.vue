@@ -6,8 +6,10 @@
 				<image class="headicon" :src="imgBaseUrl + '/' +item.userDetailHeadicon" />
 				<view class="zy-info">
 					<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
-					<view>奖励：{{item.weixinTaskIntegral}}</view>
-					<view>人数：{{item.weixinTaskConfirmNumber}}/{{item.weixinTaskTotalNumber}}</view>
+					<view>
+						<text>奖励：{{item.weixinTaskIntegral}}</text>
+						<text style="margin-left: 100upx;">人数：{{item.weixinTaskConfirmNumber}}/{{item.weixinTaskTotalNumber}}</text>
+					</view>
 					<view class="zy-small-text">{{item.weixinTaskCreateTime}}</view>
 				</view>
 			</view>

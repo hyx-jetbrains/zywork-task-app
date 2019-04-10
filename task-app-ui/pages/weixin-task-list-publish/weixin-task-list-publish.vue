@@ -6,8 +6,10 @@
 				<image class="headicon" :src="item.user.headicon" />
 				<view class="zy-info">
 					<view class="zy-text-bold">{{item.title}}</view>
-					<view>奖励：{{item.integral}}</view>
-					<view>人数：{{item.joinTotal}}/{{item.total}}</view>
+					<view>
+						<text>奖励：{{item.integral}}</text>
+						<text style="margin-left: 100upx;">人数：{{item.joinTotal}}/{{item.total}}</text>
+					</view>
 					<view class="zy-small-text">{{item.createTime}}</view>
 				</view>
 			</view>
