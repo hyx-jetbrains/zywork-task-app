@@ -3,12 +3,12 @@
 		<view v-if="weixinTaskList.length <= 0" style="text-align: center;">暂无微信任务</view>
 		<view v-else>
 			<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail">
-				<image class="headicon" :src="item.user.headicon" />
+				<image class="headicon" :src="imgBaseUrl + '/' +item.userDetailHeadicon" />
 				<view class="zy-info">
-					<view class="zy-text-bold">{{item.title}}</view>
-					<view>奖励：{{item.integral}}</view>
-					<view>人数：{{item.joinTotal}}/{{item.total}}</view>
-					<view class="zy-small-text">{{item.createTime}}</view>
+					<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
+					<view>奖励：{{item.weixinTaskIntegral}}</view>
+					<view>人数：{{item.weixinTaskConfirmNumber}}/{{item.weixinTaskTotalNumber}}</view>
+					<view class="zy-small-text">{{item.weixinTaskCreateTime}}</view>
 				</view>
 			</view>
 		</view>
@@ -16,7 +16,8 @@
 </template>
 
 <script>
-	import {taskList} from '../../common/weixin-task.js'
+	import {IMAGE_BASE_URL} from '../../common/util.js'
+	import {taskListAll} from '../../common/weixin-task.js'
 	
 	export default {
 		data() {
@@ -26,6 +27,7 @@
 					pageNo: 1,
 					pageSize: 15
 				},
+				imgBaseUrl: IMAGE_BASE_URL,
 				showLoadMore: false,
 				loadMoreText: "加载中..."
 			}
