@@ -194,6 +194,7 @@
 			"path": "pages/funds-withdraw-list/funds-withdraw-list",
 			"style": {
 				"navigationBarTitleText": "提现记录",
+				"enablePullDownRefresh": true,
 				"backgroundTextStyle": "light"
 			}
 		},

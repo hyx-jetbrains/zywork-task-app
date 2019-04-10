@@ -39,7 +39,7 @@
 				accountDetails: [],
 				pager: {
 					pageNo: 1,
-					pageSize: 10
+					pageSize: 20
 				},
 				showLoadMore: false,
 				loadMoreText: "加载中..."
@@ -57,7 +57,6 @@
 			loadAccountDetail(this, 'pullDown')
 		},
 		onReachBottom() {
-			console.log('bottom')
 			this.showLoadMore = true
 			this.pager.pageNo = this.pager.pageNo + 1
 			loadAccountDetail(this, 'reachBottom')

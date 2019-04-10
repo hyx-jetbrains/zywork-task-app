@@ -68,6 +68,47 @@ export const submitWithdraw = (self) => {
 	
 }
 
+export const cancelWithdraw = (self, item) => {
+	uni.showModal({
+		title: '提示',
+		content: '确认取消提现申请？',
+		success: function (res) {
+			if (res.confirm) {
+				uni.request({
+					url: BASE_URL + '/withdraw/user/cancel',
+					method: 'POST',
+					data: {
+						transactionNo: item.transactionNo
+					},
+					header: {
+						'content-type': 'application/x-www-form-urlencoded',
+						'Authorization': 'Bearer ' + getUserToken()
+					},
+					success: (res) => {
+						if (res.data.code === 1001) {
+							initWithdraw(self)
+						} else if (res.data.code === 1006) {
+							invalidToken()
+						} else {
+							uni.showModal({
+								title: '提示',
+								content: res.data.message,
+								showCancel: false,
+								success: function (res) {
+								}
+							})
+						}
+					},
+					fail: () => {
+						networkError()
+					}
+				})
+			} else if (res.cancel) {
+			}
+		}
+	})
+}
+
 export const initAccountDetail = (self) => {
 	uni.request({
 		url: BASE_URL + '/accoundetail/user/pager-cond',
@@ -121,6 +162,82 @@ export const loadAccountDetail = (self, type) => {
 				} else if (type === 'reachBottom') {
 					if (res.data.data.rows.length > 0) {
 						self.accountDetails = self.accountDetails.concat(res.data.data.rows)
+						self.loadMoreText = '加载更多'
+					} else {
+						self.loadMoreText = '已加载全部'
+					}
+				}
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const initWithdraw = (self) => {
+	uni.request({
+		url: BASE_URL + '/funds-withdraw/user/pager-cond',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize
+		},
+		method: 'POST',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.withdrawList = res.data.data.rows
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const loadWithdraw = (self, type) => {
+	uni.request({
+		url: BASE_URL + '/funds-withdraw/user/pager-cond',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize
+		},
+		method: 'POST',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				if (type === 'pullDown') {
+					self.withdrawList = res.data.data.rows
+					uni.stopPullDownRefresh()
+					self.showLoadMore = false
+					self.loadMoreText = '加载中...'
+				} else if (type === 'reachBottom') {
+					if (res.data.data.rows.length > 0) {
+						self.withdrawList = self.withdrawList.concat(res.data.data.rows)
 						self.loadMoreText = '加载更多'
 					} else {
 						self.loadMoreText = '已加载全部'
