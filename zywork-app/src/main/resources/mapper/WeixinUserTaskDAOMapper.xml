@@ -1,0 +1,208 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zywork.dao.WeixinUserTaskDAO">
+
+    <sql id="select_columns">
+        t_weixin_task.id as weixinTaskId, t_weixin_task.user_id as weixinTaskUserId, t_weixin_task.title as weixinTaskTitle, t_weixin_task.total_number as weixinTaskTotalNumber, t_weixin_task.confirm_number as weixinTaskConfirmNumber, t_weixin_task.integral as weixinTaskIntegral, t_weixin_task.description as weixinTaskDescription, t_weixin_task.task_status as weixinTaskTaskStatus, t_weixin_task.create_time as weixinTaskCreateTime, t_weixin_task.update_time as weixinTaskUpdateTime, t_weixin_task.version as weixinTaskVersion, t_weixin_task.is_active as weixinTaskIsActive, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon, t_user.phone as userPhone
+    </sql>
+
+    <sql id="query_where_clause">
+        <if test="query != null and query.weixinTaskId != null">
+			and t_weixin_task.id = #{query.weixinTaskId}
+		</if>
+		<if test="query != null and query.weixinTaskIdMin != null and query.weixinTaskIdMax == null">
+			and t_weixin_task.id <![CDATA[ >= ]]> #{query.weixinTaskIdMin}
+		</if>
+		<if test="query != null and query.weixinTaskIdMin == null and query.weixinTaskIdMax != null">
+			and t_weixin_task.id <![CDATA[ <= ]]> #{query.weixinTaskIdMax}
+		</if>
+		<if test="query != null and query.weixinTaskIdMin != null and query.weixinTaskIdMax != null">
+			and t_weixin_task.id <![CDATA[ >= ]]> #{query.weixinTaskIdMin} and t_weixin_task.id <![CDATA[ <= ]]> #{query.weixinTaskIdMax}
+		</if>
+		<if test="query != null and query.weixinTaskUserId != null">
+			and t_weixin_task.user_id = #{query.weixinTaskUserId}
+		</if>
+		<if test="query != null and query.weixinTaskUserIdMin != null and query.weixinTaskUserIdMax == null">
+			and t_weixin_task.user_id <![CDATA[ >= ]]> #{query.weixinTaskUserIdMin}
+		</if>
+		<if test="query != null and query.weixinTaskUserIdMin == null and query.weixinTaskUserIdMax != null">
+			and t_weixin_task.user_id <![CDATA[ <= ]]> #{query.weixinTaskUserIdMax}
+		</if>
+		<if test="query != null and query.weixinTaskUserIdMin != null and query.weixinTaskUserIdMax != null">
+			and t_weixin_task.user_id <![CDATA[ >= ]]> #{query.weixinTaskUserIdMin} and t_weixin_task.user_id <![CDATA[ <= ]]> #{query.weixinTaskUserIdMax}
+		</if>
+		<if test="query != null and query.weixinTaskTitle != null and query.weixinTaskTitle != ''">
+			and t_weixin_task.title like concat('%', #{query.weixinTaskTitle}, '%')
+		</if>
+		<if test="query != null and query.weixinTaskTotalNumber != null">
+			and t_weixin_task.total_number = #{query.weixinTaskTotalNumber}
+		</if>
+		<if test="query != null and query.weixinTaskTotalNumberMin != null and query.weixinTaskTotalNumberMax == null">
+			and t_weixin_task.total_number <![CDATA[ >= ]]> #{query.weixinTaskTotalNumberMin}
+		</if>
+		<if test="query != null and query.weixinTaskTotalNumberMin == null and query.weixinTaskTotalNumberMax != null">
+			and t_weixin_task.total_number <![CDATA[ <= ]]> #{query.weixinTaskTotalNumberMax}
+		</if>
+		<if test="query != null and query.weixinTaskTotalNumberMin != null and query.weixinTaskTotalNumberMax != null">
+			and t_weixin_task.total_number <![CDATA[ >= ]]> #{query.weixinTaskTotalNumberMin} and t_weixin_task.total_number <![CDATA[ <= ]]> #{query.weixinTaskTotalNumberMax}
+		</if>
+		<if test="query != null and query.weixinTaskConfirmNumber != null">
+			and t_weixin_task.confirm_number = #{query.weixinTaskConfirmNumber}
+		</if>
+		<if test="query != null and query.weixinTaskConfirmNumberMin != null and query.weixinTaskConfirmNumberMax == null">
+			and t_weixin_task.confirm_number <![CDATA[ >= ]]> #{query.weixinTaskConfirmNumberMin}
+		</if>
+		<if test="query != null and query.weixinTaskConfirmNumberMin == null and query.weixinTaskConfirmNumberMax != null">
+			and t_weixin_task.confirm_number <![CDATA[ <= ]]> #{query.weixinTaskConfirmNumberMax}
+		</if>
+		<if test="query != null and query.weixinTaskConfirmNumberMin != null and query.weixinTaskConfirmNumberMax != null">
+			and t_weixin_task.confirm_number <![CDATA[ >= ]]> #{query.weixinTaskConfirmNumberMin} and t_weixin_task.confirm_number <![CDATA[ <= ]]> #{query.weixinTaskConfirmNumberMax}
+		</if>
+		<if test="query != null and query.weixinTaskIntegral != null">
+			and t_weixin_task.integral = #{query.weixinTaskIntegral}
+		</if>
+		<if test="query != null and query.weixinTaskIntegralMin != null and query.weixinTaskIntegralMax == null">
+			and t_weixin_task.integral <![CDATA[ >= ]]> #{query.weixinTaskIntegralMin}
+		</if>
+		<if test="query != null and query.weixinTaskIntegralMin == null and query.weixinTaskIntegralMax != null">
+			and t_weixin_task.integral <![CDATA[ <= ]]> #{query.weixinTaskIntegralMax}
+		</if>
+		<if test="query != null and query.weixinTaskIntegralMin != null and query.weixinTaskIntegralMax != null">
+			and t_weixin_task.integral <![CDATA[ >= ]]> #{query.weixinTaskIntegralMin} and t_weixin_task.integral <![CDATA[ <= ]]> #{query.weixinTaskIntegralMax}
+		</if>
+		<if test="query != null and query.weixinTaskDescription != null and query.weixinTaskDescription != ''">
+			and t_weixin_task.description like concat('%', #{query.weixinTaskDescription}, '%')
+		</if>
+		<if test="query != null and query.weixinTaskTaskStatus != null">
+			and t_weixin_task.task_status = #{query.weixinTaskTaskStatus}
+		</if>
+		<if test="query != null and query.weixinTaskTaskStatusMin != null and query.weixinTaskTaskStatusMax == null">
+			and t_weixin_task.task_status <![CDATA[ >= ]]> #{query.weixinTaskTaskStatusMin}
+		</if>
+		<if test="query != null and query.weixinTaskTaskStatusMin == null and query.weixinTaskTaskStatusMax != null">
+			and t_weixin_task.task_status <![CDATA[ <= ]]> #{query.weixinTaskTaskStatusMax}
+		</if>
+		<if test="query != null and query.weixinTaskTaskStatusMin != null and query.weixinTaskTaskStatusMax != null">
+			and t_weixin_task.task_status <![CDATA[ >= ]]> #{query.weixinTaskTaskStatusMin} and t_weixin_task.task_status <![CDATA[ <= ]]> #{query.weixinTaskTaskStatusMax}
+		</if>
+		<if test="query != null and query.weixinTaskCreateTime != null">
+			and t_weixin_task.create_time = #{query.weixinTaskCreateTime}
+		</if>
+		<if test="query != null and query.weixinTaskCreateTimeMin != null and query.weixinTaskCreateTimeMax == null">
+			and t_weixin_task.create_time <![CDATA[ >= ]]> #{query.weixinTaskCreateTimeMin}
+		</if>
+		<if test="query != null and query.weixinTaskCreateTimeMin == null and query.weixinTaskCreateTimeMax != null">
+			and t_weixin_task.create_time <![CDATA[ <= ]]> #{query.weixinTaskCreateTimeMax}
+		</if>
+		<if test="query != null and query.weixinTaskCreateTimeMin != null and query.weixinTaskCreateTimeMax != null">
+			and t_weixin_task.create_time <![CDATA[ >= ]]> #{query.weixinTaskCreateTimeMin} and t_weixin_task.create_time <![CDATA[ <= ]]> #{query.weixinTaskCreateTimeMax}
+		</if>
+		<if test="query != null and query.weixinTaskUpdateTime != null">
+			and t_weixin_task.update_time = #{query.weixinTaskUpdateTime}
+		</if>
+		<if test="query != null and query.weixinTaskUpdateTimeMin != null and query.weixinTaskUpdateTimeMax == null">
+			and t_weixin_task.update_time <![CDATA[ >= ]]> #{query.weixinTaskUpdateTimeMin}
+		</if>
+		<if test="query != null and query.weixinTaskUpdateTimeMin == null and query.weixinTaskUpdateTimeMax != null">
+			and t_weixin_task.update_time <![CDATA[ <= ]]> #{query.weixinTaskUpdateTimeMax}
+		</if>
+		<if test="query != null and query.weixinTaskUpdateTimeMin != null and query.weixinTaskUpdateTimeMax != null">
+			and t_weixin_task.update_time <![CDATA[ >= ]]> #{query.weixinTaskUpdateTimeMin} and t_weixin_task.update_time <![CDATA[ <= ]]> #{query.weixinTaskUpdateTimeMax}
+		</if>
+		<if test="query != null and query.weixinTaskVersion != null">
+			and t_weixin_task.version = #{query.weixinTaskVersion}
+		</if>
+		<if test="query != null and query.weixinTaskVersionMin != null and query.weixinTaskVersionMax == null">
+			and t_weixin_task.version <![CDATA[ >= ]]> #{query.weixinTaskVersionMin}
+		</if>
+		<if test="query != null and query.weixinTaskVersionMin == null and query.weixinTaskVersionMax != null">
+			and t_weixin_task.version <![CDATA[ <= ]]> #{query.weixinTaskVersionMax}
+		</if>
+		<if test="query != null and query.weixinTaskVersionMin != null and query.weixinTaskVersionMax != null">
+			and t_weixin_task.version <![CDATA[ >= ]]> #{query.weixinTaskVersionMin} and t_weixin_task.version <![CDATA[ <= ]]> #{query.weixinTaskVersionMax}
+		</if>
+		<if test="query != null and query.weixinTaskIsActive != null">
+			and t_weixin_task.is_active = #{query.weixinTaskIsActive}
+		</if>
+		<if test="query != null and query.weixinTaskIsActiveMin != null and query.weixinTaskIsActiveMax == null">
+			and t_weixin_task.is_active <![CDATA[ >= ]]> #{query.weixinTaskIsActiveMin}
+		</if>
+		<if test="query != null and query.weixinTaskIsActiveMin == null and query.weixinTaskIsActiveMax != null">
+			and t_weixin_task.is_active <![CDATA[ <= ]]> #{query.weixinTaskIsActiveMax}
+		</if>
+		<if test="query != null and query.weixinTaskIsActiveMin != null and query.weixinTaskIsActiveMax != null">
+			and t_weixin_task.is_active <![CDATA[ >= ]]> #{query.weixinTaskIsActiveMin} and t_weixin_task.is_active <![CDATA[ <= ]]> #{query.weixinTaskIsActiveMax}
+		</if>
+		<if test="query != null and query.userDetailNickname != null and query.userDetailNickname != ''">
+			and t_user_detail.nickname like concat('%', #{query.userDetailNickname}, '%')
+		</if>
+		<if test="query != null and query.userDetailHeadicon != null and query.userDetailHeadicon != ''">
+			and t_user_detail.headicon like concat('%', #{query.userDetailHeadicon}, '%')
+		</if>
+		<if test="query != null and query.userPhone != null and query.userPhone != ''">
+			and t_user.phone like concat('%', #{query.userPhone}, '%')
+		</if>
+		
+        and
+        t_weixin_task.user_id = t_user.id and t_user.id = t_user_detail.id
+    </sql>
+
+    <select id="listById" parameterType="long" resultType="weixinUserTaskDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task, t_user_detail, t_user where t_weixin_task.id = #{id} and
+        t_weixin_task.user_id = t_user.id and t_user.id = t_user_detail.id
+    </select>
+
+    <select id="listAll" resultType="weixinUserTaskDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task, t_user_detail, t_user
+        where
+        t_weixin_task.user_id = t_user.id and t_user.id = t_user_detail.id
+        order by t_weixin_task.update_time desc, t_weixin_task.create_time desc
+    </select>
+
+    <select id="listAllByCondition" resultType="weixinUserTaskDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task, t_user_detail, t_user
+        <where>
+            <include refid="query_where_clause"/>
+        </where>
+        order by
+        <if test="query.sortColumn != null and query.sortColumn != ''">
+            ${query.sortColumn} ${query.sortOrder}
+        </if>
+        <if test="query.sortColumn == null or query.sortColumn == ''">
+            t_weixin_task.update_time desc, t_weixin_task.create_time desc
+        </if>
+    </select>
+
+    <select id="listPageByCondition" resultType="weixinUserTaskDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task, t_user_detail, t_user
+        <where>
+            <include refid="query_where_clause"/>
+        </where>
+        order by
+        <if test="query.sortColumn != null and query.sortColumn != ''">
+            ${query.sortColumn} ${query.sortOrder}
+        </if>
+        <if test="query.sortColumn == null or query.sortColumn == ''">
+            t_weixin_task.update_time desc, t_weixin_task.create_time desc
+        </if>
+        limit #{query.beginIndex}, #{query.pageSize}
+    </select>
+
+    <select id="countByCondition" resultType="long">
+        select count(*) from t_weixin_task, t_user_detail, t_user
+        <where>
+            <include refid="query_where_clause"/>
+        </where>
+    </select>
+
+</mapper>

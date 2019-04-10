@@ -1,0 +1,405 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zywork.dao.WeixinTaskAppealDAO">
+
+    <insert id="save" parameterType="weixinTaskAppealDO">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+    		SELECT LAST_INSERT_ID()
+    	</selectKey>
+        insert into t_weixin_task_appeal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">
+				task_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="appealDes != null">
+				appeal_des,
+			</if>
+			<if test="appealStatus != null">
+				appeal_status,
+			</if>
+			<if test="handleTime != null">
+				handle_time,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="isActive != null">
+				is_active,
+			</if>
+			
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">
+				#{taskId},
+			</if>
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="appealDes != null">
+				#{appealDes},
+			</if>
+			<if test="appealStatus != null">
+				#{appealStatus},
+			</if>
+			<if test="handleTime != null">
+				#{handleTime},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime},
+			</if>
+			<if test="version != null">
+				#{version},
+			</if>
+			<if test="isActive != null">
+				#{isActive},
+			</if>
+			
+        </trim>
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+    		SELECT LAST_INSERT_ID()
+    	</selectKey>
+    	<foreach collection="list" item="item" separator=";">
+            insert into t_weixin_task_appeal
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.taskId != null">
+				task_id,
+			</if>
+			<if test="item.userId != null">
+				user_id,
+			</if>
+			<if test="item.appealDes != null">
+				appeal_des,
+			</if>
+			<if test="item.appealStatus != null">
+				appeal_status,
+			</if>
+			<if test="item.handleTime != null">
+				handle_time,
+			</if>
+			<if test="item.createTime != null">
+				create_time,
+			</if>
+			<if test="item.updateTime != null">
+				update_time,
+			</if>
+			<if test="item.version != null">
+				version,
+			</if>
+			<if test="item.isActive != null">
+				is_active,
+			</if>
+			
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="item.taskId != null">
+				#{item.taskId},
+			</if>
+			<if test="item.userId != null">
+				#{item.userId},
+			</if>
+			<if test="item.appealDes != null">
+				#{item.appealDes},
+			</if>
+			<if test="item.appealStatus != null">
+				#{item.appealStatus},
+			</if>
+			<if test="item.handleTime != null">
+				#{item.handleTime},
+			</if>
+			<if test="item.createTime != null">
+				#{item.createTime},
+			</if>
+			<if test="item.updateTime != null">
+				#{item.updateTime},
+			</if>
+			<if test="item.version != null">
+				#{item.version},
+			</if>
+			<if test="item.isActive != null">
+				#{item.isActive},
+			</if>
+			
+            </trim>
+        </foreach>
+    </insert>
+
+    <delete id="removeById" parameterType="long">
+        delete from t_weixin_task_appeal where id = #{id}
+    </delete>
+
+    <delete id="removeByIds">
+        delete from t_weixin_task_appeal where id in
+        <foreach item="id" collection="array" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="weixinTaskAppealDO">
+        update t_weixin_task_appeal
+        <set>
+            <if test="taskId != null">
+				task_id = #{taskId},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId},
+			</if>
+			<if test="appealDes != null">
+				appeal_des = #{appealDes},
+			</if>
+			<if test="appealStatus != null">
+				appeal_status = #{appealStatus},
+			</if>
+			<if test="handleTime != null">
+				handle_time = #{handleTime},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime},
+			</if>
+			<if test="version != null">
+				version = #{version},
+			</if>
+			<if test="isActive != null">
+				is_active = #{isActive},
+			</if>
+			update_time = CURRENT_TIMESTAMP,
+        </set>
+        where id = #{id} and version + 1 <![CDATA[<=]]> #{version}
+    </update>
+
+    <update id="updateBatch" parameterType="java.util.List">
+    	<foreach collection="list" item="item" separator=";">
+            update t_weixin_task_appeal
+            <set>
+                <if test="item.taskId != null">
+				task_id = #{item.taskId},
+			</if>
+			<if test="item.userId != null">
+				user_id = #{item.userId},
+			</if>
+			<if test="item.appealDes != null">
+				appeal_des = #{item.appealDes},
+			</if>
+			<if test="item.appealStatus != null">
+				appeal_status = #{item.appealStatus},
+			</if>
+			<if test="item.handleTime != null">
+				handle_time = #{item.handleTime},
+			</if>
+			<if test="item.createTime != null">
+				create_time = #{item.createTime},
+			</if>
+			<if test="item.updateTime != null">
+				update_time = #{item.updateTime},
+			</if>
+			<if test="item.version != null">
+				version = #{item.version},
+			</if>
+			<if test="item.isActive != null">
+				is_active = #{item.isActive},
+			</if>
+			update_time = CURRENT_TIMESTAMP,
+                <if test="item.version == null">
+                    version = version + 1,
+                </if>
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+    <sql id="select_columns">
+        id as id, task_id as taskId, user_id as userId, appeal_des as appealDes, appeal_status as appealStatus, handle_time as handleTime, create_time as createTime, update_time as updateTime, version as version, is_active as isActive
+    </sql>
+
+    <sql id="query_where_clause">
+        <if test="query != null and query.id != null">
+			and id = #{query.id}
+		</if>
+		<if test="query != null and query.idMin != null and query.idMax == null">
+			and id <![CDATA[ >= ]]> #{query.idMin}
+		</if>
+		<if test="query != null and query.idMin == null and query.idMax != null">
+			and id <![CDATA[ <= ]]> #{query.idMax}
+		</if>
+		<if test="query != null and query.idMin != null and query.idMax != null">
+			and id <![CDATA[ >= ]]> #{query.idMin} and id <![CDATA[ <= ]]> #{query.idMax}
+		</if>
+		<if test="query != null and query.taskId != null">
+			and task_id = #{query.taskId}
+		</if>
+		<if test="query != null and query.taskIdMin != null and query.taskIdMax == null">
+			and task_id <![CDATA[ >= ]]> #{query.taskIdMin}
+		</if>
+		<if test="query != null and query.taskIdMin == null and query.taskIdMax != null">
+			and task_id <![CDATA[ <= ]]> #{query.taskIdMax}
+		</if>
+		<if test="query != null and query.taskIdMin != null and query.taskIdMax != null">
+			and task_id <![CDATA[ >= ]]> #{query.taskIdMin} and task_id <![CDATA[ <= ]]> #{query.taskIdMax}
+		</if>
+		<if test="query != null and query.userId != null">
+			and user_id = #{query.userId}
+		</if>
+		<if test="query != null and query.userIdMin != null and query.userIdMax == null">
+			and user_id <![CDATA[ >= ]]> #{query.userIdMin}
+		</if>
+		<if test="query != null and query.userIdMin == null and query.userIdMax != null">
+			and user_id <![CDATA[ <= ]]> #{query.userIdMax}
+		</if>
+		<if test="query != null and query.userIdMin != null and query.userIdMax != null">
+			and user_id <![CDATA[ >= ]]> #{query.userIdMin} and user_id <![CDATA[ <= ]]> #{query.userIdMax}
+		</if>
+		<if test="query != null and query.appealDes != null and query.appealDes != ''">
+			and appeal_des like concat('%', #{query.appealDes}, '%')
+		</if>
+		<if test="query != null and query.appealStatus != null">
+			and appeal_status = #{query.appealStatus}
+		</if>
+		<if test="query != null and query.appealStatusMin != null and query.appealStatusMax == null">
+			and appeal_status <![CDATA[ >= ]]> #{query.appealStatusMin}
+		</if>
+		<if test="query != null and query.appealStatusMin == null and query.appealStatusMax != null">
+			and appeal_status <![CDATA[ <= ]]> #{query.appealStatusMax}
+		</if>
+		<if test="query != null and query.appealStatusMin != null and query.appealStatusMax != null">
+			and appeal_status <![CDATA[ >= ]]> #{query.appealStatusMin} and appeal_status <![CDATA[ <= ]]> #{query.appealStatusMax}
+		</if>
+		<if test="query != null and query.handleTime != null">
+			and handle_time = #{query.handleTime}
+		</if>
+		<if test="query != null and query.handleTimeMin != null and query.handleTimeMax == null">
+			and handle_time <![CDATA[ >= ]]> #{query.handleTimeMin}
+		</if>
+		<if test="query != null and query.handleTimeMin == null and query.handleTimeMax != null">
+			and handle_time <![CDATA[ <= ]]> #{query.handleTimeMax}
+		</if>
+		<if test="query != null and query.handleTimeMin != null and query.handleTimeMax != null">
+			and handle_time <![CDATA[ >= ]]> #{query.handleTimeMin} and handle_time <![CDATA[ <= ]]> #{query.handleTimeMax}
+		</if>
+		<if test="query != null and query.createTime != null">
+			and create_time = #{query.createTime}
+		</if>
+		<if test="query != null and query.createTimeMin != null and query.createTimeMax == null">
+			and create_time <![CDATA[ >= ]]> #{query.createTimeMin}
+		</if>
+		<if test="query != null and query.createTimeMin == null and query.createTimeMax != null">
+			and create_time <![CDATA[ <= ]]> #{query.createTimeMax}
+		</if>
+		<if test="query != null and query.createTimeMin != null and query.createTimeMax != null">
+			and create_time <![CDATA[ >= ]]> #{query.createTimeMin} and create_time <![CDATA[ <= ]]> #{query.createTimeMax}
+		</if>
+		<if test="query != null and query.updateTime != null">
+			and update_time = #{query.updateTime}
+		</if>
+		<if test="query != null and query.updateTimeMin != null and query.updateTimeMax == null">
+			and update_time <![CDATA[ >= ]]> #{query.updateTimeMin}
+		</if>
+		<if test="query != null and query.updateTimeMin == null and query.updateTimeMax != null">
+			and update_time <![CDATA[ <= ]]> #{query.updateTimeMax}
+		</if>
+		<if test="query != null and query.updateTimeMin != null and query.updateTimeMax != null">
+			and update_time <![CDATA[ >= ]]> #{query.updateTimeMin} and update_time <![CDATA[ <= ]]> #{query.updateTimeMax}
+		</if>
+		<if test="query != null and query.version != null">
+			and version = #{query.version}
+		</if>
+		<if test="query != null and query.versionMin != null and query.versionMax == null">
+			and version <![CDATA[ >= ]]> #{query.versionMin}
+		</if>
+		<if test="query != null and query.versionMin == null and query.versionMax != null">
+			and version <![CDATA[ <= ]]> #{query.versionMax}
+		</if>
+		<if test="query != null and query.versionMin != null and query.versionMax != null">
+			and version <![CDATA[ >= ]]> #{query.versionMin} and version <![CDATA[ <= ]]> #{query.versionMax}
+		</if>
+		<if test="query != null and query.isActive != null">
+			and is_active = #{query.isActive}
+		</if>
+		<if test="query != null and query.isActiveMin != null and query.isActiveMax == null">
+			and is_active <![CDATA[ >= ]]> #{query.isActiveMin}
+		</if>
+		<if test="query != null and query.isActiveMin == null and query.isActiveMax != null">
+			and is_active <![CDATA[ <= ]]> #{query.isActiveMax}
+		</if>
+		<if test="query != null and query.isActiveMin != null and query.isActiveMax != null">
+			and is_active <![CDATA[ >= ]]> #{query.isActiveMin} and is_active <![CDATA[ <= ]]> #{query.isActiveMax}
+		</if>
+		
+    </sql>
+
+    <select id="getById" parameterType="long" resultType="weixinTaskAppealDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task_appeal where id = #{id}
+    </select>
+
+    <select id="getVersionById" parameterType="long" resultType="integer">
+        select version from t_weixin_task_appeal where id = #{id}
+    </select>
+
+    <select id="listAll" resultType="weixinTaskAppealDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task_appeal
+        order by update_time desc, create_time desc
+    </select>
+
+    <select id="listAllByCondition" resultType="weixinTaskAppealDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task_appeal
+        <where>
+            <include refid="query_where_clause"/>
+        </where>
+        order by
+        <if test="query.sortColumn != null and query.sortColumn != ''">
+             ${query.sortColumn} ${query.sortOrder}
+        </if>
+        <if test="query.sortColumn == null or query.sortColumn == ''">
+            update_time desc, create_time desc
+        </if>
+    </select>
+
+    <select id="listPageByCondition" resultType="weixinTaskAppealDO">
+        select
+        <include refid="select_columns"/>
+        from t_weixin_task_appeal
+        <where>
+            <include refid="query_where_clause"/>
+        </where>
+        order by
+        <if test="query.sortColumn != null and query.sortColumn != ''">
+            ${query.sortColumn} ${query.sortOrder}
+        </if>
+        <if test="query.sortColumn == null or query.sortColumn == ''">
+            update_time desc, create_time desc
+        </if>
+        limit #{query.beginIndex}, #{query.pageSize}
+    </select>
+
+    <select id="countByCondition" resultType="long">
+        select count(*) from t_weixin_task_appeal
+        <where>
+            <include refid="query_where_clause"/>
+        </where>
+    </select>
+
+</mapper>

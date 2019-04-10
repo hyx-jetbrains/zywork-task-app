@@ -1,0 +1,52 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zywork.dao.WeixinUserTaskDAO">
+
+    <select id="listJoin" resultType="weixinUserTaskDO" parameterType="weixinUserTaskDO">
+        select
+			t_weixin_task.id AS weixinTaskId,
+			t_weixin_task.user_id AS weixinTaskUserId,
+			t_weixin_task.title AS weixinTaskTitle,
+			t_weixin_task.total_number AS weixinTaskTotalNumber,
+			t_weixin_task.confirm_number AS weixinTaskConfirmNumber,
+			t_weixin_task.integral AS weixinTaskIntegral,
+			t_weixin_task.description AS weixinTaskDescription,
+			t_weixin_task.task_status AS weixinTaskTaskStatus,
+			t_weixin_task.create_time AS weixinTaskCreateTime,
+			t_weixin_task.update_time AS weixinTaskUpdateTime,
+			t_weixin_task.version AS weixinTaskVersion,
+			t_weixin_task.is_active AS weixinTaskIsActive,
+			t_user_detail.nickname AS userDetailNickname,
+			t_user_detail.headicon AS userDetailHeadicon,
+			t_user.phone AS userPhone
+		from
+			t_weixin_task,
+			t_weixin_task_apply,
+			t_user_detail,
+			t_user
+		where
+			t_weixin_task.user_id = t_user.id
+			and t_user.id = t_user_detail.id
+			and t_weixin_task.id = t_weixin_task_apply.task_id
+			and t_weixin_task_apply.user_id = #{query.weixinTaskUserId}
+			limit #{query.beginIndex}, #{query.pageSize}
+    </select>
+
+	<select id="listJoinCount" resultType="long" parameterType="weixinUserTaskDO">
+        select
+			count(*)
+		from
+			t_weixin_task,
+			t_weixin_task_apply,
+			t_user_detail,
+			t_user
+		where
+			t_weixin_task.user_id = t_user.id
+			and t_user.id = t_user_detail.id
+			and t_weixin_task.id = t_weixin_task_apply.task_id
+			and t_weixin_task_apply.user_id = #{query.weixinTaskUserId}
+    </select>
+
+</mapper>

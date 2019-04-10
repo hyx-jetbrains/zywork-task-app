@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zywork.dao.WeixinTaskApplyDAO">
+
+    <select id="getByTaskId" parameterType="weixinTaskApplyDO" resultType="weixinTaskApplyDO">
+        select
+        id as id, task_id as taskId, user_id as userId, pub_confirm_status as pubConfirmStatus, pub_confirm_time as pubConfirmTime, app_confirm_status as appConfirmStatus, app_confirm_time as appConfirmTime, create_time as createTime, update_time as updateTime, version as version, is_active as isActive
+        from t_weixin_task_apply
+        where task_id = #{query.taskId}
+    </select>
+
+</mapper>
