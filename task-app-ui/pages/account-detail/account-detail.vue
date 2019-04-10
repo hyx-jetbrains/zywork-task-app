@@ -28,7 +28,7 @@
 </template>
 
 <script>
-	import {userWallet, initAccountDetail, loadAccountDetail} from '../../common/funds.js'
+	import {userWallet, loadAccountDetail} from '../../common/funds.js'
 	export default {
 		data() {
 			return {
@@ -50,7 +50,7 @@
 			this.userWallet.integral = option.integral
 			this.userWallet.usableIntegral = option.usableIntegral
 			this.userWallet.frezeeIntegral = option.frezeeIntegral
-			initAccountDetail(this)
+			loadAccountDetail(this, 'init')
 		},
 		onPullDownRefresh() {
 			this.pager.pageNo = 1

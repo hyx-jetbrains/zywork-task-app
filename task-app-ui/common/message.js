@@ -1,37 +1,5 @@
 import {BASE_URL, getUserToken, invalidToken} from './util.js'
 
-export const initMessage = (self) => {
-	uni.request({
-		url: BASE_URL + '/user-message/user/pager-cond',
-		data: {
-			pageNo: self.pager.pageNo,
-			pageSize: self.pager.pageSize
-		},
-		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
-		success: (res) => {
-			if (res.data.code === 1001) {
-				self.messageList = res.data.data.rows
-			} else if (res.data.code === 1006) {
-				invalidToken()
-			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
-			}
-		},
-		fail: () => {
-			networkError()
-		}
-	})
-}
-
 export const loadMessage = (self, type) => {
 	uni.request({
 		url: BASE_URL + '/user-message/user/pager-cond',
@@ -45,7 +13,9 @@ export const loadMessage = (self, type) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				if (type === 'pullDown') {
+				if (type === 'init') {
+					self.messageList = res.data.data.rows
+				} else if (type === 'pullDown') {
 					self.messageList = res.data.data.rows
 					uni.stopPullDownRefresh()
 					self.showLoadMore = false

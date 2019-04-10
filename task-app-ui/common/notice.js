@@ -36,40 +36,6 @@ export const latestNotice = (self) => {
 	})
 }
 
-export const initNotice = (self) => {
-	uni.request({
-		url: BASE_URL + '/notice/user/pager-cond',
-		data: {
-			pageNo: self.pager.pageNo,
-			pageSize: self.pager.pageSize,
-			sortColumn: 'stickStatus',
-			sortOrder: 'desc'
-		},
-		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
-		success: (res) => {
-			if (res.data.code === 1001) {
-				self.noticeList = res.data.data.rows
-			} else if (res.data.code === 1006) {
-				invalidToken()
-			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
-			}
-		},
-		fail: () => {
-			networkError()
-		}
-	})
-}
-
 export const loadNotice = (self, type) => {
 	uni.request({
 		url: BASE_URL + '/notice/user/pager-cond',
@@ -85,7 +51,9 @@ export const loadNotice = (self, type) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				if (type === 'pullDown') {
+				if (type === 'init') {
+					self.noticeList = res.data.data.rows
+				} else if (type === 'pullDown') {
 					self.noticeList = res.data.data.rows
 					uni.stopPullDownRefresh()
 					self.showLoadMore = false

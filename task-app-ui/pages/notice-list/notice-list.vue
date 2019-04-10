@@ -11,7 +11,7 @@
 </template>
 
 <script>
-	import {initNotice, loadNotice} from '../../common/notice.js'
+	import {loadNotice} from '../../common/notice.js'
 	
 	export default {
 		data() {
@@ -26,7 +26,7 @@
 			}
 		},
 		onLoad() {
-			initNotice(this)
+			loadNotice(this, 'init')
 		},
 		onPullDownRefresh() {
 			this.pager.pageNo = 1

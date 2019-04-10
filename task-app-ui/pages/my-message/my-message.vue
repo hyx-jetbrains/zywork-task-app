@@ -11,7 +11,7 @@
 </template>
 
 <script>
-	import {initMessage, loadMessage} from '../../common/message.js'
+	import {loadMessage} from '../../common/message.js'
 	export default {
 		data() {
 			return {
@@ -25,7 +25,7 @@
 			}
 		},
 		onLoad() {
-			initMessage(this)
+			loadMessage(this, 'init')
 		},
 		onPullDownRefresh() {
 			this.pager.pageNo = 1

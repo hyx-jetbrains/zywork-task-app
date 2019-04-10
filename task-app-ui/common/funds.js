@@ -109,38 +109,6 @@ export const cancelWithdraw = (self, item) => {
 	})
 }
 
-export const initAccountDetail = (self) => {
-	uni.request({
-		url: BASE_URL + '/accoundetail/user/pager-cond',
-		data: {
-			pageNo: self.pager.pageNo,
-			pageSize: self.pager.pageSize
-		},
-		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
-		success: (res) => {
-			if (res.data.code === 1001) {
-				self.accountDetails = res.data.data.rows
-			} else if (res.data.code === 1006) {
-				invalidToken()
-			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
-			}
-		},
-		fail: () => {
-			networkError()
-		}
-	})
-}
-
 export const loadAccountDetail = (self, type) => {
 	uni.request({
 		url: BASE_URL + '/accoundetail/user/pager-cond',
@@ -154,7 +122,9 @@ export const loadAccountDetail = (self, type) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				if (type === 'pullDown') {
+				if (type === 'init') {
+					self.accountDetails = res.data.data.rows
+				} else if (type === 'pullDown') {
 					self.accountDetails = res.data.data.rows
 					uni.stopPullDownRefresh()
 					self.showLoadMore = false
@@ -167,38 +137,6 @@ export const loadAccountDetail = (self, type) => {
 						self.loadMoreText = '已加载全部'
 					}
 				}
-			} else if (res.data.code === 1006) {
-				invalidToken()
-			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
-			}
-		},
-		fail: () => {
-			networkError()
-		}
-	})
-}
-
-export const initWithdraw = (self) => {
-	uni.request({
-		url: BASE_URL + '/funds-withdraw/user/pager-cond',
-		data: {
-			pageNo: self.pager.pageNo,
-			pageSize: self.pager.pageSize
-		},
-		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
-		success: (res) => {
-			if (res.data.code === 1001) {
-				self.withdrawList = res.data.data.rows
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
@@ -230,7 +168,9 @@ export const loadWithdraw = (self, type) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				if (type === 'pullDown') {
+				if (type === 'init') {
+					self.withdrawList = res.data.data.rows
+				} else if (type === 'pullDown') {
 					self.withdrawList = res.data.data.rows
 					uni.stopPullDownRefresh()
 					self.showLoadMore = false

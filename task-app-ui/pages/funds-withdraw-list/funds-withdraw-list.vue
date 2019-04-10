@@ -22,7 +22,7 @@
 </template>
 
 <script>
-	import {initWithdraw, loadWithdraw, cancelWithdraw} from '../../common/funds.js'
+	import {loadWithdraw, cancelWithdraw} from '../../common/funds.js'
 	
 	export default {
 		data() {
@@ -37,7 +37,7 @@
 			}
 		},
 		onLoad() {
-			initWithdraw(this)
+			loadWithdraw(this, 'init')
 		},
 		onPullDownRefresh() {
 			this.pager.pageNo = 1

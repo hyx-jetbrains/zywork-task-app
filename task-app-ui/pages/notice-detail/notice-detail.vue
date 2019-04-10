@@ -63,7 +63,7 @@
 	}
 	
 	.zy-content {
-		padding: 10upx;
+		padding: 20upx;
 		text-align: left;
 	}
 </style>
