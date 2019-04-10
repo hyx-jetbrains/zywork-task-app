@@ -3,7 +3,7 @@
 		<view v-if="weixinTaskList.length <= 0" style="text-align: center;">暂无微信任务</view>
 		<view v-else>
 			<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail">
-				<image class="headicon" :src="item.userDetailHeadicon==null?imgBaseUrl + '/' +item.userDetailHeadicon:headicon" />
+				<image class="headicon" :src="item.userDetailHeadicon!=null?imgBaseUrl + '/' +item.userDetailHeadicon:headicon" />
 				<view class="zy-info">
 					<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
 					<view>
