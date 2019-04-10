@@ -18,7 +18,7 @@
 			<view @click="toWeixinTasks">微信任务-<text class="zy-text-info-strong">更多</text></view>
 			<view v-if="weixinTaskList.length > 0">
 				<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail">
-					<image class="headicon" :src="imgBaseUrl + '/' +item.userDetailHeadicon" />
+					<image class="headicon" :src="item.userDetailHeadicon==null?imgBaseUrl + '/' +item.userDetailHeadicon:headicon" />
 					<view class="zy-info">
 						<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
 						<view>
@@ -52,7 +52,7 @@
 
 <script>
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import {IMAGE_BASE_URL} from '../../common/util.js'
+	import {IMAGE_BASE_URL,DEFAULT_HEADICON} from '../../common/util.js'
 	import {latestNotice} from '../../common/notice.js'
 	import {taskList} from '../../common/weixin-task.js'
 	
@@ -82,7 +82,8 @@
 					pageNo: 1,
 					pageSize: 5
 				},
-				imgBaseUrl: IMAGE_BASE_URL
+				imgBaseUrl: IMAGE_BASE_URL,
+				headicon: DEFAULT_HEADICON,
 			}
 		},
 		onLoad() {
