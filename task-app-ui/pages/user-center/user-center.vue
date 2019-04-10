@@ -73,12 +73,13 @@
 				getUserInfo: false,
 				user: {
 					headicon: DEFAULT_HEADICON,
-					nickname: null,
+					nickname: '',
 					wechatQrcode: null
 				},
 				userWallet: {
 					integral: 0,
-					usableIntegral: 0
+					usableIntegral: 0,
+					frezeeIntegral: 0
 				}
 			}
 		},
@@ -110,7 +111,8 @@
 			toAccountDetail() {
 				if (isUserTokenExist()) {
 					uni.navigateTo({
-						url: '/pages/account-detail/account-detail'
+						url: '/pages/account-detail/account-detail?integral=' + this.userWallet.integral
+							+ '&usableIntegral=' + this.userWallet.usableIntegral + '&frezeeIntegral=' + this.userWallet.frezeeIntegral 
 					})
 				} else {
 					toLoginPage()

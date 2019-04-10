@@ -13,6 +13,7 @@ export const userWallet = (self) => {
 			if (res.data.code === 1001) {
 				self.userWallet.integral = res.data.data.rmbBalance
 				self.userWallet.usableIntegral = res.data.data.usableRmbBalance
+				self.userWallet.frezeeIntegral = res.data.data.frozenRmbBalance
 			}
 		},
 		fail: () => {
@@ -65,4 +66,80 @@ export const submitWithdraw = (self) => {
 		uni.showToast({ title: graceChecker.error, icon: "none" })
 	}
 	
+}
+
+export const initAccountDetail = (self) => {
+	uni.request({
+		url: BASE_URL + '/accoundetail/user/pager-cond',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize
+		},
+		method: 'POST',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.accountDetails = res.data.data.rows
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const loadAccountDetail = (self, type) => {
+	uni.request({
+		url: BASE_URL + '/accoundetail/user/pager-cond',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize
+		},
+		method: 'POST',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				if (type === 'pullDown') {
+					self.accountDetails = res.data.data.rows
+					uni.stopPullDownRefresh()
+					self.showLoadMore = false
+					self.loadMoreText = '加载中...'
+				} else if (type === 'reachBottom') {
+					if (res.data.data.rows.length > 0) {
+						self.accountDetails = self.accountDetails.concat(res.data.data.rows)
+						self.loadMoreText = '加载更多'
+					} else {
+						self.loadMoreText = '已加载全部'
+					}
+				}
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
 }
