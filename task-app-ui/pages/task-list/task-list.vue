@@ -18,12 +18,12 @@
 			<view @click="toWeixinTasks">微信任务-<text class="zy-text-info-strong">更多</text></view>
 			<view v-if="weixinTaskList.length > 0">
 				<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail">
-					<image class="headicon" :src="item.user.headicon" />
+					<image class="headicon" :src="imgBaseUrl + '/' +item.userDetailHeadicon" />
 					<view class="zy-info">
-						<view class="zy-text-bold">{{item.title}}</view>
-						<view>奖励：{{item.integral}}</view>
-						<view>人数：{{item.joinTotal}}/{{item.total}}</view>
-						<view class="zy-small-text">{{item.createTime}}</view>
+						<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
+						<view>奖励：{{item.weixinTaskIntegral}}</view>
+						<view>人数：{{item.weixinTaskConfirmNumber}}/{{item.weixinTaskTotalNumber}}</view>
+						<view class="zy-small-text">{{item.weixinTaskCreateTime}}</view>
 					</view>
 				</view>
 			</view>
@@ -49,6 +49,8 @@
 
 <script>
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+	import {IMAGE_BASE_URL} from '../../common/util.js'
+	import {taskList} from '../../common/weixin-task.js'
 	
 	export default {
 		components: {
@@ -69,33 +71,18 @@
 						contentUrl: "http://39.108.116.103:8080/"
 					}
 				],
-				weixinTaskList: [{
-						user: {
-							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
-						},
-						title: '任务',
-						integral: 10,
-						total: 10,
-						joinTotal: 8,
-						createTime: '2019-04-01 15:30:00'
-
-					},
-					{
-						user: {
-							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
-						},
-						title: '任务',
-						integral: 10,
-						total: 10,
-						joinTotal: 8,
-						createTime: '2019-04-01 15:30:00'
-
-					}
-				],
-				taobaoTaskList: []
+				weixinTaskList: [],
+				pager: {
+					pageNo: 1,
+					pageSize: 5
+				},
+				taobaoTaskList: [],
+				imgBaseUrl: IMAGE_BASE_URL
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			taskList(this,'')
+		},
 		methods: {
 			showSwiperDetail(contentUrl) {
 				console.log(contentUrl)

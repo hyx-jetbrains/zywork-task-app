@@ -16,40 +16,31 @@
 </template>
 
 <script>
+	import {taskList} from '../../common/weixin-task.js'
+	
 	export default {
 		data() {
 			return {
-				weixinTaskList: [{
-						user: {
-							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
-						},
-						title: '任务',
-						integral: 10,
-						total: 10,
-						joinTotal: 8,
-						createTime: '2019-04-01 15:30:00'
-
-					},
-					{
-						user: {
-							headicon: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png'
-						},
-						title: '任务',
-						integral: 10,
-						total: 10,
-						joinTotal: 8,
-						createTime: '2019-04-01 15:30:00'
-
-					}
-				]
+				weixinTaskList: [],
+				pager: {
+					pageNo: 1,
+					pageSize: 15
+				},
+				showLoadMore: false,
+				loadMoreText: "加载中..."
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			taskListAll(this,'')
+		},
 		onPullDownRefresh() {
-
+			this.pager.pageNo = 1
+			taskListAll(this, 'pullDown')
 		},
 		onReachBottom() {
-
+			this.showLoadMore = true
+			this.pager.pageNo = this.pager.pageNo + 1
+			taskListAll(this, 'reachBottom')
 		},
 		methods: {
 			toWeixinTaskDetail() {
