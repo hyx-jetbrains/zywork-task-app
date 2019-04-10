@@ -1,5 +1,6 @@
 <template>
 	<view class="zy-page">
+		<view v-if="withdrawList.length <= 0">暂无提现申请</view>
 		<view class="zy-withdraw-detail" v-for="(item, index) in withdrawList" :key="index">
 			<view class="zy-text-info-strong zy-padding">{{item.transactionNo}}</view>
 			<view class="zy-text-bold zy-padding">{{item.amount}}</view>
