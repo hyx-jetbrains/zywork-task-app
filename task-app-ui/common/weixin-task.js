@@ -280,3 +280,166 @@ export const taskApplyUser = (self, taskId) => {
 		}
 	})
 }
+
+export const taskApplyDetail = (self, taskId) => {
+	uni.request({
+		url: BASE_URL + '/weixin-task-apply/user/task-apply-detail',
+		method: 'POST',
+		data: {
+			pageNo: self.pager.pageNo,
+			pageSize: self.pager.pageSize,
+			taskId: taskId
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.taskApplyDetail = res.data.data
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const applyTask = (taskId) => {
+	uni.request({
+		url: BASE_URL + '/weixin-task-apply/user/join-weixin-task',
+		method: 'POST',
+		data: {
+			taskId: taskId
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				uni.showToast({
+					title: res.data.message
+				})
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const pubConfirmTask = (taskId, applyUserId, item) => {
+	uni.request({
+		url: BASE_URL + '/weixin-task-apply/user/confirm-weixin-task-apply',
+		method: 'POST',
+		data: {
+			taskId: taskId,
+			userId: applyUserId
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				uni.showToast({
+					title: res.data.message
+				})
+				item.weixinTaskApplyPubConfirmStatus = 1
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+} 
+
+export const appConfirmTask = (self, taskId) => {
+	uni.request({
+		url: BASE_URL + '/weixin-task-apply/user/confirm-weixin-task-apply',
+		method: 'POST',
+		data: {
+			taskId: taskId
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				uni.showToast({
+					title: res.data.message
+				})
+				self.taskApplyDetail.appConfirmStatus = 1
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+} 
+
+export const closeTask = (self, taskId) => {
+	uni.request({
+		url: BASE_URL + '/weixin-task/user/close-weixin-task/' + taskId,
+		method: 'GET',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.taskDetail.weixinTaskTaskStatus = 1
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				uni.showModal({
+					title: '提示',
+					content: res.data.message,
+					showCancel: false,
+					success: function (res) {
+					}
+				})
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}

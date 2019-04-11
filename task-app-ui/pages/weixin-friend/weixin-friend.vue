@@ -51,7 +51,7 @@
 		methods: {
 			showWechatQrcode(qrcode) {
 				uni.previewImage({
-					urls: ['/static/icon/headicon.png'],
+					urls: [IMAGE_BASE_URL + '/' + qrcode],
 					success: () => {
 						
 					},

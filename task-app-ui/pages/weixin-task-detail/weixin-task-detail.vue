@@ -15,15 +15,42 @@
 			</view>
 		</view>
 		<view class="zy-opts">
-			<button v-if="taskFrom === 'list'" type="primary" style="width: 50%;">报名参加</button>
-			<button v-if="taskFrom === 'pub' && taskDetail.weixinTaskTaskStatus === 0" type="primary" style="width: 50%;">关闭报名</button>
-			<button v-if="taskFrom === 'join'" type="primary" style="width: 50%;">我要申诉</button>
+			<button v-if="taskFrom === 'list'" type="primary" style="width: 45%;" @click="applyTask">报名参加</button>
+			<text v-if="taskFrom === 'pub' && taskDetail.weixinTaskTaskStatus === 1" class="zy-small-text zy-text-info-strong">任务已关闭</text>
+			<button v-if="taskFrom === 'pub' && taskDetail.weixinTaskTaskStatus === 0" type="primary" style="width: 45%;" @click="closeTask">关闭任务</button>
+			<view v-if="taskFrom === 'join' && taskApplyDetail.pubConfirmStatus === 0">
+				<text class="zy-small-text zy-text-info-strong">等待任务发布方确认</text>
+				<button type="primary" style="width: 50%;">申诉未被确认</button>
+			</view>
+			<view v-if="taskFrom === 'join' && taskApplyDetail.pubConfirmStatus === 1 && taskApplyDetail.appConfirmStatus === 0">
+				<text class="zy-small-text zy-text-info-strong">任务发布方已确认</text>
+				<button type="primary" style="width: 50%;" @click="confirmTask">确认已加好友</button>
+			</view>
+			<text v-if="taskFrom === 'join' && taskApplyDetail.appConfirmStatus === 1" class="zy-small-text zy-text-info-strong">我已确认</text>
 		</view>
 		<view v-if="applyUsers.length <= 0" class="zy-apply-list">暂无报名</view>
 		<view v-else class="zy-apply-list">已报名列表</view>
-		<view class="zy-apply-user">
+		<view class="zy-apply-user" v-if="taskFrom === 'list'">
 			<view class="zy-apply-user-item" v-for="(item, index) in applyUsers" :key="index">
 				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
+				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
+				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
+				<text class="zy-small-text">{{item.userDetailNickname}}</text>
+			</view>
+		</view>
+		<view class="zy-apply-user" v-if="taskFrom === 'pub'">
+			<view class="zy-apply-user-item" v-for="(item, index) in applyUsers" :key="index" @click="confirmApplyUser(item)">
+				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
+				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
+				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
+				<text class="zy-small-text">{{item.userDetailNickname}}</text>
+			</view>
+		</view>
+		<view class="zy-apply-user" v-if="taskFrom === 'join'">
+			<view class="zy-apply-user-item" v-for="(item, index) in applyUsers" :key="index">
+				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
+				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
+				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
 				<text class="zy-small-text">{{item.userDetailNickname}}</text>
 			</view>
 		</view>
@@ -32,12 +59,17 @@
 </template>
 
 <script>
+	import zyworkIcon from '@/components/zywork-icon/zywork-icon.vue'
 	import {DEFAULT_HEADICON, IMAGE_BASE_URL} from '../../common/util.js'
-	import {taskDetail, taskApplyUser} from '../../common/weixin-task.js'
+	import {taskDetail, taskApplyDetail, taskApplyUser, applyTask, pubConfirmTask, appConfirmTask, closeTask} from '../../common/weixin-task.js'
 	export default {
+		components: {
+			zyworkIcon
+		},
 		data() {
 			return {
 				taskDetail: {},
+				taskApplyDetail: {},
 				applyUsers: [],
 				pager: {
 					pageNo: 1,
@@ -53,12 +85,44 @@
 			this.taskId = option.id
 			this.taskFrom = option.taskFrom
 			taskDetail(this, this.taskId)
+			if (this.taskFrom === 'join') {
+				taskApplyDetail(this, this.taskId)
+			}
 			taskApplyUser(this, this.taskId)
 		},
 		methods: {
 			loadMoreUser() {
 				this.pager.pageNo = this.pager.pageNo + 1
 				taskApplyUser(this, this.taskId)
+			},
+			applyTask() {
+				applyTask(this.taskId)
+			},
+			confirmApplyUser(item) {
+				if　(item.weixinTaskApplyPubConfirmStatus === 1) {
+					uni.showToast({
+						title: '已确认添加了此用户为好友，无需重复确认',
+						icon: 'none',
+						duration: 3000
+					})
+					return
+				}
+				uni.showModal({
+					title: '提示',
+					content: '确认已经添加此用户为好友？',
+					success: function (res) {
+						if (res.confirm) {
+							pubConfirmTask(item.weixinTaskApplyTaskId, item.weixinTaskApplyUserId, item)
+						} else if (res.cancel) {
+						}
+					}
+				})
+			},
+			confirmTask() {
+				appConfirmTask(this, this.taskId)
+			},
+			closeTask() {
+				closeTask(this, this.taskId)
 			}
 		}
 	}
@@ -69,7 +133,6 @@
 
 	.zy-page {
 		width: 100%;
-		padding: 10upx;
 	}
 
 	.zy-task-item {
@@ -114,12 +177,13 @@
 		align-items: center;
 		width: 33%;
 		margin-bottom: 20upx;
+		position: relative;
 	}
 	
 	.zy-headicon {
 		width: 100upx;
 		height: 100upx;
-		border-radius: 60upx;
+		border-radius: 50upx;
 	}
-	
+
 </style>
