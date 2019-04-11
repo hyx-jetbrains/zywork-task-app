@@ -16,6 +16,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="uni-loadmore load-more" v-if="showLoadMore">{{loadMoreText}}</view>
 	</view>
 </template>
 
@@ -52,7 +53,7 @@
 		methods: {
 			toWeixinTaskDetail(item) {
 				uni.navigateTo({
-					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId
+					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId + '&taskFrom=list'
 				})
 			}
 		}

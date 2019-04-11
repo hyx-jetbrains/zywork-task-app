@@ -31,7 +31,7 @@
 				<button type="primary" style="width: 100%;" @click="publishWeixinTask">发布微信任务</button>
 			</view>
 			<view class="uni-form-item">
-				<button type="primary" style="width: 100%;" @click="publishTaobaoTask">重置微信任务</button>
+				<button type="primary" style="width: 100%;" @click="resetWeixinTask">重置微信任务</button>
 			</view>
 		</view>
 		<view class="zy-form" v-if="task === 'taobao'">
@@ -57,7 +57,7 @@
 				<button type="primary" style="width: 100%;" @click="publishTaobaoTask">发布淘宝任务</button>
 			</view>
 			<view class="uni-form-item">
-				<button type="primary" style="width: 100%;" @click="publishTaobaoTask">重置淘宝任务</button>
+				<button type="primary" style="width: 100%;" @click="resetTaobaoTask">重置淘宝任务</button>
 			</view>
 			-->
 		</view>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-	import {isUserTokenExist, toLoginPage} from '../../common/util.js'
+	import {isUserTokenExist, toLoginPage, clearForm} from '../../common/util.js'
 	import {createTask} from '../../common/weixin-task.js'
 	export default {
 		data() {
@@ -102,12 +102,18 @@
 					toLoginPage()
 				}
 			},
+			resetWeixinTask() {
+				clearForm(this.weixinTaskForm)
+			},
 			publishTaobaoTask() {
 				if (isUserTokenExist()) {
 					
 				} else {
 					toLoginPage()
 				}
+			},
+			resetTaobaoTask() {
+				clearForm(this.taobaoTaskForm)
 			}
 		}
 	}

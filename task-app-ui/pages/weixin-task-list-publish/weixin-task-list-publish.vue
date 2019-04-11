@@ -1,5 +1,5 @@
 <template>
-	<view zy-task-list>
+	<view class="zy-task-list">
 		<view v-if="weixinTaskList.length <= 0" style="text-align: center;">暂无微信任务</view>
 		<view v-else>
 			<view class="zy-task-item" v-for="(item, index) in weixinTaskList" :key="index" @click="toWeixinTaskDetail(item)">
@@ -16,6 +16,7 @@
 				</view>
 			</view>
 		</view>
+		<view class="uni-loadmore load-more" v-if="showLoadMore">{{loadMoreText}}</view>
 	</view>
 </template>
 
@@ -52,7 +53,7 @@
 		methods: {
 			toWeixinTaskDetail(item) {
 				uni.navigateTo({
-					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId
+					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId + '&taskFrom=pub'
 				})
 			}
 		}

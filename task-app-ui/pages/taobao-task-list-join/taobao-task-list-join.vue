@@ -1,5 +1,5 @@
 <template>
-	<view zy-task-list>
+	<view class="zy-task-list">
 		<view v-if="taobaoTaskList.length <= 0" style="text-align: center;">暂无淘宝任务</view>
 		<view v-else>
 			<view class="zy-task-item" v-for="(item, index) in taobaoTaskList" :key="index" @click="toTaobaoTaskDetail">

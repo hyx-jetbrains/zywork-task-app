@@ -116,7 +116,7 @@
 			},
 			toWeixinTaskDetail(item) {
 				uni.navigateTo({
-					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId
+					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId + '&taskFrom=list'
 				})
 			},
 			toTaobaoTaskDetail() {

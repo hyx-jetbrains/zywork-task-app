@@ -14,8 +14,10 @@
 				<view class="zy-small-text">{{taskDetail.weixinTaskCreateTime}}</view>
 			</view>
 		</view>
-		<view class="zy-apply">
-			<button type="primary" style="width: 50%;">报名参加</button>
+		<view class="zy-opts">
+			<button v-if="taskFrom === 'list'" type="primary" style="width: 50%;">报名参加</button>
+			<button v-if="taskFrom === 'pub' && taskDetail.weixinTaskTaskStatus === 0" type="primary" style="width: 50%;">关闭报名</button>
+			<button v-if="taskFrom === 'join'" type="primary" style="width: 50%;">我要申诉</button>
 		</view>
 		<view v-if="applyUsers.length <= 0" class="zy-apply-list">暂无报名</view>
 		<view v-else class="zy-apply-list">已报名列表</view>
@@ -42,12 +44,14 @@
 					pageSize: 15
 				},
 				taskId: null,
+				taskFrom: 'list',
 				imgBaseUrl: IMAGE_BASE_URL,
 				defaultIcon: DEFAULT_HEADICON
 			}
 		},
 		onLoad(option) {
 			this.taskId = option.id
+			this.taskFrom = option.taskFrom
 			taskDetail(this, this.taskId)
 			taskApplyUser(this, this.taskId)
 		},
@@ -87,7 +91,7 @@
 		flex-grow: 1;
 	}
 
-	.zy-apply {
+	.zy-opts {
 		width: 100%;
 		text-align: center;
 		margin-top: 20upx;
