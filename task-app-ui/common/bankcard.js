@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, clearForm, invalidToken} from './util.js'
+import {BASE_URL, getUserToken, clearForm, invalidToken, networkError} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 

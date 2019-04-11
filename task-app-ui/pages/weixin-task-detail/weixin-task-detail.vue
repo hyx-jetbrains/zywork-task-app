@@ -48,7 +48,7 @@
 		},
 		onLoad(option) {
 			this.taskId = option.id
-			taskDetail(this,this.taskId)
+			taskDetail(this, this.taskId)
 			taskApplyUser(this, this.taskId)
 		},
 		methods: {

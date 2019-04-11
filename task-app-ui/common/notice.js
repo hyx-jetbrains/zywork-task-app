@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, invalidToken} from './util.js'
+import {BASE_URL, getUserToken, invalidToken, networkError} from './util.js'
 
 export const latestNotice = (self) => {
 	uni.request({

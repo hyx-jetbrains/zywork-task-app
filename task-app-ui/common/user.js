@@ -92,7 +92,7 @@ export const userDetail = (self) => {
 		success: (res) => {
 			if (res.data.code === 1001) {
 				self.user.nickname = res.data.data.nickname
-				self.user.headicon = res.data.data.headicon === null ? DEFAULT_HEADICON : res.data.data.headicon
+				self.user.headicon = res.data.data.headicon
 				self.user.wechatQrcode = res.data.data.wechatQrcode
 			} else if (res.data.code === 1006) {
 				uni.showToast({

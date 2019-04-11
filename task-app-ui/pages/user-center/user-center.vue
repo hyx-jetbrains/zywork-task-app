@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="zy-user-container" v-if="isUserLogin">
-			<image class="zy-headicon" :src="imgBaseUrl + '/' + user.headicon" @click="chooseImage"></image>
+			<image class="zy-headicon" :src="user.headicon === null ? headicon : imgBaseUrl + '/' + user.headicon" @click="chooseImage"></image>
 			<text class="zy-name">{{user.nickname}}</text>
 		</view>
 		<view class="zy-user-container" v-else>
@@ -73,7 +73,7 @@
 				isUserLogin: false,
 				getUserInfo: false,
 				user: {
-					headicon: DEFAULT_HEADICON,
+					headicon: null,
 					nickname: '',
 					wechatQrcode: null
 				},
@@ -82,7 +82,8 @@
 					usableIntegral: 0,
 					frezeeIntegral: 0
 				},
-				imgBaseUrl: IMAGE_BASE_URL
+				imgBaseUrl: IMAGE_BASE_URL,
+				headicon: DEFAULT_HEADICON
 			}
 		},
 		onLoad() {},
