@@ -24,7 +24,7 @@ export const userWallet = (self) => {
 
 export const submitWithdraw = (self) => {
 	const rule = [
-		{name:'amount', checkType : 'betweenD', checkRule: '1,' + self.integral,  errorMsg:'请输入1-' + self.integral + '的整数积分'},
+		{name:'amount', checkType : 'betweenD', checkRule: '1,' + self.integral,  errorMsg:'请输入1-' + self.integral / 100 + '的整数积分'},
 		{name:'payPassword', checkType : 'string', checkRule: '6,20',  errorMsg:'请输入6-20位支付密码'},
 		{name:'bankcardId', checkType : 'betweenD', checkRule: '1,999999999',  errorMsg:'请选择提现银行卡'}
 	]

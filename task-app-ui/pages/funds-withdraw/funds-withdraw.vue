@@ -2,7 +2,7 @@
 	<view class="zy-page">
 		<view class="zy-form">
 			<view class="uni-form-item uni-column">
-				<view class="title">可提现积分：{{integral}}</view>
+				<view class="title">可提现积分：{{integral / 100}}</view>
 				<input v-model="withdrawForm.amount" class="uni-input" type="number" placeholder="请输入提现积分" />
 			</view>
 			<view class="uni-form-item uni-column">
