@@ -3,21 +3,21 @@
 		<view class="zy-data">
 			<view class="zy-data-total">
 				<view>总积分</view>
-				<view>{{userWallet.integral}}</view>
+				<view>{{userWallet.integral / 100}}</view>
 			</view>
 			<view class="zy-data-usable">
 				<view>可用积分</view>
-				<view>{{userWallet.usableIntegral}}</view>
+				<view>{{userWallet.usableIntegral / 100}}</view>
 			</view>
 			<view class="zy-data-frezee">
 				<view>冻结积分</view>
-				<view>{{userWallet.frezeeIntegral}}</view>
+				<view>{{userWallet.frezeeIntegral / 100}}</view>
 			</view>
 		</view>
 		<view v-if="accountDetails.length <= 0">暂无积分明细</view>
 		<view class="zy-account-detail" v-for="(item, index) in accountDetails" :key="index">
 			<view class="zy-text-info-strong zy-padding">{{item.transactionNo}}</view>
-			<view class="zy-text-bold zy-padding">{{item.amount}}</view>
+			<view class="zy-text-bold zy-padding">{{item.amount / 100}}</view>
 			<view class="zy-type-time zy-padding">
 				<text>{{item.type === 0 ? '收入' : '支出'}}/{{item.subType}}</text>
 				<text class="zy-small-text">{{item.createTime}}</text>

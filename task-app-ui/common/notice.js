@@ -2,7 +2,7 @@ import {BASE_URL, getUserToken, invalidToken, networkError, showInfoToast} from 
 
 export const latestNotice = (self) => {
 	uni.request({
-		url: BASE_URL + '/notice/user/pager-cond',
+		url: BASE_URL + '/notice/any/pager-cond',
 		data: {
 			pageNo: 1,
 			pageSize: 1,
@@ -10,16 +10,11 @@ export const latestNotice = (self) => {
 			sortOrder: 'desc'
 		},
 		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
 		success: (res) => {
 			if (res.data.code === 1001) {
 				if (res.data.data.total === 1) {
 					self.latestNotice = res.data.data.rows[0].title
 				}
-			} else if (res.data.code === 1006) {
-				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
 			}
@@ -32,7 +27,7 @@ export const latestNotice = (self) => {
 
 export const loadNotice = (self, type) => {
 	uni.request({
-		url: BASE_URL + '/notice/user/pager-cond',
+		url: BASE_URL + '/notice/any/pager-cond',
 		data: {
 			pageNo: self.pager.pageNo,
 			pageSize: self.pager.pageSize,
@@ -40,9 +35,6 @@ export const loadNotice = (self, type) => {
 			sortOrder: 'desc'
 		},
 		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
 		success: (res) => {
 			if (res.data.code === 1001) {
 				if (type === 'init') {
@@ -60,8 +52,6 @@ export const loadNotice = (self, type) => {
 						self.loadMoreText = '已加载全部'
 					}
 				}
-			} else if (res.data.code === 1006) {
-				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
 			}
@@ -74,16 +64,11 @@ export const loadNotice = (self, type) => {
 
 export const getNotice = (self, id) => {
 	uni.request({
-		url: BASE_URL + '/notice/user/one/' + id,
+		url: BASE_URL + '/notice/any/one/' + id,
 		method: 'GET',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
 		success: (res) => {
 			if (res.data.code === 1001) {
 				self.notice = res.data.data
-			} else if (res.data.code === 1006) {
-				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
 			}

@@ -24,7 +24,7 @@
 					<view class="zy-info">
 						<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
 						<view>
-							<text>奖励：{{item.weixinTaskIntegral}}</text>
+							<text>奖励：{{item.weixinTaskIntegral / 100}}</text>
 							<text style="margin-left: 100upx;">人数：{{item.weixinTaskConfirmNumber}}/{{item.weixinTaskTotalNumber}}</text>
 						</view>
 						<view></view>
@@ -54,7 +54,7 @@
 
 <script>
 	import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
-	import {IMAGE_BASE_URL,DEFAULT_HEADICON} from '../../common/util.js'
+	import {IMAGE_BASE_URL,DEFAULT_HEADICON, isUserTokenExist, toLoginPage} from '../../common/util.js'
 	import {latestNotice} from '../../common/notice.js'
 	import {taskList} from '../../common/weixin-task.js'
 	
@@ -115,14 +115,22 @@
 				})
 			},
 			toWeixinTaskDetail(item) {
-				uni.navigateTo({
-					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId + '&taskFrom=list'
-				})
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId + '&taskFrom=list'
+					})
+				} else {
+					toLoginPage()
+				}
 			},
 			toTaobaoTaskDetail() {
-				uni.navigateTo({
-					url: '/pages/taobao-task-detail/taobao-task-detail'
-				})
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/taobao-task-detail/taobao-task-detail'
+					})
+				} else {
+					toLoginPage()
+				}
 			}
 		}
 	}

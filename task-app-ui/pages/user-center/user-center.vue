@@ -5,13 +5,13 @@
 			<text class="zy-name">{{user.nickname}}</text>
 		</view>
 		<view class="zy-user-container" v-else>
-			<image class="zy-headicon" :src="user.headicon"></image>
+			<image class="zy-headicon" :src="user.headicon === null ? headicon : imgBaseUrl + '/' + user.headicon"></image>
 			<text class="zy-name" @click="toLogin">请登录</text>
 		</view>
 		<view class="zy-user-balance">
 			<view @click="toAccountDetail">
 				<view>
-					<text class="zy-data-text">{{userWallet.usableIntegral}}/{{userWallet.integral}}</text>
+					<text class="zy-data-text">{{userWallet.usableIntegral / 100}}/{{userWallet.integral / 100}}</text>
 					<text class="zy-small-text">积分 ></text>
 				</view>
 			</view>
@@ -86,7 +86,8 @@
 				headicon: DEFAULT_HEADICON
 			}
 		},
-		onLoad() {},
+		onLoad() {
+		},
 		onShow() {
 			this.judgeUserLogin()
 			userWallet(this)

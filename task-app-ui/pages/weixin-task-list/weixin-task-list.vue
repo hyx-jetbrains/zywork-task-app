@@ -9,7 +9,7 @@
 				<view class="zy-info">
 					<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
 					<view>
-						<text>奖励：{{item.weixinTaskIntegral}}</text>
+						<text>奖励：{{item.weixinTaskIntegral / 100}}</text>
 						<text style="margin-left: 100upx;">人数：{{item.weixinTaskConfirmNumber}}/{{item.weixinTaskTotalNumber}}</text>
 					</view>
 					<view class="zy-small-text">{{item.weixinTaskCreateTime}}</view>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import {IMAGE_BASE_URL,DEFAULT_HEADICON} from '../../common/util.js'
+	import {IMAGE_BASE_URL,DEFAULT_HEADICON, isUserTokenExist, toLoginPage} from '../../common/util.js'
 	import {taskListAll} from '../../common/weixin-task.js'
 	
 	export default {
@@ -52,9 +52,13 @@
 		},
 		methods: {
 			toWeixinTaskDetail(item) {
-				uni.navigateTo({
-					url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId + '&taskFrom=list'
-				})
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/weixin-task-detail/weixin-task-detail?id=' + item.weixinTaskId + '&taskFrom=list'
+					})
+				} else {
+					toLoginPage()
+				}
 			}
 		}
 	}

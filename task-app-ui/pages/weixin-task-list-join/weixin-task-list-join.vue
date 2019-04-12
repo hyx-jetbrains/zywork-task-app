@@ -9,7 +9,7 @@
 				<view class="zy-info">
 					<view class="zy-text-bold">{{item.weixinTaskTitle}}</view>
 					<view>
-						<text>奖励：{{item.weixinTaskIntegral}}</text>
+						<text>奖励：{{item.weixinTaskIntegral / 100}}</text>
 						<text style="margin-left: 100upx;">人数：{{item.weixinTaskConfirmNumber}}/{{item.weixinTaskTotalNumber}}</text>
 					</view>
 					<view class="zy-small-text">{{item.weixinTaskCreateTime}}</view>

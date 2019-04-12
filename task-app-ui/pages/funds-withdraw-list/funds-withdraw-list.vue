@@ -3,7 +3,7 @@
 		<view v-if="withdrawList.length <= 0">暂无提现申请</view>
 		<view class="zy-withdraw-detail" v-for="(item, index) in withdrawList" :key="index">
 			<view class="zy-text-info-strong zy-padding">{{item.transactionNo}}</view>
-			<view class="zy-text-bold zy-padding">{{item.amount}}</view>
+			<view class="zy-text-bold zy-padding">{{item.amount / 100}}</view>
 			<view class="zy-padding" v-if="item.withdrawDescription !== null">{{item.withdrawDescription}}</view>
 			<view class="zy-status-time zy-padding">
 				<text v-if="item.withdrawStatus === 0">审核中</text>

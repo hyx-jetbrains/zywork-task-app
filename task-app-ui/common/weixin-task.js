@@ -39,23 +39,18 @@ export const createTask = (self) => {
 
 export const taskList = (self, type) => {
 	uni.request({
-		url: BASE_URL + '/WeixinUserTask/user/listOngoing',
+		url: BASE_URL + '/WeixinUserTask/any/listOngoing',
 		data: {
 			pageNo: self.pager.pageNo,
 			pageSize: self.pager.pageSize
 		},
 		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
 		success: (res) => {
 			if (res.data.code === 1001) {
 				self.weixinTaskList = res.data.data.rows
 				if(type === 'pullDown') {
 					uni.stopPullDownRefresh()
 				}
-			} else if (res.data.code === 1006) {
-				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
 			}
@@ -68,15 +63,12 @@ export const taskList = (self, type) => {
 
 export const taskListAll = (self, type) => {
 	uni.request({
-		url: BASE_URL + '/WeixinUserTask/user/listOngoing',
+		url: BASE_URL + '/WeixinUserTask/any/listOngoing',
 		data: {
 			pageNo: self.pager.pageNo,
 			pageSize: self.pager.pageSize
 		},
 		method: 'POST',
-		header: {
-			'Authorization': 'Bearer ' + getUserToken()
-		},
 		success: (res) => {
 			if (res.data.code === 1001) {
 				if(type === 'pullDown') {
@@ -94,8 +86,6 @@ export const taskListAll = (self, type) => {
 				} else if(type === '') {
 					self.weixinTaskList = res.data.data.rows
 				}
-			} else if (res.data.code === 1006) {
-				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
 			}

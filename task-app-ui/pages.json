@@ -68,39 +68,7 @@
 			}
 		},
 		{
-			"path": "pages/weixin-task-detail-publish/weixin-task-detail-publish",
-			"style": {
-				"navigationBarTitleText": "任务详情",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "light"
-			}
-		},
-		{
-			"path": "pages/weixin-task-detail-join/weixin-task-detail-join",
-			"style": {
-				"navigationBarTitleText": "任务详情",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "light"
-			}
-		},
-		{
 			"path": "pages/taobao-task-detail/taobao-task-detail",
-			"style": {
-				"navigationBarTitleText": "任务详情",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "light"
-			}
-		},
-		{
-			"path": "pages/taobao-task-detail-publish/taobao-task-detail-publish",
-			"style": {
-				"navigationBarTitleText": "任务详情",
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "light"
-			}
-		},
-		{
-			"path": "pages/taobao-task-detail-join/taobao-task-detail-join",
 			"style": {
 				"navigationBarTitleText": "任务详情",
 				"enablePullDownRefresh": true,

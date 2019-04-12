@@ -20,6 +20,7 @@
 </template>
 
 <script>
+	import {IMAGE_BASE_URL,DEFAULT_HEADICON, isUserTokenExist, toLoginPage} from '../../common/util.js'
 	export default {
 		data() {
 			return {
@@ -35,9 +36,13 @@
 		},
 		methods: {
 			toTaobaoTaskDetail() {
-				uni.navigateTo({
-					url: '/pages/taobao-task-detail/taobao-task-detail'
-				})
+				if (isUserTokenExist()) {
+					uni.navigateTo({
+						url: '/pages/taobao-task-detail/taobao-task-detail'
+					})
+				} else {
+					toLoginPage()
+				}
 			}
 		}
 	}
