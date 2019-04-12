@@ -109,6 +109,7 @@
 			taskApplyUser(this, this.taskId, 'init')
 		},
 		onPullDownRefresh() {
+			taskDetail(this, this.taskId)
 			if (this.taskFrom === 'join') {
 				taskApplyDetail(this, this.taskId)
 			}

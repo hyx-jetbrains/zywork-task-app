@@ -52,7 +52,8 @@ export const logout = (self) => {
 				removeUserToken()
 				self.isUserLogin = false
 				self.getUserInfo = false
-				self.user.nickname = null
+				self.user.headicon = null
+				self.user.nickname = ''
 				self.userWallet.integral = 0
 				self.userWallet.usableIntegral = 0
 				self.user.headicon = DEFAULT_HEADICON

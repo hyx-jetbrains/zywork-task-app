@@ -321,6 +321,7 @@ export const appConfirmTask = (self, taskId) => {
 		success: (res) => {
 			if (res.data.code === 1001) {
 				showSuccessToast(res.data.message)
+				self.taskDetail.weixinTaskConfirmNumber += 1
 				self.taskApplyDetail.appConfirmStatus = 1
 			} else if (res.data.code === 1006) {
 				invalidToken()

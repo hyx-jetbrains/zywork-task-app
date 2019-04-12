@@ -5,7 +5,7 @@
 			<text class="zy-name">{{user.nickname}}</text>
 		</view>
 		<view class="zy-user-container" v-else>
-			<image class="zy-headicon" :src="user.headicon === null ? headicon : imgBaseUrl + '/' + user.headicon"></image>
+			<image class="zy-headicon" :src="headicon"></image>
 			<text class="zy-name" @click="toLogin">请登录</text>
 		</view>
 		<view class="zy-user-balance">
