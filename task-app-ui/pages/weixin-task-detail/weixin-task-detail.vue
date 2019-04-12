@@ -16,11 +16,14 @@
 		</view>
 		<view class="zy-opts">
 			<button v-if="taskFrom === 'list'" type="primary" style="width: 45%;" @click="applyTask">报名参加</button>
-			<text v-if="taskFrom === 'pub' && taskDetail.weixinTaskTaskStatus === 1" class="zy-small-text zy-text-info-strong">任务已关闭</text>
+			<text v-if="taskFrom === 'pub' && taskDetail.weixinTaskTaskStatus === 1" class="zy-small-text zy-text-info-strong">任务已结束</text>
+			<!--
 			<button v-if="taskFrom === 'pub' && taskDetail.weixinTaskTaskStatus === 0" type="primary" style="width: 45%;" @click="closeTask">关闭任务</button>
+			-->
 			<view v-if="taskFrom === 'join' && taskApplyDetail.pubConfirmStatus === 0">
-				<text class="zy-small-text zy-text-info-strong">等待任务发布方确认</text>
-				<button type="primary" style="width: 50%;">申诉未被确认</button>
+				<view class="zy-small-text zy-text-info-strong">等待任务发布方确认</view>
+				<view class="zy-small-text" style="padding-left:20upx; padding-right:20upx;">如果您已同意发布方的好友添加请求，但是发布方未确认，您可在报名三天后发起申诉</view>
+				<button type="primary" style="width: 50%;" @click="taskAppeal">我要申诉</button>
 			</view>
 			<view v-if="taskFrom === 'join' && taskApplyDetail.pubConfirmStatus === 1 && taskApplyDetail.appConfirmStatus === 0">
 				<text class="zy-small-text zy-text-info-strong">任务发布方已确认</text>
@@ -39,7 +42,7 @@
 			</view>
 		</view>
 		<view class="zy-apply-user" v-if="taskFrom === 'pub'">
-			<view class="zy-apply-user-item" v-for="(item, index) in applyUsers" :key="index" @click="confirmApplyUser(item)">
+			<view class="zy-apply-user-item" v-for="(item, index) in applyUsers" :key="index" @click="confirmApplyUser(index, item)">
 				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
@@ -55,22 +58,37 @@
 			</view>
 		</view>
 		<view v-if="applyUsers.length > 0" style="width: 100%; text-align: center; font-size: 24upx;" @click="loadMoreUser">查看更多</view>
+		<neil-modal 
+			:show="showNeilModal"
+			autoClose="false"
+			align="center"
+			title="标题" 
+			content="确认已经添加此用户为好友？"
+			@cancel="cancelModal"
+			@confirm="confirmFriend">
+		</neil-modal>
 	</view>
 </template>
 
 <script>
 	import zyworkIcon from '@/components/zywork-icon/zywork-icon.vue'
-	import {DEFAULT_HEADICON, IMAGE_BASE_URL} from '../../common/util.js'
-	import {taskDetail, taskApplyDetail, taskApplyUser, applyTask, pubConfirmTask, appConfirmTask, closeTask} from '../../common/weixin-task.js'
+	import neilModal from '@/components/neil-modal/neil-modal.vue'
+	
+	import {DEFAULT_HEADICON, IMAGE_BASE_URL, showInfoToast} from '../../common/util.js'
+	import {taskDetail, taskApplyDetail, taskApplyUser, applyTask, pubConfirmTask, appConfirmTask, closeTask, taskAppeal} from '../../common/weixin-task.js'
 	export default {
 		components: {
-			zyworkIcon
+			zyworkIcon,
+			neilModal
 		},
 		data() {
 			return {
 				taskDetail: {},
 				taskApplyDetail: {},
 				applyUsers: [],
+				confirmUserIndex: null,
+				confirmUserItem: {},
+				showNeilModal: false,
 				pager: {
 					pageNo: 1,
 					pageSize: 15
@@ -88,41 +106,47 @@
 			if (this.taskFrom === 'join') {
 				taskApplyDetail(this, this.taskId)
 			}
-			taskApplyUser(this, this.taskId)
+			taskApplyUser(this, this.taskId, 'init')
+		},
+		onPullDownRefresh() {
+			if (this.taskFrom === 'join') {
+				taskApplyDetail(this, this.taskId)
+			}
+			this.pager.pageNo = 1
+			taskApplyUser(this, this.taskId, 'pullDown')
+			uni.stopPullDownRefresh()
 		},
 		methods: {
 			loadMoreUser() {
 				this.pager.pageNo = this.pager.pageNo + 1
-				taskApplyUser(this, this.taskId)
+				taskApplyUser(this, this.taskId, 'more')
 			},
 			applyTask() {
 				applyTask(this.taskId)
 			},
-			confirmApplyUser(item) {
+			confirmApplyUser(index, item) {
 				if　(item.weixinTaskApplyPubConfirmStatus === 1) {
-					uni.showToast({
-						title: '已确认添加了此用户为好友，无需重复确认',
-						icon: 'none',
-						duration: 3000
-					})
+					showInfoToast('已确认添加了此用户为好友，无需重复确认')
 					return
 				}
-				uni.showModal({
-					title: '提示',
-					content: '确认已经添加此用户为好友？',
-					success: function (res) {
-						if (res.confirm) {
-							pubConfirmTask(item.weixinTaskApplyTaskId, item.weixinTaskApplyUserId, item)
-						} else if (res.cancel) {
-						}
-					}
-				})
+				this.confirmUserIndex = index
+				this.confirmUserItem = item
+				this.showNeilModal = true
+			},
+			confirmFriend() {
+				pubConfirmTask(this, this.confirmUserIndex, this.confirmUserItem.weixinTaskApplyTaskId, this.confirmUserItem.weixinTaskApplyUserId)
+			},
+			cancelModal() {
+				this.showNeilModal = false
 			},
 			confirmTask() {
 				appConfirmTask(this, this.taskId)
 			},
 			closeTask() {
 				closeTask(this, this.taskId)
+			},
+			taskAppeal() {
+				taskAppeal(this, this.taskId)
 			}
 		}
 	}
@@ -164,7 +188,7 @@
 		width: 100%;
 		font-size: 24upx;
 		text-align: center;
-		margin-top: 20upx;
+		margin-top: 50upx;
 	}
 	
 	.zy-apply-user {

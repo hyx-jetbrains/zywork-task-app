@@ -1,10 +1,10 @@
 <template>
 	<view class="zy-page">
-		<view v-if="weixinCer.url === ''">未上传微信认证截图</view>
-		<image v-if="weixinCer.url !== ''" :src="imgBaseUrl + '/' + weixinCer.url"/>
-		<text v-if="weixinCer.url !== '' && weixinCer.checkStatus === 0" style="font-size: 28upx;">等待审核</text>
-		<text v-if="weixinCer.url !== '' && weixinCer.checkStatus === 1" style="font-size: 28upx;">已审核通过</text>
-		<text v-if="weixinCer.url !== '' && weixinCer.checkStatus === 2" style="font-size: 28upx;">未审核通过</text>
+		<view v-if="weixinCer.url === null">未上传微信认证截图</view>
+		<image v-else :src="imgBaseUrl + '/' + weixinCer.url"/>
+		<text v-if="weixinCer.url !== null && weixinCer.checkStatus === 0" style="font-size: 28upx;">等待审核</text>
+		<text v-if="weixinCer.url !== null && weixinCer.checkStatus === 1" style="font-size: 28upx;">已审核通过</text>
+		<text v-if="weixinCer.url !== null && weixinCer.checkStatus === 2" style="font-size: 28upx;">未审核通过</text>
 		<text class="zy-text-info-strong" @click="chooseImage">上传我的微信银行卡截图</text>
 		<text class="zy-text-info-strong" @click="previewImage">查看截图示例</text>
 	</view>
@@ -17,7 +17,7 @@
 		data() {
 			return {
 				weixinCer: {
-					url: '',
+					url: null,
 					checkStatus: 0
 				},
 				weixinCerExp: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png',

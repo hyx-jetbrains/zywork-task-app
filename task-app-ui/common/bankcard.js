@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, clearForm, invalidToken, networkError} from './util.js'
+import {BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -18,13 +18,7 @@ export const banks = (self) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -57,13 +51,7 @@ export const bind = (self) => {
 				} else if (res.data.code === 1006) {
 					invalidToken()
 				} else {
-					uni.showModal({
-						title: '提示',
-						content: res.data.message,
-						showCancel: false,
-						success: function (res) {
-						}
-					})
+					showInfoToast(res.data.message)
 				}
 			},
 			fail: () => {
@@ -71,47 +59,32 @@ export const bind = (self) => {
 			}
 		})
 	} else{
-		uni.showToast({ title: graceChecker.error, icon: "none" })
+		showInfoToast(graceChecker.error)
 	}
 }
 
 export const unbind = (self, cardIndex, bankcardNo) => {
-	uni.showModal({
-		title: '提示',
-		content: '确认删除银行卡？',
-		success: function (res) {
-			if (res.confirm) {
-				uni.request({
-					url: BASE_URL + '/user-bankcard/user/unbind',
-					method: 'POST',
-					data: {
-						bankcardNo: bankcardNo
-					},
-					header: {
-						'content-type': 'application/x-www-form-urlencoded',
-						'Authorization': 'Bearer ' + getUserToken()
-					},
-					success: (res) => {
-						if (res.data.code === 1001) {
-							self.banks.splice(cardIndex, 1)
-						} else if (res.data.code === 1006) {
-							invalidToken()
-						} else {
-							uni.showModal({
-								title: '提示',
-								content: res.data.message,
-								showCancel: false,
-								success: function (res) {
-								}
-							})
-						}
-					},
-					fail: () => {
-						networkError()
-					}
-				})
-			} else if (res.cancel) {
+	uni.request({
+		url: BASE_URL + '/user-bankcard/user/unbind',
+		method: 'POST',
+		data: {
+			bankcardNo: bankcardNo
+		},
+		header: {
+			'content-type': 'application/x-www-form-urlencoded',
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.banks.splice(cardIndex, 1)
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				showInfoToast(res.data.message)
 			}
+		},
+		fail: () => {
+			networkError()
 		}
 	})
 }

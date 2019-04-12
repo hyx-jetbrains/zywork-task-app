@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, invalidToken, networkError} from './util.js'
+import {BASE_URL, getUserToken, invalidToken, networkError, showInfoToast} from './util.js'
 
 export const latestNotice = (self) => {
 	uni.request({
@@ -21,13 +21,7 @@ export const latestNotice = (self) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -69,13 +63,7 @@ export const loadNotice = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -97,13 +85,7 @@ export const getNotice = (self, id) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {

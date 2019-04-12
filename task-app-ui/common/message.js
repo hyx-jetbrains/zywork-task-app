@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, invalidToken, networkError} from './util.js'
+import {BASE_URL, getUserToken, invalidToken, networkError, showInfoToast} from './util.js'
 
 export const loadMessage = (self, type) => {
 	uni.request({
@@ -31,13 +31,7 @@ export const loadMessage = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {

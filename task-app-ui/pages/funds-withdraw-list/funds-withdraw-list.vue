@@ -13,21 +13,39 @@
 				<text v-if="item.withdrawStatus === 4">成功</text>
 				<text v-if="item.withdrawStatus === 5">失败</text>
 				<text class="zy-small-text" v-if="item.withdrawStatus !== 0 && item.checkedTime !== null">审核时间：{{item.checkedTime}}</text>
-				<text class="zy-small-text zy-cancel" v-if="item.withdrawStatus === 0" @click="cancelSubmit(item)">取消申请</text>
+				<text class="zy-small-text zy-cancel" v-if="item.withdrawStatus === 0" @click="cancelSubmit(index, item.transactionNo)">取消申请</text>
 			</view>
 			<view v-if="item.completeTime !== null" class="zy-small-text zy-padding">完成时间：{{item.completeTime}}</view>
 		</view>
 		<view class="uni-loadmore load-more" v-if="showLoadMore">{{loadMoreText}}</view>
+		<neil-modal 
+			:show="showNeilModal"
+			autoClose="false"
+			align="center"
+			title="标题" 
+			content="确认取消提现申请？"
+			@cancel="cancelModal"
+			@confirm="cancelWithdraw">
+		</neil-modal>
 	</view>
 </template>
 
 <script>
+	import neilModal from '@/components/neil-modal/neil-modal.vue'
 	import {loadWithdraw, cancelWithdraw} from '../../common/funds.js'
 	
 	export default {
+		components: {
+			neilModal
+		},
 		data() {
 			return {
 				withdrawList: [],
+				removeItem: {
+					itemIndex: null,
+					transactionNo: null
+				},
+				showNeilModal: false,
 				pager: {
 					pageNo: 1,
 					pageSize: 15
@@ -49,8 +67,17 @@
 			loadWithdraw(this, 'reachBottom')
 		},
 		methods: {
-			cancelSubmit(item) {
-				cancelWithdraw(this, item)
+			cancelSubmit(itemIndex, transactionNo) {
+				this.removeItem.itemIndex = itemIndex
+				this.removeItem.transactionNo = transactionNo
+				this.showNeilModal = true
+			},
+			cancelWithdraw() {
+				cancelWithdraw(this, this.removeItem.itemIndex, this.removeItem.transactionNo)
+				this.showNeilModal = false
+			},
+			cancelModal() {
+				this.showNeilModal = false
 			}
 		}
 	}

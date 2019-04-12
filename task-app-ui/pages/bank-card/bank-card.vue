@@ -10,20 +10,36 @@
 			</view>
 		</view>
 		<button type="primary" style="width: 100%;" @click="toAddBankcard">添加银行卡</button>
+		<neil-modal 
+			:show="showNeilModal"
+			autoClose="false"
+			align="center"
+			title="标题" 
+			content="确认删除银行卡？"
+			@cancel="cancelUnbind"
+			@confirm="unbind">
+		</neil-modal>
 	</view>
 </template>
 
 <script>
 	import zyworkIcon from '@/components/zywork-icon/zywork-icon.vue'
+	import neilModal from '@/components/neil-modal/neil-modal.vue'
 	
 	import {banks, unbind, bind} from '../../common/bankcard.js'
 	export default {
 		components: {
-			zyworkIcon
+			zyworkIcon,
+			neilModal
 		},
 		data() {
 			return {
-				banks: []
+				banks: [],
+				showNeilModal: false,
+				removeBank: {
+					cardIndex: null,
+					bankcardNo: null
+				}
 			}
 		},
 		onLoad() {
@@ -31,7 +47,16 @@
 		},
 		methods: {
 			removeBankcard(cardIndex, bankcardNo) {
-				unbind(this, cardIndex, bankcardNo)
+				this.removeBank.cardIndex = cardIndex
+				this.removeBank.bankcardNo = bankcardNo
+				this.showNeilModal = true
+			},
+			unbind() {
+				unbind(this, this.removeBank.cardIndex, this.removeBank.bankcardNo)
+				this.showNeilModal = false
+			},
+			cancelUnbind() {
+				this.showNeilModal = false
 			},
 			toAddBankcard() {
 				const self = this

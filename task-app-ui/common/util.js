@@ -33,11 +33,7 @@ export const toLoginPage = () => {
 	uni.navigateTo({
 		url: '/pages/login/login'
 	})
-	uni.showToast({
-		title: '请先登录',
-		icon: 'none',
-		duration: 2000
-	})
+	showInfoToast('请先登录')
 }
 
 export const clearForm = (form) => {
@@ -51,17 +47,24 @@ export const invalidToken = () => {
 		url: '/pages/login/login'
 	})
 	removeUserToken()
+	showInfoToast('登录已失效，请重新登录')
+}
+
+export const networkError = () => {
+	showInfoToast('网络有问题哦~')
+}
+
+export const showInfoToast = (title) => {
 	uni.showToast({
-		title: '登录已失效，请重新登录',
+		title: title,
 		icon: 'none',
 		duration: 2000
 	})
 }
 
-export const networkError = () => {
+export const showSuccessToast = (title) => {
 	uni.showToast({
-		title: '网络有问题哦~',
-		icon: 'none',
+		title: title,
 		duration: 2000
 	})
 }

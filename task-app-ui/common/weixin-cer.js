@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, invalidToken, networkError} from './util.js'
+import {BASE_URL, getUserToken, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
 
 export const weixinCer = (self) => {
 	uni.request({
@@ -13,13 +13,7 @@ export const weixinCer = (self) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -45,19 +39,11 @@ export const uploadWeixinCer = (self) => {
 				success: (uploadFileRes) => {
 					const json = JSON.parse(uploadFileRes.data)
 					if (json.code === 1001) {
-						uni.showToast({
-							title: '上传成功'
-						});
+						showSuccessToast('上传成功')
 					} else if (json.code === 1006) {
 						invalidToken()
 					} else {
-						uni.showModal({
-							title: '提示',
-							content:json.message,
-							showCancel: false,
-							success: function (resp) {
-							}
-						})
+						showInfoToast(res.data.message)
 					}
 				},
 				fail: () => {

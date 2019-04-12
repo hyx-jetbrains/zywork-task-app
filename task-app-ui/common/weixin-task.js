@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, clearForm, invalidToken, networkError} from './util.js'
+import {BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -19,22 +19,12 @@ export const createTask = (self) => {
 			},
 			success: (res) => {
 				if (res.data.code === 1001) {
-					uni.showToast({
-						title: '发布微信任务成功',
-						icon: 'none',
-						duration: 2000
-					})
+					showSuccessToast('发布微信任务成功')
 					clearForm(self.weixinTaskForm)
 				} else if (res.data.code === 1006) {
 					invalidToken()
 				} else {
-					uni.showModal({
-						title: '提示',
-						content: res.data.message,
-						showCancel: false,
-						success: function (res) {
-						}
-					})
+					showInfoToast(res.data.message)
 				}
 			},
 			fail: () => {
@@ -42,7 +32,7 @@ export const createTask = (self) => {
 			}
 		})
 	}else{
-		uni.showToast({ title: graceChecker.error, icon: "none" })
+		showInfoToast(graceChecker.error)
 	}
 	
 }
@@ -67,13 +57,7 @@ export const taskList = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -113,13 +97,7 @@ export const taskListAll = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -159,13 +137,7 @@ export const listPublish = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -205,13 +177,7 @@ export const listJoin = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -233,13 +199,7 @@ export const taskDetail = (self, taskId) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -248,7 +208,7 @@ export const taskDetail = (self, taskId) => {
 	})
 }
 
-export const taskApplyUser = (self, taskId) => {
+export const taskApplyUser = (self, taskId, type) => {
 	uni.request({
 		url: BASE_URL + '/WeixinUserTaskApply/user/pager-cond',
 		method: 'POST',
@@ -262,17 +222,15 @@ export const taskApplyUser = (self, taskId) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				self.applyUsers = self.applyUsers.concat(res.data.data.rows)
+				if (type === 'init' || type === 'pullDown') {
+					self.applyUsers = res.data.data.rows
+				} else if (type === 'more') {
+					self.applyUsers = self.applyUsers.concat(res.data.data.rows)
+				}
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -299,13 +257,7 @@ export const taskApplyDetail = (self, taskId) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -326,19 +278,11 @@ export const applyTask = (taskId) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				uni.showToast({
-					title: res.data.message
-				})
+				showInfoToast(res.data.message)
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -347,7 +291,7 @@ export const applyTask = (taskId) => {
 	})
 }
 
-export const pubConfirmTask = (taskId, applyUserId, item) => {
+export const pubConfirmTask = (self, userIndex, taskId, applyUserId) => {
 	uni.request({
 		url: BASE_URL + '/weixin-task-apply/user/confirm-weixin-task-apply',
 		method: 'POST',
@@ -360,20 +304,12 @@ export const pubConfirmTask = (taskId, applyUserId, item) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				uni.showToast({
-					title: res.data.message
-				})
-				item.weixinTaskApplyPubConfirmStatus = 1
+				showSuccessToast(res.data.message)
+				self.applyUsers[userIndex].weixinTaskApplyPubConfirmStatus = 1
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -394,20 +330,12 @@ export const appConfirmTask = (self, taskId) => {
 		},
 		success: (res) => {
 			if (res.data.code === 1001) {
-				uni.showToast({
-					title: res.data.message
-				})
+				showSuccessToast(res.data.message)
 				self.taskApplyDetail.appConfirmStatus = 1
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -429,13 +357,33 @@ export const closeTask = (self, taskId) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
+export const taskAppeal = (self, taskId) => {
+	uni.request({
+		url: BASE_URL + '/weixin-task-appeal/user/task-appeal',
+		method: 'POST',
+		data: {
+			taskId: taskId,
+			appealDes: '发布方未确认申诉',
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				showSuccessToast('申诉成功，24小时后可再次申诉')
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {

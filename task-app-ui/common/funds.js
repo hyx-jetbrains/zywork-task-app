@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, clearForm, networkError} from './util.js'
+import {BASE_URL, getUserToken, clearForm, networkError, showInfoToast, showSuccessToast} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -40,22 +40,12 @@ export const submitWithdraw = (self) => {
 			},
 			success: (res) => {
 				if (res.data.code === 1001) {
-					uni.showToast({
-						title: '已提交提现申请，等待审核',
-						icon: 'none',
-						duration: 2000
-					})
+					showSuccessToast('已提交提现申请，等待审核')
 					clearForm(self.withdrawForm)
 				} else if (res.data.code === 1006) {
 					invalidToken()
 				} else {
-					uni.showModal({
-						title: '提示',
-						content: res.data.message,
-						showCancel: false,
-						success: function (res) {
-						}
-					})
+					showInfoToast(res.data.message)
 				}
 			},
 			fail: () => {
@@ -63,48 +53,33 @@ export const submitWithdraw = (self) => {
 			}
 		})
 	} else{
-		uni.showToast({ title: graceChecker.error, icon: "none" })
+		showInfoToast(graceChecker.error)
 	}
 	
 }
 
-export const cancelWithdraw = (self, item) => {
-	uni.showModal({
-		title: '提示',
-		content: '确认取消提现申请？',
-		success: function (res) {
-			if (res.confirm) {
-				uni.request({
-					url: BASE_URL + '/withdraw/user/cancel',
-					method: 'POST',
-					data: {
-						transactionNo: item.transactionNo
-					},
-					header: {
-						'content-type': 'application/x-www-form-urlencoded',
-						'Authorization': 'Bearer ' + getUserToken()
-					},
-					success: (res) => {
-						if (res.data.code === 1001) {
-							initWithdraw(self)
-						} else if (res.data.code === 1006) {
-							invalidToken()
-						} else {
-							uni.showModal({
-								title: '提示',
-								content: res.data.message,
-								showCancel: false,
-								success: function (res) {
-								}
-							})
-						}
-					},
-					fail: () => {
-						networkError()
-					}
-				})
-			} else if (res.cancel) {
+export const cancelWithdraw = (self, itemIndex, transactionNo) => {
+	uni.request({
+		url: BASE_URL + '/withdraw/user/cancel',
+		method: 'POST',
+		data: {
+			transactionNo: transactionNo
+		},
+		header: {
+			'content-type': 'application/x-www-form-urlencoded',
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === 1001) {
+				self.withdrawList[itemIndex].withdrawStatus = 3
+			} else if (res.data.code === 1006) {
+				invalidToken()
+			} else {
+				showInfoToast(res.data.message)
 			}
+		},
+		fail: () => {
+			networkError()
 		}
 	})
 }
@@ -140,13 +115,7 @@ export const loadAccountDetail = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -186,13 +155,7 @@ export const loadWithdraw = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {

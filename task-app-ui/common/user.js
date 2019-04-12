@@ -1,4 +1,4 @@
-import {BASE_URL, DEFAULT_HEADICON, saveUserToken, removeUserToken, getUserToken, clearForm, networkError, invalidToken} from './util.js'
+import {BASE_URL, DEFAULT_HEADICON, saveUserToken, removeUserToken, getUserToken, clearForm, networkError, invalidToken, showInfoToast, showSuccessToast} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -28,13 +28,7 @@ export const login = (self) => {
 				} else if (res.data.code === 1006) {
 					invalidToken()
 				} else {
-					uni.showModal({
-						title: '提示',
-						content: res.data.message,
-						showCancel: false,
-						success: function (res) {
-						}
-					})
+					showInfoToast(res.data.message)
 				}
 			},
 			fail: () => {
@@ -42,7 +36,7 @@ export const login = (self) => {
 			}
 		})
 	}else{
-		uni.showToast({ title: graceChecker.error, icon: "none" })
+		showInfoToast(graceChecker.error)
 	}
 }
 
@@ -62,18 +56,9 @@ export const logout = (self) => {
 				self.userWallet.integral = 0
 				self.userWallet.usableIntegral = 0
 				self.user.headicon = DEFAULT_HEADICON
-				uni.showToast({
-					title: '已退出登录',
-					duration: 2000
-				})
+				showSuccessToast('已退出登录')
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -95,21 +80,12 @@ export const userDetail = (self) => {
 				self.user.headicon = res.data.data.headicon
 				self.user.wechatQrcode = res.data.data.wechatQrcode
 			} else if (res.data.code === 1006) {
-				uni.showToast({
-					title: '请登录',
-					duration: 2000
-				})
+				showInfoToast('请登录')
 				self.isUserLogin = false
 				self.getUserInfo = false
 				removeUserToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -137,13 +113,7 @@ export const updateNickname = (self) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
@@ -169,19 +139,11 @@ export const uploadHeadicon = (self) => {
 				success: (uploadFileRes) => {
 					const json = JSON.parse(uploadFileRes.data)
 					if (json.code === 1001) {
-						uni.showToast({
-							title: '上传成功'
-						});
+						showSuccessToast('上传成功')
 					} else if (json.code === 1006) {
 						invalidToken()
 					} else {
-						uni.showModal({
-							title: '提示',
-							content:json.message,
-							showCancel: false,
-							success: function (resp) {
-							}
-						})
+						showInfoToast(res.data.message)
 					}
 				},
 				fail: () => {
@@ -212,19 +174,11 @@ export const uploadWechatQrcode = (self) => {
 				success: (uploadFileRes) => {
 					const json = JSON.parse(uploadFileRes.data)
 					if (json.code === 1001) {
-						uni.showToast({
-							title: '上传成功'
-						});
+						showSuccessToast('上传成功')
 					} else if (json.code === 1006) {
 						invalidToken()
 					} else {
-						uni.showModal({
-							title: '提示',
-							content:json.message,
-							showCancel: false,
-							success: function (resp) {
-							}
-						})
+						showInfoToast(res.data.message)
 					}
 				},
 				fail: () => {

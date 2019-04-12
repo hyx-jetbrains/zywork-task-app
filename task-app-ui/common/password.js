@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, removeUserToken, clearForm, invalidToken, networkError} from './util.js'
+import {BASE_URL, getUserToken, removeUserToken, clearForm, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -11,11 +11,11 @@ export const updateLogin = (self) => {
 	const checkRes = graceChecker.check(self.loginPwdForm, rule)
 	if(checkRes){
 		if (self.loginPwdForm.password === self.loginPwdForm.oldPassword) {
-			uni.showToast({ title: "新旧密码一致，请重新输入新密码", icon: "none" })
+			showInfoToast('新旧密码一致，请重新输入新密码')
 			return
 		}
 		if (self.loginPwdForm.password !== self.loginPwdForm.confirmPassword) {
-			uni.showToast({ title: "新密码与确认密码不一致", icon: "none" })
+			showInfoToast('新密码与确认密码不一致')
 			return
 		}
 		uni.request({
@@ -32,20 +32,11 @@ export const updateLogin = (self) => {
 					uni.redirectTo({
 						url: '/pages/login/login'
 					})
-					uni.showToast({
-						title: '修改登录密码成功，请重新登录',
-						icon: 'none'
-					})
+					showSuccessToast('修改登录密码成功，请重新登录')
 				} else if (res.data.code === 1006) {
 					invalidToken()
 				} else {
-					uni.showModal({
-						title: '提示',
-						content: res.data.message,
-						showCancel: false,
-						success: function (res) {
-						}
-					})
+					showInfoToast(res.data.message)
 				}
 			},
 			fail: () => {
@@ -53,7 +44,7 @@ export const updateLogin = (self) => {
 			}
 		})
 	} else{
-		uni.showToast({ title: graceChecker.error, icon: "none" })
+		showInfoToast(graceChecker.error)
 	}
 }
 
@@ -65,11 +56,11 @@ export const updatePay = (self) => {
 	const checkRes = graceChecker.check(self.payPwdForm, rule)
 	if(checkRes){
 		if (self.payPwdForm.password === self.payPwdForm.oldPassword) {
-			uni.showToast({ title: "新旧密码一致，请重新输入新密码", icon: "none" })
+			showInfoToast('新旧密码一致，请重新输入新密码')
 			return
 		}
 		if (self.payPwdForm.password !== self.payPwdForm.confirmPassword) {
-			uni.showToast({ title: "新密码与确认密码不一致", icon: "none" })
+			showInfoToast('新密码与确认密码不一致')
 			return
 		}
 		uni.request({
@@ -85,20 +76,11 @@ export const updatePay = (self) => {
 					uni.navigateBack({
 						
 					})
-					uni.showToast({
-						title: '修改支付密码成功',
-						icon: 'none'
-					})
+					showSuccessToast('修改支付密码成功')
 				} else if (res.data.code === 1006) {
 					invalidToken()
 				} else {
-					uni.showModal({
-						title: '提示',
-						content: res.data.message,
-						showCancel: false,
-						success: function (res) {
-						}
-					})
+					showInfoToast(res.data.message)
 				}
 			},
 			fail: () => {
@@ -106,6 +88,6 @@ export const updatePay = (self) => {
 			}
 		})
 	} else{
-		uni.showToast({ title: graceChecker.error, icon: "none" })
+		showInfoToast( graceChecker.error)
 	}
 }

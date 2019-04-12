@@ -14,7 +14,7 @@
 	import uniList from '@/components/uni-list/uni-list.vue'
 	import zyworkListItem from '@/components/zywork-list-item/zywork-list-item.vue'
 	
-	import {IMAGE_BASE_URL, DEFAULT_HEADICON} from '../../common/util.js'
+	import {IMAGE_BASE_URL, DEFAULT_HEADICON, showInfoToast} from '../../common/util.js'
 	
 	import {weixinFriends} from '../../common/weixin-friend.js'
 	
@@ -56,10 +56,7 @@
 						
 					},
 					fail: () => {
-						uni.showToast({
-							title: '图片有误，不能预览',
-							icon: 'none'
-						})
+						showInfoToast('图片有误，不能预览')
 					}
 				})
 			}

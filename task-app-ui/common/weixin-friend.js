@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, clearForm, invalidToken, networkError} from './util.js'
+import {BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast} from './util.js'
 
 export const weixinFriends = (self, type) => {
 	uni.request({
@@ -31,13 +31,7 @@ export const weixinFriends = (self, type) => {
 			} else if (res.data.code === 1006) {
 				invalidToken()
 			} else {
-				uni.showModal({
-					title: '提示',
-					content: res.data.message,
-					showCancel: false,
-					success: function (res) {
-					}
-				})
+				showInfoToast(res.data.message)
 			}
 		},
 		fail: () => {
