@@ -6,35 +6,143 @@
 
 	<!-- userCreateTime 查询的是报名表中报名者确认时间 -->
 	<select id="weiXinFriend" resultType="userUserDetailDO" parameterType="userUserDetailDO">
-		SELECT
-			t_user.id as userId, t_user.phone as userPhone, t_user.email as userEmail, t_weixin_task_apply.app_confirm_time as userCreateTime, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon, t_user_detail.gender as userDetailGender, t_user_detail.birthday as userDetailBirthday, t_user_detail.age as userDetailAge, t_user_detail.qq as userDetailQq, t_user_detail.qq_qrcode as userDetailQqQrcode, t_user_detail.wechat as userDetailWechat, t_user_detail.wechat_qrcode as userDetailWechatQrcode, t_user_detail.alipay as userDetailAlipay, t_user_detail.alipay_qrcode as userDetailAlipayQrcode, t_user_detail.share_code as userDetailShareCode, t_user_detail.version as userDetailVersion
+		(SELECT
+			t_user.id AS userId,
+			t_user.phone AS userPhone,
+			t_user.email AS userEmail,
+			t_weixin_task_apply.app_confirm_time AS userCreateTime,
+			t_user_detail.nickname AS userDetailNickname,
+			t_user_detail.headicon AS userDetailHeadicon,
+			t_user_detail.gender AS userDetailGender,
+			t_user_detail.birthday AS userDetailBirthday,
+			t_user_detail.age AS userDetailAge,
+			t_user_detail.qq AS userDetailQq,
+			t_user_detail.qq_qrcode AS userDetailQqQrcode,
+			t_user_detail.wechat AS userDetailWechat,
+			t_user_detail.wechat_qrcode AS userDetailWechatQrcode,
+			t_user_detail.alipay AS userDetailAlipay,
+			t_user_detail.alipay_qrcode AS userDetailAlipayQrcode,
+			t_user_detail.share_code AS userDetailShareCode,
+			t_user_detail.version AS userDetailVersion
 		FROM
 			t_user,
 			t_user_detail,
+			t_weixin_task,
 			t_weixin_task_apply
 		WHERE
-			t_user.id = t_user_detail.id
-			AND t_user.id = t_weixin_task_apply.user_id
-			AND pub_confirm_status = 1
-			AND app_confirm_status = 1
-			AND t_user.id = #{query.userId}
-			order by t_weixin_task_apply.app_confirm_time desc
+			t_user.id = t_weixin_task_apply.user_id
+			AND t_user.id = t_user_detail.id
+			AND t_weixin_task.id = t_weixin_task_apply.task_id
+			AND t_weixin_task_apply.pub_confirm_status = 1
+			AND t_weixin_task_apply.app_confirm_status = 1
+			AND t_weixin_task.user_id = #{query.userId}
+		ORDER BY
+			t_weixin_task_apply.app_confirm_time DESC)
+
+		union
+
+		(SELECT
+			t_user.id AS userId,
+			t_user.phone AS userPhone,
+			t_user.email AS userEmail,
+			t_weixin_task_apply.app_confirm_time AS userCreateTime,
+			t_user_detail.nickname AS userDetailNickname,
+			t_user_detail.headicon AS userDetailHeadicon,
+			t_user_detail.gender AS userDetailGender,
+			t_user_detail.birthday AS userDetailBirthday,
+			t_user_detail.age AS userDetailAge,
+			t_user_detail.qq AS userDetailQq,
+			t_user_detail.qq_qrcode AS userDetailQqQrcode,
+			t_user_detail.wechat AS userDetailWechat,
+			t_user_detail.wechat_qrcode AS userDetailWechatQrcode,
+			t_user_detail.alipay AS userDetailAlipay,
+			t_user_detail.alipay_qrcode AS userDetailAlipayQrcode,
+			t_user_detail.share_code AS userDetailShareCode,
+			t_user_detail.version AS userDetailVersion
+		FROM
+			t_user,
+			t_user_detail,
+			t_weixin_task,
+			t_weixin_task_apply
+		WHERE
+			t_user.id = t_weixin_task.user_id
+			AND t_user.id = t_user_detail.id
+			AND t_weixin_task.id = t_weixin_task_apply.task_id
+			AND t_weixin_task_apply.pub_confirm_status = 1
+			AND t_weixin_task_apply.app_confirm_status = 1
+			AND t_weixin_task_apply.user_id = #{query.userId}
+		ORDER BY
+			t_weixin_task_apply.app_confirm_time DESC)
 			limit #{query.beginIndex}, #{query.pageSize}
 	</select>
 
 	<select id="weiXinFriendCount" resultType="long">
-		SELECT
-			count(*)
+		select count(friends.userId) from (
+		(SELECT
+			t_user.id AS userId,
+			t_user.phone AS userPhone,
+			t_user.email AS userEmail,
+			t_weixin_task_apply.app_confirm_time AS userCreateTime,
+			t_user_detail.nickname AS userDetailNickname,
+			t_user_detail.headicon AS userDetailHeadicon,
+			t_user_detail.gender AS userDetailGender,
+			t_user_detail.birthday AS userDetailBirthday,
+			t_user_detail.age AS userDetailAge,
+			t_user_detail.qq AS userDetailQq,
+			t_user_detail.qq_qrcode AS userDetailQqQrcode,
+			t_user_detail.wechat AS userDetailWechat,
+			t_user_detail.wechat_qrcode AS userDetailWechatQrcode,
+			t_user_detail.alipay AS userDetailAlipay,
+			t_user_detail.alipay_qrcode AS userDetailAlipayQrcode,
+			t_user_detail.share_code AS userDetailShareCode,
+			t_user_detail.version AS userDetailVersion
 		FROM
 			t_user,
 			t_user_detail,
+			t_weixin_task,
 			t_weixin_task_apply
 		WHERE
-			t_user.id = t_user_detail.id
-			AND t_user.id = t_weixin_task_apply.user_id
-			AND pub_confirm_status = 1
-			AND app_confirm_status = 1
-			AND t_user.id = #{query.userId}
+			t_user.id = t_weixin_task_apply.user_id
+			AND t_user.id = t_user_detail.id
+			AND t_weixin_task.id = t_weixin_task_apply.task_id
+			AND t_weixin_task_apply.pub_confirm_status = 1
+			AND t_weixin_task_apply.app_confirm_status = 1
+			AND t_weixin_task.user_id = #{query.userId}
+		ORDER BY
+			t_weixin_task_apply.app_confirm_time DESC)
+
+		union
+
+		(SELECT
+			t_user.id AS userId,
+			t_user.phone AS userPhone,
+			t_user.email AS userEmail,
+			t_weixin_task_apply.app_confirm_time AS userCreateTime,
+			t_user_detail.nickname AS userDetailNickname,
+			t_user_detail.headicon AS userDetailHeadicon,
+			t_user_detail.gender AS userDetailGender,
+			t_user_detail.birthday AS userDetailBirthday,
+			t_user_detail.age AS userDetailAge,
+			t_user_detail.qq AS userDetailQq,
+			t_user_detail.qq_qrcode AS userDetailQqQrcode,
+			t_user_detail.wechat AS userDetailWechat,
+			t_user_detail.wechat_qrcode AS userDetailWechatQrcode,
+			t_user_detail.alipay AS userDetailAlipay,
+			t_user_detail.alipay_qrcode AS userDetailAlipayQrcode,
+			t_user_detail.share_code AS userDetailShareCode,
+			t_user_detail.version AS userDetailVersion
+		FROM
+			t_user,
+			t_user_detail,
+			t_weixin_task,
+			t_weixin_task_apply
+		WHERE
+			t_user.id = t_weixin_task.user_id
+			AND t_user.id = t_user_detail.id
+			AND t_weixin_task.id = t_weixin_task_apply.task_id
+			AND t_weixin_task_apply.pub_confirm_status = 1
+			AND t_weixin_task_apply.app_confirm_status = 1
+			AND t_weixin_task_apply.user_id = #{query.userId})) as friends
 	</select>
 
 </mapper>

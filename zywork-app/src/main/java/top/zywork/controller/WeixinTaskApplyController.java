@@ -48,9 +48,7 @@ public class WeixinTaskApplyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
         }
-
-        weixinTaskApplyVO.setUserId(jwtUser.getUserId());
-        return weixinTaskApplyService.confirmTaskApply(weixinTaskApplyVO);
+        return weixinTaskApplyService.confirmTaskApply(jwtUser.getUserId(), weixinTaskApplyVO);
     }
 
     @PostMapping("user/join-weixin-task")
@@ -63,7 +61,24 @@ public class WeixinTaskApplyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
         }
+        weixinTaskApplyVO.setUserId(jwtUser.getUserId());
         return weixinTaskApplyService.joinWeixinTask(weixinTaskApplyVO);
+    }
+
+    @PostMapping("user/task-apply-detail")
+    public ResponseStatusVO getWeixinTaskApplyDetail(@RequestBody @Validated WeixinTaskApplyVO weixinTaskApplyVO, BindingResult bindingResult) {
+        JwtUser jwtUser = SecurityUtils.getJwtUser();
+        if (jwtUser == null) {
+            return ResponseStatusVO.authenticationError();
+        }
+
+        if (bindingResult.hasErrors()) {
+            return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
+        }
+        weixinTaskApplyVO.setUserId(jwtUser.getUserId());
+        Object obj = weixinTaskApplyService.getWeixinTaskApplyDetail(weixinTaskApplyVO);
+        WeixinTaskApplyVO weixinTaskApplyVO1 = BeanUtils.copy(obj, WeixinTaskApplyVO.class);
+        return ResponseStatusVO.ok("查询成功", weixinTaskApplyVO1);
     }
 
     @PostMapping("admin/save")

@@ -33,4 +33,9 @@ public class WeixinTaskAppealServiceImpl extends AbstractBaseService implements 
     public void init() {
         super.init(WeixinTaskAppealDO.class, WeixinTaskAppealDTO.class);
     }
+
+    @Override
+    public Object getByTaskId(Long taskId, Long userId) {
+        return weixinTaskAppealDAO.getByTaskId(taskId, userId);
+    }
 }

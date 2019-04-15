@@ -154,3 +154,6 @@ storage:
       imgParentDir: "."
       imgDir: "image/certification"
       imgUrl: "upload/image/notice"
+appeal:
+  # 单位/小时
+  hours: 72

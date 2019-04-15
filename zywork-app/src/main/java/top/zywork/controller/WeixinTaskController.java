@@ -58,14 +58,14 @@ public class WeixinTaskController extends BaseController {
             return ResponseStatusVO.dataError("填写的奖励积分不能小于或等于零", null);
         }
 
-        if(weixinTaskVO.getConfirmNumber() <= 0) {
+        if(weixinTaskVO.getTotalNumber() <= 0) {
             return ResponseStatusVO.dataError("填写的加友总数不能小于或等于零", null);
         }
 
         RateConfig rateConfig = sysConfigService.getByName(SysConfigEnum.RATE_CONFIG.getValue(), RateConfig.class);
         weixinTaskVO.setUserId(jwtUser.getUserId());
+        weixinTaskVO.setIntegral(weixinTaskVO.getIntegral()*100);
         weixinTaskVO.setTaskStatus(0);
-        weixinTaskVO.setConfirmNumber(0);
         return weixinTaskService.createTask(weixinTaskVO,rateConfig);
     }
 
@@ -74,6 +74,8 @@ public class WeixinTaskController extends BaseController {
         if (bindingResult.hasErrors()) {
             return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
         }
+
+        weixinTaskVO.setIntegral(weixinTaskVO.getIntegral()*100);
         weixinTaskService.save(BeanUtils.copy(weixinTaskVO, WeixinTaskDTO.class));
         return ResponseStatusVO.ok("添加成功", null);
     }
@@ -99,11 +101,31 @@ public class WeixinTaskController extends BaseController {
         return ResponseStatusVO.ok("批量删除成功", null);
     }
 
+    @GetMapping("user/close-weixin-task/{taskId}")
+    public ResponseStatusVO closeWeixinTask(@PathVariable("taskId") Long taskId) {
+        JwtUser jwtUser = SecurityUtils.getJwtUser();
+        if (jwtUser == null) {
+            return ResponseStatusVO.authenticationError();
+        }
+
+        Object obj = weixinTaskService.getById(taskId);
+        if(obj == null) {
+            return ResponseStatusVO.dataError("微信任务不存在", null);
+        }
+        WeixinTaskVO weixinTaskVO = BeanUtils.copy(obj, WeixinTaskVO.class);
+        if(weixinTaskVO.getUserId() != jwtUser.getUserId()) {
+            return ResponseStatusVO.dataError("只能关闭自己发布的微信任务", null);
+        }
+        weixinTaskService.updateById(weixinTaskVO.getId());
+        return ResponseStatusVO.ok("成功关闭任务", null);
+    }
+
     @PostMapping("admin/update")
     public ResponseStatusVO update(@RequestBody @Validated WeixinTaskVO weixinTaskVO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
         }
+        weixinTaskVO.setIntegral(weixinTaskVO.getIntegral()*100);
         int updateRows = weixinTaskService.update(BeanUtils.copy(weixinTaskVO, WeixinTaskDTO.class));
         if (updateRows == 1) {
             return ResponseStatusVO.ok("更新成功", null);

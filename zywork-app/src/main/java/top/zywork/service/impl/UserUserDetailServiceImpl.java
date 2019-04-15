@@ -40,11 +40,9 @@ public class UserUserDetailServiceImpl extends AbstractBaseService implements Us
     public PagerDTO weiXinFriend(Object queryObj) {
         PagerDTO pagerDTO = new PagerDTO();
         Long count = userUserDetailDAO.weiXinFriendCount(queryObj);
-        if(count > 0) {
-            List<Object> list = userUserDetailDAO.weiXinFriend(queryObj);
-            pagerDTO.setRows(list);
-            pagerDTO.setTotal(count);
-        }
+        List<Object> list = userUserDetailDAO.weiXinFriend(queryObj);
+        pagerDTO.setRows(list);
+        pagerDTO.setTotal(count);
         return pagerDTO;
     }
 }

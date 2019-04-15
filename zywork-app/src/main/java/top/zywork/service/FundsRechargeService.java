@@ -1,5 +1,8 @@
 package top.zywork.service;
 
+import top.zywork.vo.FundsRechargeVO;
+import top.zywork.vo.ResponseStatusVO;
+
 /**
  * FundsRechargeService服务接口<br/>
  *

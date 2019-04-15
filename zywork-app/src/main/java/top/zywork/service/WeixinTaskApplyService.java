@@ -1,5 +1,6 @@
 package top.zywork.service;
 
+import org.apache.ibatis.annotations.Param;
 import top.zywork.vo.ResponseStatusVO;
 import top.zywork.vo.WeixinTaskApplyVO;
 import top.zywork.vo.WeixinTaskVO;
@@ -14,7 +15,9 @@ import top.zywork.vo.WeixinTaskVO;
  */
 public interface WeixinTaskApplyService extends BaseService {
 
-    ResponseStatusVO confirmTaskApply(WeixinTaskApplyVO weixinTaskApplyVO);
+    ResponseStatusVO confirmTaskApply(Long userId, WeixinTaskApplyVO weixinTaskApplyVO);
 
     ResponseStatusVO joinWeixinTask(WeixinTaskApplyVO weixinTaskApplyVO);
+
+    Object getWeixinTaskApplyDetail(WeixinTaskApplyVO weixinTaskApplyVO);
 }

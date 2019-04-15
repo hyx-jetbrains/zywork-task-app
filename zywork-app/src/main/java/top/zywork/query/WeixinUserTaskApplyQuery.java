@@ -8,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * WeixinUserTaskApplyQuery查询对象类<br/>
  *
- * 创建于2019-04-04<br/>
+ * 创建于2019-04-10<br/>
  *
  * @author http://zywork.top 邓敏
  * @version 1.0
  */
 public class WeixinUserTaskApplyQuery extends PageQuery {
 
-    private static final long serialVersionUID = -9223372035197887907L;
+    private static final long serialVersionUID = -9223372035742711886L;
 
     //t_weixin_task_apply表的字段对应的属性
 	// 报名编号
@@ -96,16 +96,18 @@ public class WeixinUserTaskApplyQuery extends PageQuery {
 	private Byte weixinTaskApplyIsActiveMin;
 	// 是否激活（最大值）
 	private Byte weixinTaskApplyIsActiveMax;
-	//t_user_detail表的字段对应的属性
-	// 昵称
-	private String userDetailNickname;
 	//t_user表的字段对应的属性
 	// 手机号
 	private String userPhone;
+	//t_user_detail表的字段对应的属性
+	// 昵称
+	private String userDetailNickname;
+	// 头像地址
+	private String userDetailHeadicon;
 	
     public WeixinUserTaskApplyQuery () {}
 
-    public WeixinUserTaskApplyQuery (Long weixinTaskApplyId, Long weixinTaskApplyIdMin, Long weixinTaskApplyIdMax, Long weixinTaskApplyTaskId, Long weixinTaskApplyTaskIdMin, Long weixinTaskApplyTaskIdMax, Long weixinTaskApplyUserId, Long weixinTaskApplyUserIdMin, Long weixinTaskApplyUserIdMax, Byte weixinTaskApplyPubConfirmStatus, Byte weixinTaskApplyPubConfirmStatusMin, Byte weixinTaskApplyPubConfirmStatusMax, Date weixinTaskApplyPubConfirmTime, Date weixinTaskApplyPubConfirmTimeMin, Date weixinTaskApplyPubConfirmTimeMax, Byte weixinTaskApplyAppConfirmStatus, Byte weixinTaskApplyAppConfirmStatusMin, Byte weixinTaskApplyAppConfirmStatusMax, Date weixinTaskApplyAppConfirmTime, Date weixinTaskApplyAppConfirmTimeMin, Date weixinTaskApplyAppConfirmTimeMax, Date weixinTaskApplyCreateTime, Date weixinTaskApplyCreateTimeMin, Date weixinTaskApplyCreateTimeMax, Date weixinTaskApplyUpdateTime, Date weixinTaskApplyUpdateTimeMin, Date weixinTaskApplyUpdateTimeMax, Integer weixinTaskApplyVersion, Integer weixinTaskApplyVersionMin, Integer weixinTaskApplyVersionMax, Byte weixinTaskApplyIsActive, Byte weixinTaskApplyIsActiveMin, Byte weixinTaskApplyIsActiveMax, String userDetailNickname, String userPhone) {
+    public WeixinUserTaskApplyQuery (Long weixinTaskApplyId, Long weixinTaskApplyIdMin, Long weixinTaskApplyIdMax, Long weixinTaskApplyTaskId, Long weixinTaskApplyTaskIdMin, Long weixinTaskApplyTaskIdMax, Long weixinTaskApplyUserId, Long weixinTaskApplyUserIdMin, Long weixinTaskApplyUserIdMax, Byte weixinTaskApplyPubConfirmStatus, Byte weixinTaskApplyPubConfirmStatusMin, Byte weixinTaskApplyPubConfirmStatusMax, Date weixinTaskApplyPubConfirmTime, Date weixinTaskApplyPubConfirmTimeMin, Date weixinTaskApplyPubConfirmTimeMax, Byte weixinTaskApplyAppConfirmStatus, Byte weixinTaskApplyAppConfirmStatusMin, Byte weixinTaskApplyAppConfirmStatusMax, Date weixinTaskApplyAppConfirmTime, Date weixinTaskApplyAppConfirmTimeMin, Date weixinTaskApplyAppConfirmTimeMax, Date weixinTaskApplyCreateTime, Date weixinTaskApplyCreateTimeMin, Date weixinTaskApplyCreateTimeMax, Date weixinTaskApplyUpdateTime, Date weixinTaskApplyUpdateTimeMin, Date weixinTaskApplyUpdateTimeMax, Integer weixinTaskApplyVersion, Integer weixinTaskApplyVersionMin, Integer weixinTaskApplyVersionMax, Byte weixinTaskApplyIsActive, Byte weixinTaskApplyIsActiveMin, Byte weixinTaskApplyIsActiveMax, String userPhone, String userDetailNickname, String userDetailHeadicon) {
         this.weixinTaskApplyId = weixinTaskApplyId;
 		this.weixinTaskApplyIdMin = weixinTaskApplyIdMin;
 		this.weixinTaskApplyIdMax = weixinTaskApplyIdMax;
@@ -139,8 +141,9 @@ public class WeixinUserTaskApplyQuery extends PageQuery {
 		this.weixinTaskApplyIsActive = weixinTaskApplyIsActive;
 		this.weixinTaskApplyIsActiveMin = weixinTaskApplyIsActiveMin;
 		this.weixinTaskApplyIsActiveMax = weixinTaskApplyIsActiveMax;
-		this.userDetailNickname = userDetailNickname;
 		this.userPhone = userPhone;
+		this.userDetailNickname = userDetailNickname;
+		this.userDetailHeadicon = userDetailHeadicon;
 		
     }
 
@@ -408,6 +411,14 @@ public class WeixinUserTaskApplyQuery extends PageQuery {
 		this.weixinTaskApplyIsActiveMax = weixinTaskApplyIsActiveMax;
 	}
 
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
 	public String getUserDetailNickname() {
 		return userDetailNickname;
 	}
@@ -416,12 +427,12 @@ public class WeixinUserTaskApplyQuery extends PageQuery {
 		this.userDetailNickname = userDetailNickname;
 	}
 
-	public String getUserPhone() {
-		return userPhone;
+	public String getUserDetailHeadicon() {
+		return userDetailHeadicon;
 	}
 
-	public void setUserPhone(String userPhone) {
-		this.userPhone = userPhone;
+	public void setUserDetailHeadicon(String userDetailHeadicon) {
+		this.userDetailHeadicon = userDetailHeadicon;
 	}
 
 	
@@ -461,8 +472,9 @@ public class WeixinUserTaskApplyQuery extends PageQuery {
 				", weixinTaskApplyIsActive = " + weixinTaskApplyIsActive + 
 				", weixinTaskApplyIsActiveMin = " + weixinTaskApplyIsActiveMin + 
 				", weixinTaskApplyIsActiveMax = " + weixinTaskApplyIsActiveMax + 
-				", userDetailNickname = " + userDetailNickname + 
 				", userPhone = " + userPhone + 
+				", userDetailNickname = " + userDetailNickname + 
+				", userDetailHeadicon = " + userDetailHeadicon + 
 				" }";
     }
 

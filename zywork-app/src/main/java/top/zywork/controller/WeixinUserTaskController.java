@@ -31,7 +31,7 @@ public class WeixinUserTaskController extends BaseController {
 
     private WeixinUserTaskService weixinUserTaskService;
 
-    @PostMapping("user/listOngoing")
+    @PostMapping("any/listOngoing")
     public ResponseStatusVO listOngoing(@RequestBody WeixinUserTaskQuery weixinUserTaskQuery) {
         weixinUserTaskQuery.setWeixinTaskTaskStatus(0);
         return listAllByCondition(weixinUserTaskQuery);
@@ -62,8 +62,8 @@ public class WeixinUserTaskController extends BaseController {
         return ResponseStatusVO.ok("查询成功", pagerVO);
     }
 
-    @GetMapping("user/multi/{id}")
-    public ResponseStatusVO multi(@PathVariable("id") Long id) {
+    @GetMapping("user/task-apply-user/{id}")
+    public ResponseStatusVO taskApplyUser(@PathVariable("id") Long id) {
         WeixinUserTaskVO weixinUserTaskVO = new WeixinUserTaskVO();
         Object obj = weixinUserTaskService.getByweixinTaskId(id);
         if(obj != null) {

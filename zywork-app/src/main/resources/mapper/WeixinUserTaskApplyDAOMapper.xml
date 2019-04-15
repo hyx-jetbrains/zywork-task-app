@@ -5,7 +5,7 @@
 <mapper namespace="top.zywork.dao.WeixinUserTaskApplyDAO">
 
     <sql id="select_columns">
-        t_weixin_task_apply.id as weixinTaskApplyId, t_weixin_task_apply.task_id as weixinTaskApplyTaskId, t_weixin_task_apply.user_id as weixinTaskApplyUserId, t_weixin_task_apply.pub_confirm_status as weixinTaskApplyPubConfirmStatus, t_weixin_task_apply.pub_confirm_time as weixinTaskApplyPubConfirmTime, t_weixin_task_apply.app_confirm_status as weixinTaskApplyAppConfirmStatus, t_weixin_task_apply.app_confirm_time as weixinTaskApplyAppConfirmTime, t_weixin_task_apply.create_time as weixinTaskApplyCreateTime, t_weixin_task_apply.update_time as weixinTaskApplyUpdateTime, t_weixin_task_apply.version as weixinTaskApplyVersion, t_weixin_task_apply.is_active as weixinTaskApplyIsActive, t_user_detail.nickname as userDetailNickname, t_user.phone as userPhone
+        t_weixin_task_apply.id as weixinTaskApplyId, t_weixin_task_apply.task_id as weixinTaskApplyTaskId, t_weixin_task_apply.user_id as weixinTaskApplyUserId, t_weixin_task_apply.pub_confirm_status as weixinTaskApplyPubConfirmStatus, t_weixin_task_apply.pub_confirm_time as weixinTaskApplyPubConfirmTime, t_weixin_task_apply.app_confirm_status as weixinTaskApplyAppConfirmStatus, t_weixin_task_apply.app_confirm_time as weixinTaskApplyAppConfirmTime, t_weixin_task_apply.create_time as weixinTaskApplyCreateTime, t_weixin_task_apply.update_time as weixinTaskApplyUpdateTime, t_weixin_task_apply.version as weixinTaskApplyVersion, t_weixin_task_apply.is_active as weixinTaskApplyIsActive, t_user.phone as userPhone, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon
     </sql>
 
     <sql id="query_where_clause">
@@ -141,11 +141,14 @@
 		<if test="query != null and query.weixinTaskApplyIsActiveMin != null and query.weixinTaskApplyIsActiveMax != null">
 			and t_weixin_task_apply.is_active <![CDATA[ >= ]]> #{query.weixinTaskApplyIsActiveMin} and t_weixin_task_apply.is_active <![CDATA[ <= ]]> #{query.weixinTaskApplyIsActiveMax}
 		</if>
+		<if test="query != null and query.userPhone != null and query.userPhone != ''">
+			and t_user.phone like concat('%', #{query.userPhone}, '%')
+		</if>
 		<if test="query != null and query.userDetailNickname != null and query.userDetailNickname != ''">
 			and t_user_detail.nickname like concat('%', #{query.userDetailNickname}, '%')
 		</if>
-		<if test="query != null and query.userPhone != null and query.userPhone != ''">
-			and t_user.phone like concat('%', #{query.userPhone}, '%')
+		<if test="query != null and query.userDetailHeadicon != null and query.userDetailHeadicon != ''">
+			and t_user_detail.headicon like concat('%', #{query.userDetailHeadicon}, '%')
 		</if>
 		
         and
@@ -155,14 +158,14 @@
     <select id="listById" parameterType="long" resultType="weixinUserTaskApplyDO">
         select
         <include refid="select_columns"/>
-        from t_weixin_task_apply, t_user_detail, t_user where t_weixin_task_apply.id = #{id} and
+        from t_weixin_task_apply, t_user, t_user_detail where t_weixin_task_apply.id = #{id} and
         t_weixin_task_apply.user_id = t_user.id and t_user.id = t_user_detail.id
     </select>
 
     <select id="listAll" resultType="weixinUserTaskApplyDO">
         select
         <include refid="select_columns"/>
-        from t_weixin_task_apply, t_user_detail, t_user
+        from t_weixin_task_apply, t_user, t_user_detail
         where
         t_weixin_task_apply.user_id = t_user.id and t_user.id = t_user_detail.id
         order by t_weixin_task_apply.update_time desc, t_weixin_task_apply.create_time desc
@@ -171,7 +174,7 @@
     <select id="listAllByCondition" resultType="weixinUserTaskApplyDO">
         select
         <include refid="select_columns"/>
-        from t_weixin_task_apply, t_user_detail, t_user
+        from t_weixin_task_apply, t_user, t_user_detail
         <where>
             <include refid="query_where_clause"/>
         </where>
@@ -187,7 +190,7 @@
     <select id="listPageByCondition" resultType="weixinUserTaskApplyDO">
         select
         <include refid="select_columns"/>
-        from t_weixin_task_apply, t_user_detail, t_user
+        from t_weixin_task_apply, t_user, t_user_detail
         <where>
             <include refid="query_where_clause"/>
         </where>
@@ -202,7 +205,7 @@
     </select>
 
     <select id="countByCondition" resultType="long">
-        select count(*) from t_weixin_task_apply, t_user_detail, t_user
+        select count(*) from t_weixin_task_apply, t_user, t_user_detail
         <where>
             <include refid="query_where_clause"/>
         </where>

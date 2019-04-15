@@ -142,7 +142,7 @@ public class NoticeController extends BaseController {
      * @param id
      * @return
      */
-    @GetMapping("user/one/{id}")
+    @GetMapping("any/one/{id}")
     public ResponseStatusVO userGetById(@PathVariable("id") Long id) {
         return getById(id);
     }
@@ -177,7 +177,7 @@ public class NoticeController extends BaseController {
      * @param noticeQuery
      * @return
      */
-    @PostMapping("user/pager-cond")
+    @PostMapping("any/pager-cond")
     public ResponseStatusVO userListPageByCondition(@RequestBody NoticeQuery noticeQuery) {
         return listPageByCondition(noticeQuery);
     }

@@ -27,7 +27,7 @@ public class WeixinTaskAppealVO extends BaseVO {
 	@NotNull(message = "此项是必须项")
 	private Long taskId;
 	// 申诉用户编号
-	@NotNull(message = "此项是必须项")
+	//@NotNull(message = "此项是必须项")
 	private Long userId;
 	// 申诉描述
 	@NotBlank(message = "此项是必须项")

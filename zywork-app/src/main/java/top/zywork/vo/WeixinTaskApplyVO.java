@@ -27,7 +27,7 @@ public class WeixinTaskApplyVO extends BaseVO {
 	@NotNull(message = "此项是必须项")
 	private Long taskId;
 	// 报名用户编号
-	@NotNull(message = "此项是必须项")
+	//@NotNull(message = "此项是必须项")
 	private Long userId;
 	// 发布方确认状态
 	private Byte pubConfirmStatus;

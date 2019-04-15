@@ -1,50 +1,38 @@
-package top.zywork.vo;
+package top.zywork.dos;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 /**
- * WeixinUserTaskApplyVO值对象类<br/>
+ * WeixinUserTaskApplyDO数据对象实体类<br/>
  *
  * 创建于2019-04-10<br/>
  *
  * @author http://zywork.top 邓敏
  * @version 1.0
  */
-public class WeixinUserTaskApplyVO extends BaseVO {
+public class WeixinUserTaskApplyDO extends BaseDO {
 
-    private static final long serialVersionUID = -9223372035507138875L;
+    private static final long serialVersionUID = -9223372035683374740L;
 
     //t_weixin_task_apply表的字段对应的属性
 	// 报名编号
 	private Long weixinTaskApplyId;
 	// 任务编号
-	@NotNull(message = "此项是必须项")
 	private Long weixinTaskApplyTaskId;
 	// 报名用户编号
-	@NotNull(message = "此项是必须项")
 	private Long weixinTaskApplyUserId;
 	// 发布方确认状态
 	private Byte weixinTaskApplyPubConfirmStatus;
 	// 发布方确认时间
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date weixinTaskApplyPubConfirmTime;
 	// 报名方确认状态
 	private Byte weixinTaskApplyAppConfirmStatus;
 	// 报名方确认时间
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date weixinTaskApplyAppConfirmTime;
 	// 创建时间
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date weixinTaskApplyCreateTime;
 	// 更新时间
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date weixinTaskApplyUpdateTime;
 	// 版本号
 	private Integer weixinTaskApplyVersion;
@@ -52,19 +40,16 @@ public class WeixinUserTaskApplyVO extends BaseVO {
 	private Byte weixinTaskApplyIsActive;
 	//t_user表的字段对应的属性
 	// 手机号
-	@Size(min = 0, max = 11, message = "必须小于11个字符")
 	private String userPhone;
 	//t_user_detail表的字段对应的属性
 	// 昵称
-	@Size(min = 0, max = 20, message = "必须小于20个字符")
 	private String userDetailNickname;
 	// 头像地址
-	@Size(min = 0, max = 500, message = "必须小于500个字符")
 	private String userDetailHeadicon;
 	
-    public WeixinUserTaskApplyVO () {}
+    public WeixinUserTaskApplyDO () {}
 
-    public WeixinUserTaskApplyVO (Long weixinTaskApplyId, Long weixinTaskApplyTaskId, Long weixinTaskApplyUserId, Byte weixinTaskApplyPubConfirmStatus, Date weixinTaskApplyPubConfirmTime, Byte weixinTaskApplyAppConfirmStatus, Date weixinTaskApplyAppConfirmTime, Date weixinTaskApplyCreateTime, Date weixinTaskApplyUpdateTime, Integer weixinTaskApplyVersion, Byte weixinTaskApplyIsActive, String userPhone, String userDetailNickname, String userDetailHeadicon) {
+    public WeixinUserTaskApplyDO (Long weixinTaskApplyId, Long weixinTaskApplyTaskId, Long weixinTaskApplyUserId, Byte weixinTaskApplyPubConfirmStatus, Date weixinTaskApplyPubConfirmTime, Byte weixinTaskApplyAppConfirmStatus, Date weixinTaskApplyAppConfirmTime, Date weixinTaskApplyCreateTime, Date weixinTaskApplyUpdateTime, Integer weixinTaskApplyVersion, Byte weixinTaskApplyIsActive, String userPhone, String userDetailNickname, String userDetailHeadicon) {
         this.weixinTaskApplyId = weixinTaskApplyId;
 		this.weixinTaskApplyTaskId = weixinTaskApplyTaskId;
 		this.weixinTaskApplyUserId = weixinTaskApplyUserId;
@@ -197,7 +182,7 @@ public class WeixinUserTaskApplyVO extends BaseVO {
 	
     @Override
     public String toString() {
-        return "WeixinUserTaskApplyVO {" +
+        return "WeixinUserTaskApplyDO {" +
                 "weixinTaskApplyId = " + weixinTaskApplyId + 
 				", weixinTaskApplyTaskId = " + weixinTaskApplyTaskId + 
 				", weixinTaskApplyUserId = " + weixinTaskApplyUserId + 

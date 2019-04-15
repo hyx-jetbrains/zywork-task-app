@@ -6,14 +6,14 @@ import java.util.Date;
 /**
  * WeixinUserTaskApplyDTO数据传输对象类<br/>
  *
- * 创建于2019-04-04<br/>
+ * 创建于2019-04-10<br/>
  *
  * @author http://zywork.top 邓敏
  * @version 1.0
  */
 public class WeixinUserTaskApplyDTO extends BaseDTO {
 
-    private static final long serialVersionUID = -9223372036079975372L;
+    private static final long serialVersionUID = -9223372035844877454L;
 
     //t_weixin_task_apply表的字段对应的属性
 	// 报名编号
@@ -38,16 +38,18 @@ public class WeixinUserTaskApplyDTO extends BaseDTO {
 	private Integer weixinTaskApplyVersion;
 	// 是否激活
 	private Byte weixinTaskApplyIsActive;
-	//t_user_detail表的字段对应的属性
-	// 昵称
-	private String userDetailNickname;
 	//t_user表的字段对应的属性
 	// 手机号
 	private String userPhone;
+	//t_user_detail表的字段对应的属性
+	// 昵称
+	private String userDetailNickname;
+	// 头像地址
+	private String userDetailHeadicon;
 	
     public WeixinUserTaskApplyDTO () {}
 
-    public WeixinUserTaskApplyDTO (Long weixinTaskApplyId, Long weixinTaskApplyTaskId, Long weixinTaskApplyUserId, Byte weixinTaskApplyPubConfirmStatus, Date weixinTaskApplyPubConfirmTime, Byte weixinTaskApplyAppConfirmStatus, Date weixinTaskApplyAppConfirmTime, Date weixinTaskApplyCreateTime, Date weixinTaskApplyUpdateTime, Integer weixinTaskApplyVersion, Byte weixinTaskApplyIsActive, String userDetailNickname, String userPhone) {
+    public WeixinUserTaskApplyDTO (Long weixinTaskApplyId, Long weixinTaskApplyTaskId, Long weixinTaskApplyUserId, Byte weixinTaskApplyPubConfirmStatus, Date weixinTaskApplyPubConfirmTime, Byte weixinTaskApplyAppConfirmStatus, Date weixinTaskApplyAppConfirmTime, Date weixinTaskApplyCreateTime, Date weixinTaskApplyUpdateTime, Integer weixinTaskApplyVersion, Byte weixinTaskApplyIsActive, String userPhone, String userDetailNickname, String userDetailHeadicon) {
         this.weixinTaskApplyId = weixinTaskApplyId;
 		this.weixinTaskApplyTaskId = weixinTaskApplyTaskId;
 		this.weixinTaskApplyUserId = weixinTaskApplyUserId;
@@ -59,8 +61,9 @@ public class WeixinUserTaskApplyDTO extends BaseDTO {
 		this.weixinTaskApplyUpdateTime = weixinTaskApplyUpdateTime;
 		this.weixinTaskApplyVersion = weixinTaskApplyVersion;
 		this.weixinTaskApplyIsActive = weixinTaskApplyIsActive;
-		this.userDetailNickname = userDetailNickname;
 		this.userPhone = userPhone;
+		this.userDetailNickname = userDetailNickname;
+		this.userDetailHeadicon = userDetailHeadicon;
 		
     }
 
@@ -152,6 +155,14 @@ public class WeixinUserTaskApplyDTO extends BaseDTO {
 		this.weixinTaskApplyIsActive = weixinTaskApplyIsActive;
 	}
 
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
 	public String getUserDetailNickname() {
 		return userDetailNickname;
 	}
@@ -160,12 +171,12 @@ public class WeixinUserTaskApplyDTO extends BaseDTO {
 		this.userDetailNickname = userDetailNickname;
 	}
 
-	public String getUserPhone() {
-		return userPhone;
+	public String getUserDetailHeadicon() {
+		return userDetailHeadicon;
 	}
 
-	public void setUserPhone(String userPhone) {
-		this.userPhone = userPhone;
+	public void setUserDetailHeadicon(String userDetailHeadicon) {
+		this.userDetailHeadicon = userDetailHeadicon;
 	}
 
 	
@@ -183,8 +194,9 @@ public class WeixinUserTaskApplyDTO extends BaseDTO {
 				", weixinTaskApplyUpdateTime = " + weixinTaskApplyUpdateTime + 
 				", weixinTaskApplyVersion = " + weixinTaskApplyVersion + 
 				", weixinTaskApplyIsActive = " + weixinTaskApplyIsActive + 
-				", userDetailNickname = " + userDetailNickname + 
 				", userPhone = " + userPhone + 
+				", userDetailNickname = " + userDetailNickname + 
+				", userDetailHeadicon = " + userDetailHeadicon + 
 				" }";
     }
 

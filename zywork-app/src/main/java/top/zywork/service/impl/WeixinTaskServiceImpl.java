@@ -33,7 +33,7 @@ import java.util.Date;
  * @version 1.0
  */
 @Service(value = "weixinTaskService")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class WeixinTaskServiceImpl extends AbstractBaseService implements WeixinTaskService {
 
     private WeixinTaskDAO weixinTaskDAO;
@@ -54,7 +54,8 @@ public class WeixinTaskServiceImpl extends AbstractBaseService implements Weixin
     }
 
     @Override
-    public ResponseStatusVO createTask(WeixinTaskVO weixinTaskVO, RateConfig rateConfig) {
+    public ResponseStatusVO
+    createTask(WeixinTaskVO weixinTaskVO, RateConfig rateConfig) {
         int version = userWalletDAO.getVersionById(weixinTaskVO.getUserId());
         Object obj = userWalletDAO.getById(weixinTaskVO.getUserId());
         if(obj != null) {
@@ -64,11 +65,11 @@ public class WeixinTaskServiceImpl extends AbstractBaseService implements Weixin
                 Long integral = 0L;// 总消耗积分：手续费 + 奖励积分 * 加友总数
                 Long fee = 0L;// 手续费： 第一种：按比例算==> 比例 * (奖励积分 * 加友总数) ， 第二种：按数量算： 数量
                 if(model == 1) {
-                    integral = ((rateConfig.getProfitPercents().get("percentage").longValue()/100) * (weixinTaskVO.getIntegral()* weixinTaskVO.getTotalNumber())) + (weixinTaskVO.getIntegral()* weixinTaskVO.getTotalNumber());
-                    fee = rateConfig.getProfitPercents().get("percentage").longValue()/100 * (weixinTaskVO.getIntegral()* weixinTaskVO.getTotalNumber());
+                    fee = rateConfig.getProfitPercents().get("percentage").longValue() * (weixinTaskVO.getIntegral()* weixinTaskVO.getTotalNumber())/100;
+                    integral = fee + (weixinTaskVO.getIntegral()* weixinTaskVO.getTotalNumber());
                 } else {
-                    integral = rateConfig.getProfitPercents().get("number").longValue() + (weixinTaskVO.getIntegral() * weixinTaskVO.getTotalNumber());
-                    fee = rateConfig.getProfitPercents().get("number").longValue();
+                    fee = rateConfig.getProfitPercents().get("number").longValue()*100;
+                    integral = fee + (weixinTaskVO.getIntegral() * weixinTaskVO.getTotalNumber());
                 }
 
                 if (userWalletVO.getUsableRmbBalance() >= integral) {
@@ -96,6 +97,11 @@ public class WeixinTaskServiceImpl extends AbstractBaseService implements Weixin
             }
         }
         return ResponseStatusVO.dataError("用户钱包信息不存在","");
+    }
+
+    @Override
+    public int updateById(Long id) {
+        return weixinTaskDAO.updateById(id);
     }
 
     @Autowired

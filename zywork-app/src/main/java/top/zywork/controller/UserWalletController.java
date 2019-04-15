@@ -43,6 +43,9 @@ public class UserWalletController extends BaseController {
         if (bindingResult.hasErrors()) {
             return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
         }
+        userWalletVO.setRmbBalance(userWalletVO.getRmbBalance()*100);
+        userWalletVO.setUsableRmbBalance(userWalletVO.getUsableRmbBalance()*100);
+        userWalletVO.setFrozenRmbBalance(userWalletVO.getFrozenRmbBalance()*100);
         userWalletService.save(BeanUtils.copy(userWalletVO, UserWalletDTO.class));
         return ResponseStatusVO.ok("添加成功", null);
     }
@@ -73,6 +76,9 @@ public class UserWalletController extends BaseController {
         if (bindingResult.hasErrors()) {
             return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
         }
+        userWalletVO.setRmbBalance(userWalletVO.getRmbBalance()*100);
+        userWalletVO.setUsableRmbBalance(userWalletVO.getUsableRmbBalance()*100);
+        userWalletVO.setFrozenRmbBalance(userWalletVO.getFrozenRmbBalance()*100);
         int updateRows = userWalletService.update(BeanUtils.copy(userWalletVO, UserWalletDTO.class));
         if (updateRows == 1) {
             return ResponseStatusVO.ok("更新成功", null);

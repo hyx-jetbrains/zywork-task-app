@@ -3,21 +3,28 @@ package top.zywork.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.zywork.common.BeanUtils;
 import top.zywork.common.BindingResultUtils;
+import top.zywork.common.DateUtils;
 import top.zywork.common.StringUtils;
 import top.zywork.dto.PagerDTO;
 import top.zywork.dto.WeixinTaskAppealDTO;
 import top.zywork.query.WeixinTaskAppealQuery;
+import top.zywork.security.JwtUser;
+import top.zywork.security.SecurityUtils;
 import top.zywork.service.WeixinTaskAppealService;
+import top.zywork.service.WeixinTaskApplyService;
 import top.zywork.vo.ResponseStatusVO;
 import top.zywork.vo.PagerVO;
 import top.zywork.vo.WeixinTaskAppealVO;
+import top.zywork.vo.WeixinTaskApplyVO;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +43,43 @@ public class WeixinTaskAppealController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(WeixinTaskAppealController.class);
 
     private WeixinTaskAppealService weixinTaskAppealService;
+
+    private WeixinTaskApplyService weixinTaskApplyService;
+
+    @Value("${appeal.hours}")
+    private Long hours;
+
+    @PostMapping("user/task-appeal")
+    public ResponseStatusVO appeal(@RequestBody @Validated WeixinTaskAppealVO weixinTaskAppealVO, BindingResult bindingResult) {
+        JwtUser jwtUser = SecurityUtils.getJwtUser();
+        if (jwtUser == null) {
+            return ResponseStatusVO.authenticationError();
+        }
+
+        WeixinTaskApplyVO weixinTaskApplyVO = new WeixinTaskApplyVO();
+        weixinTaskApplyVO.setUserId(jwtUser.getUserId());
+        weixinTaskApplyVO.setTaskId(weixinTaskAppealVO.getTaskId());
+        Object obj = weixinTaskApplyService.getWeixinTaskApplyDetail(weixinTaskApplyVO);
+        if(obj == null) {
+            return ResponseStatusVO.dataError("不存在的任务或用户未报名该任务",null);
+        }
+
+        Object appealObj = weixinTaskAppealService.getByTaskId(weixinTaskAppealVO.getTaskId(), jwtUser.getUserId());
+        if(appealObj != null) {
+            WeixinTaskAppealVO weixinTaskAppealVO1 = BeanUtils.copy(appealObj, WeixinTaskAppealVO.class);
+            if(DateUtils.currentTimeMillis() - DateUtils.millis(weixinTaskAppealVO1.getCreateTime()) < (24* 60 * 60* 1000)) {
+                return ResponseStatusVO.dataError("申诉24小时后才能再进行申诉",null);
+            }
+        }
+
+        WeixinTaskApplyVO weixinTaskApplyVO1 = BeanUtils.copy(obj, WeixinTaskApplyVO.class);
+        //date 单位/小时
+        if(DateUtils.currentTimeMillis() - DateUtils.millis(weixinTaskApplyVO1.getCreateTime()) < (hours * 60 * 60* 1000)) {
+            return ResponseStatusVO.dataError("报名三天后才能进行申诉",null);
+        }
+        weixinTaskAppealVO.setUserId(jwtUser.getUserId());
+        return save(weixinTaskAppealVO, bindingResult);
+    }
 
     @PostMapping("admin/save")
     public ResponseStatusVO save(@RequestBody @Validated WeixinTaskAppealVO weixinTaskAppealVO, BindingResult bindingResult) {
@@ -144,5 +188,10 @@ public class WeixinTaskAppealController extends BaseController {
     @Autowired
     public void setWeixinTaskAppealService(WeixinTaskAppealService weixinTaskAppealService) {
         this.weixinTaskAppealService = weixinTaskAppealService;
+    }
+
+    @Autowired
+    public void setWeixinTaskApplyService(WeixinTaskApplyService weixinTaskApplyService) {
+        this.weixinTaskApplyService = weixinTaskApplyService;
     }
 }

@@ -68,11 +68,12 @@
 			t_user.phone AS userPhone
 		from
 			t_weixin_task,
-			t_weixin_task_apply,
 			t_user_detail,
 			t_user
 		where
-			t_weixin_task.id = #{weixinTaskId}
+			t_weixin_task.user_id = t_user.id
+			and t_user.id = t_user_detail.id
+			and t_weixin_task.id = #{weixinTaskId}
 	</select>
 
 </mapper>

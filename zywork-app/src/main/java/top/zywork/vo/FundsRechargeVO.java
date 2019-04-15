@@ -24,7 +24,7 @@ public class FundsRechargeVO extends BaseVO {
     // 充值编号
 	private Long id;
 	// 交易编号
-	@NotBlank(message = "此项是必须项")
+	//@NotBlank(message = "此项是必须项")
 	@Size(min = 1, max = 32, message = "必须是1-32个字符")
 	private String transactionNo;
 	// 用户编号

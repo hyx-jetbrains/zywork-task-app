@@ -1,5 +1,6 @@
 package top.zywork.service;
 
+import org.apache.ibatis.annotations.Param;
 import top.zywork.dos.RateConfig;
 import top.zywork.vo.ResponseStatusVO;
 import top.zywork.vo.WeixinTaskVO;
@@ -15,4 +16,6 @@ import top.zywork.vo.WeixinTaskVO;
 public interface WeixinTaskService extends BaseService {
 
     ResponseStatusVO createTask(WeixinTaskVO weixinTaskVO, RateConfig rateConfig);
+
+    int updateById(@Param("id") Long id);
 }
