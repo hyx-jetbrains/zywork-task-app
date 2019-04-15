@@ -21,3 +21,11 @@ export const getModuleById = (id) => {
       data: ''
     })
 }
+
+export const getWeixinTaskById = (id) => {
+	return axios.request({
+		url: '/weixin-task/admin/one/' + id,
+		method: 'GET',
+		data: ''
+	})
+}

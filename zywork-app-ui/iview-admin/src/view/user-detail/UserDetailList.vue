@@ -21,68 +21,94 @@
 		</Row>
 		<Modal v-model="modal.search" title="高级搜索">
 			<Form ref="searchForm" :model="searchForm" :label-width="80">
-				<FormItem label="钱包编号">
+				<FormItem label="用户编号">
 					<Row>
 						<i-col span="11">
 							<FormItem prop="idMin">
-								<InputNumber v-model="searchForm.idMin" placeholder="请输入开始钱包编号" style="width: 100%;" />
+								<InputNumber v-model="searchForm.idMin" placeholder="请输入开始用户编号" style="width: 100%;" />
 							</FormItem>
 						</i-col>
 						<i-col span="2" style="text-align: center">-</i-col>
 						<i-col span="11">
 							<FormItem prop="idMax">
-								<InputNumber v-model="searchForm.idMax" placeholder="请输入结束钱包编号" style="width: 100%;" />
+								<InputNumber v-model="searchForm.idMax" placeholder="请输入结束用户编号" style="width: 100%;" />
 							</FormItem>
 						</i-col>
 					</Row>
 				</FormItem>
-				<FormItem label="支付密码" prop="payPassword">
-					<Input v-model="searchForm.payPassword" placeholder="请输入支付密码" />
+				<FormItem label="昵称" prop="nickname">
+					<Input v-model="searchForm.nickname" placeholder="请输入昵称" />
 				</FormItem>
-				<FormItem label="人民币余额">
+				<FormItem label="头像地址" prop="headicon">
+					<Input v-model="searchForm.headicon" placeholder="请输入头像地址" />
+				</FormItem>
+				<FormItem label="性别">
 					<Row>
 						<i-col span="11">
-							<FormItem prop="rmbBalanceMin">
-								<InputNumber v-model="searchForm.rmbBalanceMin" placeholder="请输入开始人民币余额" style="width: 100%;" />
+							<FormItem prop="genderMin">
+								<InputNumber v-model="searchForm.genderMin" placeholder="请输入开始性别" style="width: 100%;" />
 							</FormItem>
 						</i-col>
 						<i-col span="2" style="text-align: center">-</i-col>
 						<i-col span="11">
-							<FormItem prop="rmbBalanceMax">
-								<InputNumber v-model="searchForm.rmbBalanceMax" placeholder="请输入结束人民币余额" style="width: 100%;" />
+							<FormItem prop="genderMax">
+								<InputNumber v-model="searchForm.genderMax" placeholder="请输入结束性别" style="width: 100%;" />
 							</FormItem>
 						</i-col>
 					</Row>
 				</FormItem>
-				<FormItem label="可用余额">
+				<FormItem label="生日">
 					<Row>
 						<i-col span="11">
-							<FormItem prop="usableRmbBalanceMin">
-								<InputNumber v-model="searchForm.usableRmbBalanceMin" placeholder="请输入开始可用余额" style="width: 100%;" />
+							<FormItem prop="birthdayMin">
+								<DatePicker @on-change="searchForm.birthdayMin=$event" :value="searchForm.birthdayMin" placeholder="请输入开始生日"
+								 type="datetime" format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></DatePicker>
 							</FormItem>
 						</i-col>
 						<i-col span="2" style="text-align: center">-</i-col>
 						<i-col span="11">
-							<FormItem prop="usableRmbBalanceMax">
-								<InputNumber v-model="searchForm.usableRmbBalanceMax" placeholder="请输入结束可用余额" style="width: 100%;" />
+							<FormItem prop="birthdayMax">
+								<DatePicker @on-change="searchForm.birthdayMax=$event" :value="searchForm.birthdayMax" placeholder="请输入结束生日"
+								 type="datetime" format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"></DatePicker>
 							</FormItem>
 						</i-col>
 					</Row>
 				</FormItem>
-				<FormItem label="冻结余额">
+				<FormItem label="年龄">
 					<Row>
 						<i-col span="11">
-							<FormItem prop="frozenRmbBalanceMin">
-								<InputNumber v-model="searchForm.frozenRmbBalanceMin" placeholder="请输入开始冻结余额" style="width: 100%;" />
+							<FormItem prop="ageMin">
+								<InputNumber v-model="searchForm.ageMin" placeholder="请输入开始年龄" style="width: 100%;" />
 							</FormItem>
 						</i-col>
 						<i-col span="2" style="text-align: center">-</i-col>
 						<i-col span="11">
-							<FormItem prop="frozenRmbBalanceMax">
-								<InputNumber v-model="searchForm.frozenRmbBalanceMax" placeholder="请输入结束冻结余额" style="width: 100%;" />
+							<FormItem prop="ageMax">
+								<InputNumber v-model="searchForm.ageMax" placeholder="请输入结束年龄" style="width: 100%;" />
 							</FormItem>
 						</i-col>
 					</Row>
+				</FormItem>
+				<FormItem label="QQ号" prop="qq">
+					<Input v-model="searchForm.qq" placeholder="请输入QQ号" />
+				</FormItem>
+				<FormItem label="QQ二维码" prop="qqQrcode">
+					<Input v-model="searchForm.qqQrcode" placeholder="请输入QQ二维码" />
+				</FormItem>
+				<FormItem label="微信号" prop="wechat">
+					<Input v-model="searchForm.wechat" placeholder="请输入微信号" />
+				</FormItem>
+				<FormItem label="微信二维码" prop="wechatQrcode">
+					<Input v-model="searchForm.wechatQrcode" placeholder="请输入微信二维码" />
+				</FormItem>
+				<FormItem label="支付宝账号" prop="alipay">
+					<Input v-model="searchForm.alipay" placeholder="请输入支付宝账号" />
+				</FormItem>
+				<FormItem label="支付宝二维码" prop="alipayQrcode">
+					<Input v-model="searchForm.alipayQrcode" placeholder="请输入支付宝二维码" />
+				</FormItem>
+				<FormItem label="分享码" prop="shareCode">
+					<Input v-model="searchForm.shareCode" placeholder="请输入分享码" />
 				</FormItem>
 				<FormItem label="版本号">
 					<Row>
@@ -157,11 +183,19 @@
 			</div>
 		</Modal>
 		<Modal v-model="modal.detail" title="详情">
-			<p>钱包编号: <span v-text="form.id"></span></p>
-			<p>支付密码: <span v-text="form.payPassword"></span></p>
-			<p>人民币余额: <span v-text="form.rmbBalance"></span></p>
-			<p>可用余额: <span v-text="form.usableRmbBalance"></span></p>
-			<p>冻结余额: <span v-text="form.frozenRmbBalance"></span></p>
+			<p>用户编号: <span v-text="form.id"></span></p>
+			<p>昵称: <span v-text="form.nickname"></span></p>
+			<p>头像地址: <span v-text="form.headicon"></span></p>
+			<p>性别: <span v-text="form.gender"></span></p>
+			<p>生日: <span v-text="form.birthday"></span></p>
+			<p>年龄: <span v-text="form.age"></span></p>
+			<p>QQ号: <span v-text="form.qq"></span></p>
+			<p>QQ二维码: <span v-text="form.qqQrcode"></span></p>
+			<p>微信号: <span v-text="form.wechat"></span></p>
+			<p>微信二维码: <span v-text="form.wechatQrcode"></span></p>
+			<p>支付宝账号: <span v-text="form.alipay"></span></p>
+			<p>支付宝二维码: <span v-text="form.alipayQrcode"></span></p>
+			<p>分享码: <span v-text="form.shareCode"></span></p>
 			<p>版本号: <span v-text="form.version"></span></p>
 			<p>创建时间: <span v-text="form.createTime"></span></p>
 			<p>更新时间: <span v-text="form.updateTime"></span></p>
@@ -175,7 +209,7 @@
 	import * as utils from '@/api/utils'
 
 	export default {
-		name: 'UserWalletList',
+		name: 'UserDetailList',
 		data() {
 			return {
 				modal: {
@@ -184,21 +218,34 @@
 					search: false,
 					detail: false
 				},
+				loading: {
+					add: false,
+					edit: false,
+					search: false
+				},
 				urls: {
-					searchUrl: '/user-wallet/admin/pager-cond',
-					allUrl: '/user-wallet/admin/all',
-					detailUrl: '/user-wallet/admin/one/',
-					multiUrl: '/user-wallet/admin/multi/'
+					searchUrl: '/user-detail/admin/pager-cond',
+					allUrl: '/user-detail/admin/all',
+					detailUrl: '/user-detail/admin/one/',
+					multiUrl: '/user-detail/admin/multi/'
 				},
 				page: {
 					total: 0
 				},
 				form: {
 					id: null,
-					payPassword: null,
-					rmbBalance: null,
-					usableRmbBalance: null,
-					frozenRmbBalance: null,
+					nickname: null,
+					headicon: null,
+					gender: null,
+					birthday: null,
+					age: null,
+					qq: null,
+					qqQrcode: null,
+					wechat: null,
+					wechatQrcode: null,
+					alipay: null,
+					alipayQrcode: null,
+					shareCode: null,
 					version: null,
 					createTime: null,
 					updateTime: null,
@@ -213,16 +260,24 @@
 					id: null,
 					idMin: null,
 					idMax: null,
-					payPassword: null,
-					rmbBalance: null,
-					rmbBalanceMin: null,
-					rmbBalanceMax: null,
-					usableRmbBalance: null,
-					usableRmbBalanceMin: null,
-					usableRmbBalanceMax: null,
-					frozenRmbBalance: null,
-					frozenRmbBalanceMin: null,
-					frozenRmbBalanceMax: null,
+					nickname: null,
+					headicon: null,
+					gender: null,
+					genderMin: null,
+					genderMax: null,
+					birthday: null,
+					birthdayMin: null,
+					birthdayMax: null,
+					age: null,
+					ageMin: null,
+					ageMax: null,
+					qq: null,
+					qqQrcode: null,
+					wechat: null,
+					wechatQrcode: null,
+					alipay: null,
+					alipayQrcode: null,
+					shareCode: null,
 					version: null,
 					versionMin: null,
 					versionMax: null,
@@ -255,43 +310,82 @@
 							}
 						},
 						{
-							title: '钱包编号',
+							title: '用户编号',
 							key: 'id',
 							minWidth: 120,
 							sortable: true
 						},
 						{
-							title: '支付密码',
-							key: 'payPassword',
+							title: '昵称',
+							key: 'nickname',
 							minWidth: 120,
 							sortable: true
 						},
 						{
-							title: '人民币余额',
-							key: 'rmbBalance',
+							title: '头像地址',
+							key: 'headicon',
 							minWidth: 120,
-							sortable: true,
-							render: (h, params) => {
-								return h('span', params.row.rmbBalance / 100)
-							}
+							sortable: true
 						},
 						{
-							title: '可用余额',
-							key: 'usableRmbBalance',
+							title: '性别',
+							key: 'gender',
 							minWidth: 120,
-							sortable: true,
-							render: (h, params) => {
-								return h('span', params.row.usableRmbBalance / 100)
-							}
+							sortable: true
 						},
 						{
-							title: '冻结余额',
-							key: 'frozenRmbBalance',
+							title: '生日',
+							key: 'birthday',
 							minWidth: 120,
-							sortable: true,
-							render: (h, params) => {
-								return h('span', params.row.frozenRmbBalance / 100)
-							}
+							sortable: true
+						},
+						{
+							title: '年龄',
+							key: 'age',
+							minWidth: 120,
+							sortable: true
+						},
+						{
+							title: 'QQ号',
+							key: 'qq',
+							minWidth: 120,
+							sortable: true
+						},
+						{
+							title: 'QQ二维码',
+							key: 'qqQrcode',
+							minWidth: 120,
+							sortable: true
+						},
+						{
+							title: '微信号',
+							key: 'wechat',
+							minWidth: 120,
+							sortable: true
+						},
+						{
+							title: '微信二维码',
+							key: 'wechatQrcode',
+							minWidth: 120,
+							sortable: true
+						},
+						{
+							title: '支付宝账号',
+							key: 'alipay',
+							minWidth: 120,
+							sortable: true
+						},
+						{
+							title: '支付宝二维码',
+							key: 'alipayQrcode',
+							minWidth: 120,
+							sortable: true
+						},
+						{
+							title: '分享码',
+							key: 'shareCode',
+							minWidth: 120,
+							sortable: true
 						},
 						{
 							title: '版本号',
@@ -398,6 +492,11 @@
 			},
 			confirmSelection() {
 				// 确认选择的逻辑
+				if (this.table.selections.length !== 1) {
+				  this.$Message.error('请选择一个用户')
+				  return
+				}
+				this.$emit('selectProduct', this.table.selections[0])
 			}
 		}
 	}

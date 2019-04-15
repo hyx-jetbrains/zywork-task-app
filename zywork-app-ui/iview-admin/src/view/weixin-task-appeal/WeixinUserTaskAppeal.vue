@@ -198,27 +198,20 @@
 
 		</Modal>
 		
-		<Modal
-		 :transfer="false"
-		 v-model="modal.moduleSearch" title="微信任务" width="900">
-		<WeixinTaskList ref="WeixinTaskList" />
-			<div slot="footer">
-				<Button type="text" size="large" @click="cancelModal('moduleSearch')">取消</Button>
-				<Button type="primary" size="large" @click="confirm">确认</Button>
-			</div>
-		</Modal>
+		<WeixinTaskDetail :form="weinxinTaskDetailForm" :detail="modal.weixinTaskDetail" v-on:setDetail="setDetailModal"/>
 	</div>
 </template>
 
 <script>
 	import * as utils from '@/api/utils'
 	import axios from '@/libs/api.request'
-	import WeixinTaskList from '@/view/weixin-task/WeixinTaskList.vue'
+	import {getWeixinTaskById} from '@/api/module'
+	import WeixinTaskDetail from '@/view/weixin-task/WeixinTaskDetail.vue'
 
 	export default {
 		name: 'WeixinUserTaskAppeal',
 		components: {
-			WeixinTaskList
+			WeixinTaskDetail
 		},
 		data() {
 			return {
@@ -227,7 +220,7 @@
 					edit: false,
 					search: false,
 					detail: false,
-					moduleSearch: false
+					weixinTaskDetail: false
 				},
 				loading: {
 					search: false
@@ -256,6 +249,17 @@
 					userPhone: null,
 					userDetailNickname: null,
 
+				},
+				weinxinTaskDetailForm: {
+					id: null,
+					userId: null,
+					title: null,
+					totalNumber: null,
+					confirmNumber: null,
+					integral: null,
+					description: null,
+					taskStatus: null,
+					createTime: null,
 				},
 				searchForm: {
 					pageNo: 1,
@@ -554,11 +558,26 @@
 			},
 			userOpt(itemName, row) {
 			  if (itemName === 'showSearch') {
-			    utils.showModal(this, 'moduleSearch')
+			    this.showModuleDetailModal(row.weixinTaskApplyTaskId)
 			  }
 			},
-			confirm() {
-			  this.modal.moduleSearch = false
+			setDetailModal(val) {
+			  this.modal.weixinTaskDetail = val
+			},
+			showModuleDetailModal(id) {
+			  getWeixinTaskById(id)
+			    .then(res => {
+			      const data = res.data
+			      if (data.code === 1001) {
+			        this.weinxinTaskDetailForm = data.data
+			        this.modal.weixinTaskDetail = true
+			      } else {
+			        this.$Message.error(data.message)
+			      }
+			    })
+			    .catch(err => {
+			      this.$Message.error(err)
+			    })
 			},
 			examine(modal, row) {
 				var status = null;

@@ -41,19 +41,12 @@
 				<FormItem label="加友总数" prop="totalNumber">
 					<InputNumber v-model="form.totalNumber" placeholder="请输入加友总数" style="width: 100%;" />
 				</FormItem>
-				<FormItem label="已确认数" prop="confirmNumber">
-					<InputNumber v-model="form.confirmNumber" placeholder="请输入已确认数" style="width: 100%;" />
-				</FormItem>
 				<FormItem label="奖励积分" prop="integral">
 					<InputNumber v-model="form.integral" placeholder="请输入奖励积分" style="width: 100%;" />
 				</FormItem>
 				<FormItem label="任务描述" prop="description">
 					<Input v-model="form.description" placeholder="请输入任务描述" />
 				</FormItem>
-				<FormItem label="任务状态" prop="taskStatus">
-					<InputNumber v-model="form.taskStatus" placeholder="请输入任务状态" style="width: 100%;" />
-				</FormItem>
-
 			</Form>
 			<div slot="footer">
 				<Button type="text" size="large" @click="resetFormCancelModal('addForm', 'add')">取消</Button>
@@ -63,7 +56,7 @@
 		<Modal v-model="modal.edit" title="修改" @on-visible-change="changeModalVisibleResetForm('editForm', $event)">
 			<Form ref="editForm" :model="form" :label-width="80" :rules="validateRules">
 				<FormItem label="发布用户编号" prop="userId">
-					<InputNumber v-model="form.userId" placeholder="请输入发布用户编号" style="width: 100%;" />
+					<InputNumber v-model="form.userId" placeholder="请输入发布用户编号" style="width: 100%;"/>
 				</FormItem>
 				<FormItem label="任务标题" prop="title">
 					<Input v-model="form.title" placeholder="请输入任务标题" />
@@ -75,15 +68,11 @@
 					<InputNumber v-model="form.confirmNumber" placeholder="请输入已确认数" style="width: 100%;" />
 				</FormItem>
 				<FormItem label="奖励积分" prop="integral">
-					<InputNumber v-model="form.integral" placeholder="请输入奖励积分" style="width: 100%;" />
+					<InputNumber v-model="form.integral/100" placeholder="请输入奖励积分" style="width: 100%;" />
 				</FormItem>
 				<FormItem label="任务描述" prop="description">
 					<Input v-model="form.description" placeholder="请输入任务描述" />
 				</FormItem>
-				<FormItem label="任务状态" prop="taskStatus">
-					<InputNumber v-model="form.taskStatus" placeholder="请输入任务状态" style="width: 100%;" />
-				</FormItem>
-
 			</Form>
 			<div slot="footer">
 				<Button type="text" size="large" @click="resetFormCancelModal('editForm', 'edit')">取消</Button>
@@ -94,32 +83,16 @@
 			<Form ref="searchForm" :model="searchForm" :label-width="80">
 				<FormItem label="任务编号">
 					<Row>
-						<i-col span="11">
-							<FormItem prop="idMin">
-								<InputNumber v-model="searchForm.idMin" placeholder="请输入开始任务编号" style="width: 100%;" />
-							</FormItem>
-						</i-col>
-						<i-col span="2" style="text-align: center">-</i-col>
-						<i-col span="11">
-							<FormItem prop="idMax">
-								<InputNumber v-model="searchForm.idMax" placeholder="请输入结束任务编号" style="width: 100%;" />
-							</FormItem>
-						</i-col>
+						<FormItem prop="id">
+							<InputNumber v-model="searchForm.id" placeholder="请输入任务编号" style="width: 100%;" />
+						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="发布用户编号">
 					<Row>
-						<i-col span="11">
-							<FormItem prop="userIdMin">
-								<InputNumber v-model="searchForm.userIdMin" placeholder="请输入开始发布用户编号" style="width: 100%;" />
-							</FormItem>
-						</i-col>
-						<i-col span="2" style="text-align: center">-</i-col>
-						<i-col span="11">
-							<FormItem prop="userIdMax">
-								<InputNumber v-model="searchForm.userIdMax" placeholder="请输入结束发布用户编号" style="width: 100%;" />
-							</FormItem>
-						</i-col>
+						<FormItem prop="userIdMin">
+							<InputNumber v-model="searchForm.userId" placeholder="请输入发布用户编号" style="width: 100%;" />
+						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="任务标题" prop="title">
@@ -127,47 +100,23 @@
 				</FormItem>
 				<FormItem label="加友总数">
 					<Row>
-						<i-col span="11">
-							<FormItem prop="totalNumberMin">
-								<InputNumber v-model="searchForm.totalNumberMin" placeholder="请输入开始加友总数" style="width: 100%;" />
-							</FormItem>
-						</i-col>
-						<i-col span="2" style="text-align: center">-</i-col>
-						<i-col span="11">
-							<FormItem prop="totalNumberMax">
-								<InputNumber v-model="searchForm.totalNumberMax" placeholder="请输入结束加友总数" style="width: 100%;" />
-							</FormItem>
-						</i-col>
+						<FormItem prop="totalNumberMin">
+							<InputNumber v-model="searchForm.totalNumber" placeholder="请输入加友总数" style="width: 100%;" />
+						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="已确认数">
 					<Row>
-						<i-col span="11">
-							<FormItem prop="confirmNumberMin">
-								<InputNumber v-model="searchForm.confirmNumberMin" placeholder="请输入开始已确认数" style="width: 100%;" />
-							</FormItem>
-						</i-col>
-						<i-col span="2" style="text-align: center">-</i-col>
-						<i-col span="11">
-							<FormItem prop="confirmNumberMax">
-								<InputNumber v-model="searchForm.confirmNumberMax" placeholder="请输入结束已确认数" style="width: 100%;" />
-							</FormItem>
-						</i-col>
+						<FormItem prop="confirmNumberMin">
+							<InputNumber v-model="searchForm.confirmNumber" placeholder="请输入已确认数" style="width: 100%;" />
+						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="奖励积分">
 					<Row>
-						<i-col span="11">
-							<FormItem prop="integralMin">
-								<InputNumber v-model="searchForm.integralMin" placeholder="请输入开始奖励积分" style="width: 100%;" />
-							</FormItem>
-						</i-col>
-						<i-col span="2" style="text-align: center">-</i-col>
-						<i-col span="11">
-							<FormItem prop="integralMax">
-								<InputNumber v-model="searchForm.integralMax" placeholder="请输入结束奖励积分" style="width: 100%;" />
-							</FormItem>
-						</i-col>
+						<FormItem prop="integralMin">
+							<InputNumber v-model="searchForm.integral" placeholder="请输入奖励积分" style="width: 100%;" />
+						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="任务描述" prop="description">
@@ -175,17 +124,12 @@
 				</FormItem>
 				<FormItem label="任务状态">
 					<Row>
-						<i-col span="11">
-							<FormItem prop="taskStatusMin">
-								<InputNumber v-model="searchForm.taskStatusMin" placeholder="请输入开始任务状态" style="width: 100%;" />
-							</FormItem>
-						</i-col>
-						<i-col span="2" style="text-align: center">-</i-col>
-						<i-col span="11">
-							<FormItem prop="taskStatusMax">
-								<InputNumber v-model="searchForm.taskStatusMax" placeholder="请输入结束任务状态" style="width: 100%;" />
-							</FormItem>
-						</i-col>
+						<FormItem prop="taskStatusMin">
+							<Select v-model="searchForm.taskStatus" clearable >
+								<Option value="0">进行中</option>
+								<Option value="1">已完成</option>
+							</Select>
+						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="创建时间">
@@ -266,12 +210,12 @@
 			<p>任务标题: <span v-text="form.title"></span></p>
 			<p>加友总数: <span v-text="form.totalNumber"></span></p>
 			<p>已确认数: <span v-text="form.confirmNumber"></span></p>
-			<p>奖励积分: <span v-text="form.integral"></span></p>
+			<p>奖励积分: <span v-text="(form.integral/100)"></span></p>
 			<p>任务描述: <span v-text="form.description"></span></p>
 			<p>任务状态: 
 				<span v-if="form.taskStatus==0">进行中</span>
 				<span v-if="form.taskStatus==1">已完成</span>
-				<span v-if="form.taskStatus==2">已失效</span>
+				<span v-if="form.taskStatus==2">已关闭</span>
 			</p>
 			<p>创建时间: <span v-text="form.createTime"></span></p>
 			<p>更新时间: <span v-text="form.updateTime"></span></p>
@@ -463,7 +407,10 @@
 							title: '奖励积分',
 							key: 'integral',
 							minWidth: 120,
-							sortable: true
+							sortable: true,
+							render: (h, params) => {
+								return h('span', params.row.integral/100)
+							}
 						},
 						{
 							title: '任务描述',
