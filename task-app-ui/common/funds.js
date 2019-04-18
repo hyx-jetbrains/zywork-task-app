@@ -1,4 +1,5 @@
 import {BASE_URL, getUserToken, clearForm, networkError, showInfoToast, showSuccessToast} from './util.js'
+import * as ResponseStatus from './response-status.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -10,7 +11,7 @@ export const userWallet = (self) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.userWallet.integral = res.data.data.rmbBalance
 				self.userWallet.usableIntegral = res.data.data.usableRmbBalance
 				self.userWallet.frezeeIntegral = res.data.data.frozenRmbBalance
@@ -39,10 +40,10 @@ export const submitWithdraw = (self) => {
 				'Authorization': 'Bearer ' + getUserToken()
 			},
 			success: (res) => {
-				if (res.data.code === 1001) {
+				if (res.data.code === ResponseStatus.OK) {
 					showSuccessToast('已提交提现申请，等待审核')
 					clearForm(self.withdrawForm)
-				} else if (res.data.code === 1006) {
+				} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 					invalidToken()
 				} else {
 					showInfoToast(res.data.message)
@@ -70,9 +71,9 @@ export const cancelWithdraw = (self, itemIndex, transactionNo) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.withdrawList[itemIndex].withdrawStatus = 3
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -96,7 +97,7 @@ export const loadAccountDetail = (self, type) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if (type === 'init') {
 					self.accountDetails = res.data.data.rows
 				} else if (type === 'pullDown') {
@@ -112,7 +113,7 @@ export const loadAccountDetail = (self, type) => {
 						self.loadMoreText = '已加载全部'
 					}
 				}
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -136,7 +137,7 @@ export const loadWithdraw = (self, type) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if (type === 'init') {
 					self.withdrawList = res.data.data.rows
 				} else if (type === 'pullDown') {
@@ -152,7 +153,7 @@ export const loadWithdraw = (self, type) => {
 						self.loadMoreText = '已加载全部'
 					}
 				}
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)

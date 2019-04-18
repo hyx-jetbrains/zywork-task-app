@@ -1,4 +1,5 @@
 import {BASE_URL, getUserToken, removeUserToken, clearForm, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
+import * as ResponseStatus from './response-status.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -27,13 +28,13 @@ export const updateLogin = (self) => {
 				'Authorization': 'Bearer ' + getUserToken()
 			},
 			success: (res) => {
-				if (res.data.code === 1001) {
+				if (res.data.code === ResponseStatus.OK) {
 					removeUserToken()
 					uni.redirectTo({
 						url: '/pages/login/login'
 					})
 					showSuccessToast('修改登录密码成功，请重新登录')
-				} else if (res.data.code === 1006) {
+				} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 					invalidToken()
 				} else {
 					showInfoToast(res.data.message)
@@ -72,12 +73,12 @@ export const updatePay = (self) => {
 				'Authorization': 'Bearer ' + getUserToken()
 			},
 			success: (res) => {
-				if (res.data.code === 1001) {
+				if (res.data.code === ResponseStatus.OK) {
 					uni.navigateBack({
 						
 					})
 					showSuccessToast('修改支付密码成功')
-				} else if (res.data.code === 1006) {
+				} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 					invalidToken()
 				} else {
 					showInfoToast(res.data.message)

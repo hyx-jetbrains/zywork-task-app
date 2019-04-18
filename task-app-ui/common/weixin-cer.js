@@ -1,4 +1,5 @@
 import {BASE_URL, getUserToken, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
+import * as ResponseStatus from './response-status.js'
 
 export const weixinCer = (self) => {
 	uni.request({
@@ -8,9 +9,9 @@ export const weixinCer = (self) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.weixinCer = res.data.data
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -38,9 +39,9 @@ export const uploadWeixinCer = (self) => {
 				},
 				success: (uploadFileRes) => {
 					const json = JSON.parse(uploadFileRes.data)
-					if (json.code === 1001) {
+					if (json.code === ResponseStatus.OK) {
 						showSuccessToast('上传成功')
-					} else if (json.code === 1006) {
+					} else if (json.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 						invalidToken()
 					} else {
 						showInfoToast(res.data.message)

@@ -1,4 +1,5 @@
 import {BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
+import * as ResponseStatus from './response-status.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -18,10 +19,10 @@ export const createTask = (self) => {
 				'Authorization': 'Bearer ' + getUserToken()
 			},
 			success: (res) => {
-				if (res.data.code === 1001) {
+				if (res.data.code === ResponseStatus.OK) {
 					showSuccessToast('发布微信任务成功')
 					clearForm(self.weixinTaskForm)
-				} else if (res.data.code === 1006) {
+				} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 					invalidToken()
 				} else {
 					showInfoToast(res.data.message)
@@ -46,7 +47,7 @@ export const taskList = (self, type) => {
 		},
 		method: 'POST',
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.weixinTaskList = res.data.data.rows
 				if(type === 'pullDown') {
 					uni.stopPullDownRefresh()
@@ -70,7 +71,7 @@ export const taskListAll = (self, type) => {
 		},
 		method: 'POST',
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if(type === 'pullDown') {
 					self.weixinTaskList = res.data.data.rows
 					uni.stopPullDownRefresh()
@@ -108,7 +109,7 @@ export const listPublish = (self, type) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if(type === 'pullDown') {
 					self.weixinTaskList = res.data.data.rows
 					uni.stopPullDownRefresh()
@@ -124,7 +125,7 @@ export const listPublish = (self, type) => {
 				} else if(type === '') {
 					self.weixinTaskList = res.data.data.rows
 				}
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -148,7 +149,7 @@ export const listJoin = (self, type) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if(type === 'pullDown') {
 					self.weixinTaskList = res.data.data.rows
 					uni.stopPullDownRefresh()
@@ -164,7 +165,7 @@ export const listJoin = (self, type) => {
 				} else if(type === '') {
 					self.weixinTaskList = res.data.data.rows
 				}
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -184,9 +185,9 @@ export const taskDetail = (self, taskId) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.taskDetail = res.data.data
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -211,13 +212,13 @@ export const taskApplyUser = (self, taskId, type) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if (type === 'init' || type === 'pullDown') {
 					self.applyUsers = res.data.data.rows
 				} else if (type === 'more') {
 					self.applyUsers = self.applyUsers.concat(res.data.data.rows)
 				}
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -242,9 +243,9 @@ export const taskApplyDetail = (self, taskId) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.taskApplyDetail = res.data.data
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -267,9 +268,9 @@ export const applyTask = (taskId) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				showInfoToast(res.data.message)
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -293,10 +294,10 @@ export const pubConfirmTask = (self, userIndex, taskId, applyUserId) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				showSuccessToast(res.data.message)
 				self.applyUsers[userIndex].weixinTaskApplyPubConfirmStatus = 1
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -319,11 +320,11 @@ export const appConfirmTask = (self, taskId) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				showSuccessToast(res.data.message)
 				self.taskDetail.weixinTaskConfirmNumber += 1
 				self.taskApplyDetail.appConfirmStatus = 1
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -343,9 +344,9 @@ export const closeTask = (self, taskId) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.taskDetail.weixinTaskTaskStatus = 1
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -369,9 +370,9 @@ export const taskAppeal = (self, taskId) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				showSuccessToast('申诉成功，24小时后可再次申诉')
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)

@@ -1,4 +1,5 @@
 import {BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast} from './util.js'
+import * as ResponseStatus from './response-status.js'
 
 const graceChecker = require("./graceChecker.js");
 
@@ -13,9 +14,9 @@ export const banks = (self) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.banks = res.data.data.rows
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
@@ -43,12 +44,12 @@ export const bind = (self) => {
 				'Authorization': 'Bearer ' + getUserToken()
 			},
 			success: (res) => {
-				if (res.data.code === 1001) {
+				if (res.data.code === ResponseStatus.OK) {
 					self.$event.$emit('addBank', {})
 					uni.navigateBack({
 						
 					})
-				} else if (res.data.code === 1006) {
+				} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 					invalidToken()
 				} else {
 					showInfoToast(res.data.message)
@@ -75,9 +76,9 @@ export const unbind = (self, cardIndex, bankcardNo) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.banks.splice(cardIndex, 1)
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)

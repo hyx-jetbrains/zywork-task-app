@@ -1,4 +1,5 @@
 import {BASE_URL, getUserToken, invalidToken, networkError, showInfoToast} from './util.js'
+import * as ResponseStatus from './response-status.js'
 
 export const latestNotice = (self) => {
 	uni.request({
@@ -11,7 +12,7 @@ export const latestNotice = (self) => {
 		},
 		method: 'POST',
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if (res.data.data.total === 1) {
 					self.latestNotice = res.data.data.rows[0].title
 				}
@@ -36,7 +37,7 @@ export const loadNotice = (self, type) => {
 		},
 		method: 'POST',
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if (type === 'init') {
 					self.noticeList = res.data.data.rows
 				} else if (type === 'pullDown') {
@@ -67,7 +68,7 @@ export const getNotice = (self, id) => {
 		url: BASE_URL + '/notice/any/one/' + id,
 		method: 'GET',
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				self.notice = res.data.data
 			} else {
 				showInfoToast(res.data.message)

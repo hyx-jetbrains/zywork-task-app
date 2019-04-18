@@ -1,4 +1,5 @@
 import {BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast} from './util.js'
+import * as ResponseStatus from './response-status.js'
 
 export const weixinFriends = (self, type) => {
 	uni.request({
@@ -12,7 +13,7 @@ export const weixinFriends = (self, type) => {
 			'Authorization': 'Bearer ' + getUserToken()
 		},
 		success: (res) => {
-			if (res.data.code === 1001) {
+			if (res.data.code === ResponseStatus.OK) {
 				if (type === 'init') {
 					self.weixinFriends = res.data.data.rows
 				}  else if (type === 'pullDown') {
@@ -28,7 +29,7 @@ export const weixinFriends = (self, type) => {
 						self.loadMoreText = '已加载全部'
 					}
 				}
-			} else if (res.data.code === 1006) {
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
 				showInfoToast(res.data.message)
