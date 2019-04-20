@@ -144,7 +144,7 @@
 	@charset "UTF-8";
 
 	.uni-noticebar {
-		padding: 12upx 24upx;
+		padding: 12upx 20upx;
 		font-size: 24upx;
 		line-height: 1.5;
 		margin-bottom: 20upx;
@@ -152,12 +152,11 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		justify-content: left
 	}
 
 	.uni-noticebar__close {
 		color: #999;
-		margin-right: 24upx;
+		margin-right: 20upx;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -189,8 +188,8 @@
 		align-items: center;
 		justify-content: flex-end;
 		word-break: keep-all;
-		margin-left: 50upx;
-		color: #999
+		color: #999;
+		margin-left: 30upx;
 	}
 
 	.uni-noticebar__content-more-text {
@@ -199,6 +198,7 @@
 	}
 
 	.uni-noticebar__content-text {
+		width: 100%;
 		word-break: break-all;
 		line-height: 1.5;
 		display: inline
