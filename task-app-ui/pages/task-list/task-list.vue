@@ -69,11 +69,7 @@
 				interval: 5000,
 				duration: 500,
 				swiperItems: [{
-						imgUrl: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png",
-						contentUrl: "http://39.108.116.103:8080/"
-					},
-					{
-						imgUrl: "http://img.cdn.aliyun.dcloud.net.cn/ask/img/ke.qq.com.uniapp@2x.png",
+						imgUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1556110073605&di=f1956f8b83ef946701d94f892db299f8&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2012%2F273%2FEL9230AP5196_NatGeo03.jpg",
 						contentUrl: "http://39.108.116.103:8080/"
 					}
 				],
