@@ -10,6 +10,7 @@
 			<view class="uni-list-item__content">
 				<view class="uni-list-item__content-title">{{title}}</view>
 				<view class="uni-list-item__content-note" v-if="note">{{note}}</view>
+				<image class="uni-list-item__content-image" v-if="imageUrl" :src="imageUrl"/>
 			</view>
 			<view class="uni-list-item__extra" v-if="showBadge === true || showBadge === 'true' || showArrow === true || showArrow === 'true'||showSwitch === true || showSwitch === 'true'">
 				<uni-badge v-if="showBadge === true || showBadge === 'true'" :type="badgeType" :text="badgeText"></uni-badge>
@@ -37,6 +38,7 @@
 		props: {
 			title: String, //列表标题
 			note: String, //列表描述
+			imageUrl: String, // 列表图片
 			disabled: { //是否禁用
 				type: [Boolean, String],
 				default: false
@@ -139,6 +141,7 @@
 		overflow: hidden;
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 		justify-content: space-between;
 		margin-right: 10upx;
 	}
@@ -160,6 +163,12 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden
+	}
+	
+	.uni-list-item__content-image {
+		width: 80upx;
+		height: 80upx;
+		border-radius: 10upx;
 	}
 
 	.uni-list-item__extra {
