@@ -138,7 +138,9 @@
 		flex: 1;
 		overflow: hidden;
 		display: flex;
-		flex-direction: column
+		flex-direction: row;
+		justify-content: space-between;
+		margin-right: 10upx;
 	}
 
 	.uni-list-item__content-title {
@@ -147,7 +149,7 @@
 		white-space: nowrap;
 		color: inherit;
 		line-height: 1.5;
-		overflow: hidden
+		margin-right: 10upx;
 	}
 
 	.uni-list-item__content-note {
@@ -161,7 +163,6 @@
 	}
 
 	.uni-list-item__extra {
-		width: 25%;
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-end;
