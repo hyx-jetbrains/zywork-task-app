@@ -653,7 +653,7 @@ export default [
   }, */
 	{
 	  path: '/admin',
-	  name: '微信任务管理',
+	  name: 'wechat_task_management',
 	  meta: {
 	    icon: 'ios-list-box-outline',
 	    title: '微信任务管理'
@@ -662,7 +662,7 @@ export default [
 	  children: [
 	    {
 	      path: 'WeixinCertification',
-	      name: '微信认证',
+	      name: 'wechat_certification',
 	      meta: {
 	        title: '微信认证',
 	        icon: 'md-person-add'
@@ -671,7 +671,7 @@ export default [
 	    },
 	    {
 	      path: 'WeixinTask',
-	      name: '微信任务',
+	      name: 'wechat_task',
 	      meta: {
 	        title: '微信任务',
 	        icon: 'ios-paper-outline'
@@ -680,7 +680,7 @@ export default [
 	    },
 	    {
 	      path: 'WeixinTaskApply',
-	      name: '微信任务报名',
+	      name: 'wechat_task_apply',
 	      meta: {
 	        title: '微信任务报名',
 	        icon: 'ios-thumbs-up'
@@ -689,7 +689,7 @@ export default [
 	    },
 			{
 			  path: 'WeixinTaskAppeal',
-			  name: '微信任务申诉',
+			  name: 'wechat_task_appeal',
 			  meta: {
 			    title: '微信任务申诉',
 			    icon: 'ios-paper-plane'

@@ -186,9 +186,9 @@
 			<p>手机号: <span v-text="form.userPhone"></span></p>
 			<p>申诉描述: <span v-text="form.weixinTaskAppealAppealDes"></span></p>
 			<p>申诉状态: 
-				<span v-if="form.weixinTaskAppealAppealStatus == 0">申述中</span>
+				<span v-if="form.weixinTaskAppealAppealStatus == 0">申诉中</span>
 				<span v-if="form.weixinTaskAppealAppealStatus == 1">已通过</span>
-				<span v-if="form.weixinTaskAppealAppealStatus == 2">未通过</span>
+				<span v-if="form.weixinTaskAppealAppealStatus == 2">已撤销</span>
 			</p>
 			<p>处理时间: <span v-text="form.weixinTaskAppealHandleTime"></span></p>
 			<p>创建时间: <span v-text="form.weixinTaskAppealCreateTime"></span></p>
@@ -199,19 +199,45 @@
 		</Modal>
 		
 		<WeixinTaskDetail :form="weinxinTaskDetailForm" :detail="modal.weixinTaskDetail" v-on:setDetail="setDetailModal"/>
+		
+		<Modal :transfer="false" fullscreen v-model="modal.weixinTaskDetailSearch" title="搜索主表信息">
+		  <weixin-task-list-single ref="WeixinTaskListSingle" v-on:confirmSelectionTask="confirmSelectionTask"/>
+		  <div slot="footer">
+		    <Button type="text" size="large" @click="cancelModal('weixinTaskDetailSearch')">取消</Button>
+		    <Button type="primary" size="large" @click="taskConfirm">确认选择</Button>
+		  </div>
+		</Modal>
+		
+		<Modal :transfer="false" v-model="modal.userDetail" title="用户详情">
+		  <UserDetail :form="userDetailForm" v-on:setDetail="setUserDetailModal"/>
+		</Modal>
+		
+		<Modal :transfer="false" fullscreen v-model="modal.userDetalSearch" title="搜索主表信息">
+		  <user-list-single ref="UserListSingle" v-on:confirmSelection="confirmSelection"/>
+		  <div slot="footer">
+		    <Button type="text" size="large" @click="cancelModal('userDetalSearch')">取消</Button>
+		    <Button type="primary" size="large" @click="confirm">确认选择</Button>
+		  </div>
+		</Modal>
 	</div>
 </template>
 
 <script>
 	import * as utils from '@/api/utils'
 	import axios from '@/libs/api.request'
-	import {getWeixinTaskById} from '@/api/module'
+	import {getWeixinTaskById, getUserById} from '@/api/module'
 	import WeixinTaskDetail from '@/view/weixin-task/WeixinTaskDetail.vue'
+	import WeixinTaskListSingle from '@/view/weixin-task/WeixinTaskListSingle.vue'
+	import UserListSingle from '@/view/user/UserListSingle.vue'
+	import UserDetail from '@/view/user-detail/UserDetail.vue'
 
 	export default {
 		name: 'WeixinUserTaskAppeal',
 		components: {
-			WeixinTaskDetail
+			WeixinTaskDetail,
+			WeixinTaskListSingle,
+			UserDetail,
+			UserListSingle
 		},
 		data() {
 			return {
@@ -220,7 +246,11 @@
 					edit: false,
 					search: false,
 					detail: false,
-					weixinTaskDetail: false
+					weixinTaskDetail: false,
+					userDetail: false,
+					userDetalSearch: false,
+					weixinTaskDetail: false,
+					weixinTaskDetailSearch: false,
 				},
 				loading: {
 					search: false
@@ -249,6 +279,25 @@
 					userPhone: null,
 					userDetailNickname: null,
 
+				},
+				userDetailForm: {
+					id: null,
+					nickname: null,
+					headicon: null,
+					gender: null,
+					birthday: null,
+					age: null,
+					qq: null,
+					qqQrcode: null,
+					wechat: null,
+					wechatQrcode: null,
+					alipay: null,
+					alipayQrcode: null,
+					shareCode: null,
+					version: null,
+					createTime: null,
+					updateTime: null,
+					isActive: null,
 				},
 				weinxinTaskDetailForm: {
 					id: null,
@@ -335,23 +384,20 @@
 							          this.userOpt(itemName, params.row)
 							        }
 							      },
-							        props: {
-							          transfer: true
-							        }
+							      props: {
+							        transfer: true
+							      }
 							    },
 							    [
-							      h(
-							        'span',
-							        [
-							          params.row.weixinTaskAppealTaskId,
-							          h('Icon', {
-							            props: {
-							              type: 'ios-list',
-							              size: '25'
-							            }
-							          })
-							        ]
-							      ),
+							      h('span', [
+							        params.row.weixinTaskAppealTaskId,
+							        h('Icon', {
+							          props: {
+							            type: 'ios-list',
+							            size: '25'
+							          }
+							        })
+							      ]),
 							      h(
 							        'DropdownMenu',
 							        {
@@ -362,10 +408,19 @@
 							            'DropdownItem',
 							            {
 							              props: {
-							                name: 'showSearch'
+							                name: 'taskDetail'
 							              }
 							            },
-							            '查看微信任务'
+							            '详情'
+							          ),
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'showTaskSearch'
+							              }
+							            },
+							            '搜索'
 							          )
 							        ]
 							      )
@@ -377,7 +432,59 @@
 							title: '申诉用户编号',
 							key: 'weixinTaskAppealUserId',
 							minWidth: 130,
-							sortable: true
+							sortable: true,
+							render: (h, params) => {
+							  return h(
+							    'Dropdown',
+							    {
+							      on: {
+							        'on-click': itemName => {
+							          this.userOpt(itemName, params.row)
+							        }
+							      },
+							      props: {
+							        transfer: true
+							      }
+							    },
+							    [
+							      h('span', [
+							        params.row.weixinTaskAppealUserId,
+							        h('Icon', {
+							          props: {
+							            type: 'ios-list',
+							            size: '25'
+							          }
+							        })
+							      ]),
+							      h(
+							        'DropdownMenu',
+							        {
+							          slot: 'list'
+							        },
+							        [
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'userDetail'
+							              }
+							            },
+							            '详情'
+							          ),
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'showUserSearch'
+							              }
+							            },
+							            '搜索'
+							          )
+							        ]
+							      )
+							    ]
+							  )
+							}
 						},
 						{
 							title: '昵称',
@@ -405,11 +512,11 @@
 							render: (h, params) => {
 								let txt = null
 								if(params.row.weixinTaskAppealAppealStatus == 0) {
-									txt = '申述中'
+									txt = '申诉中'
 								} else if(params.row.weixinTaskAppealAppealStatus == 1) {
 									txt = '已通过'
 								} else if(params.row.weixinTaskAppealAppealStatus == 2) {
-									txt = '未通过'
+									txt = '已撤销'
 								}
 								return h('span', txt)
 							}
@@ -447,7 +554,7 @@
 						{
 							title: '操作',
 							key: 'action',
-							width: 200,
+							width: 120,
 							align: 'center',
 							fixed: 'right',
 							render: (h, params) => {
@@ -467,37 +574,6 @@
 										}
 									}, '详情')
 								)
-								if(params.row.weixinTaskAppealAppealStatus == 0) {
-									arr.push(h('Button', {
-											props: {
-												type: 'primary',
-												size: 'small'
-											},
-											style: {
-												marginRight: '5px'
-											},
-											on: {
-												click: () => {
-													this.examine('adopt', params.row)
-												}
-											}
-										}, '通过'),
-										h('Button', {
-												props: {
-													type: 'primary',
-													size: 'small'
-												},
-												style: {
-													marginRight: '5px'
-												},
-												on: {
-													click: () => {
-														this.examine('notpass', params.row)
-													}
-												}
-											}, '不通过')
-									)
-								}
 								return h('div', arr)
 							}
 						}
@@ -557,14 +633,47 @@
 			  
 			},
 			userOpt(itemName, row) {
-			  if (itemName === 'showSearch') {
-			    this.showModuleDetailModal(row.weixinTaskApplyTaskId)
-			  }
+			  if (itemName === 'taskDetail') {
+			    this.showTaskDetailModal(row.weixinTaskAppealTaskId)
+			  } else if(itemName === 'showTaskSearch') {
+					utils.showModal(this, 'weixinTaskDetailSearch')
+				} else if (itemName === 'userDetail') {
+					this.showUserDetailModal(row.weixinTaskAppealUserId)
+				} else if (itemName === 'showUserSearch') {
+					utils.showModal(this, 'userDetalSearch')
+				}
+			},
+			showUserDetailModal(id) {
+			  getUserById(id)
+			    .then(res => {
+			      const data = res.data
+			      if (data.code === 1001) {
+			        this.userDetailForm = data.data
+			        this.modal.userDetail = true
+			      } else {
+			        this.$Message.error(data.message)
+			      }
+			    })
+			    .catch(err => {
+			      this.$Message.error(err)
+			    })
+			},
+			setUserDetailModal(val) {
+			  this.modal.userDetail = val
+			},
+			confirmSelection(id) {
+			  this.modal.userDetalSearch = false
+			  this.searchForm.weixinTaskAppealUserIdMin = id
+				this.searchForm.weixinTaskAppealUserIdMax = id
+			  utils.search(this)
+			},
+			confirm() {
+			  this.$refs.UserListSingle.confirmSelection()
 			},
 			setDetailModal(val) {
 			  this.modal.weixinTaskDetail = val
 			},
-			showModuleDetailModal(id) {
+			showTaskDetailModal(id) {
 			  getWeixinTaskById(id)
 			    .then(res => {
 			      const data = res.data
@@ -579,36 +688,15 @@
 			      this.$Message.error(err)
 			    })
 			},
-			examine(modal, row) {
-				var status = null;
-				if(modal == 'adopt') {
-					status = 1
-				} else if(modal == 'notpass'){
-					status = 2
-				}
-				var self = this
-				axios.request({
-				  url: self.urls.updateUrl,
-					data: {
-						id: row.weixinTaskAppealId,
-						appealStatus: status,
-						appealDes: row.weixinTaskAppealAppealDes,
-						taskId: row.weixinTaskAppealTaskId,
-						userId: row.weixinTaskAppealUserId
-					},
-				  method: 'POST'
-				}).then(response => {
-				  if (response.data.code == 1001) {
-				    self.$Message.success(response.data.message)
-				  } else {
-						self.$Message.error(response.data.message)
-					}
-					utils.search(self)
-				}).catch(error => {
-				  console.log(error)
-				  self.$Message.error('修改数据失败，稍候再试')
-				})
-			}
+			confirmSelectionTask(id) {
+			  this.modal.weixinTaskDetailSearch = false
+			  this.searchForm.weixinTaskAppealTaskIdMin = id
+				this.searchForm.weixinTaskAppealTaskIdMax = id
+			  utils.search(this)
+			},
+			taskConfirm() {
+			  this.$refs.TaskListSingle.confirmSelection()
+			},
 		}
 	}
 </script>

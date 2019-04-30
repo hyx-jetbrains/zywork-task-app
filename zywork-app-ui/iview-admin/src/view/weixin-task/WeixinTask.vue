@@ -45,7 +45,7 @@
 					<InputNumber v-model="form.integral" placeholder="请输入奖励积分" style="width: 100%;" />
 				</FormItem>
 				<FormItem label="任务描述" prop="description">
-					<Input v-model="form.description" placeholder="请输入任务描述" />
+					<Input v-model="form.description" type="textarea" :autosize="descriptionAutoSize" placeholder="请输入任务描述" />
 				</FormItem>
 			</Form>
 			<div slot="footer">
@@ -71,7 +71,7 @@
 					<InputNumber v-model="form.integral/100" placeholder="请输入奖励积分" style="width: 100%;" />
 				</FormItem>
 				<FormItem label="任务描述" prop="description">
-					<Input v-model="form.description" placeholder="请输入任务描述" />
+					<Input v-model="form.description" type="textarea" :autosize="descriptionAutoSize" placeholder="请输入任务描述" />
 				</FormItem>
 			</Form>
 			<div slot="footer">
@@ -90,7 +90,7 @@
 				</FormItem>
 				<FormItem label="发布用户编号">
 					<Row>
-						<FormItem prop="userIdMin">
+						<FormItem prop="userId">
 							<InputNumber v-model="searchForm.userId" placeholder="请输入发布用户编号" style="width: 100%;" />
 						</FormItem>
 					</Row>
@@ -100,21 +100,21 @@
 				</FormItem>
 				<FormItem label="加友总数">
 					<Row>
-						<FormItem prop="totalNumberMin">
+						<FormItem prop="totalNumber">
 							<InputNumber v-model="searchForm.totalNumber" placeholder="请输入加友总数" style="width: 100%;" />
 						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="已确认数">
 					<Row>
-						<FormItem prop="confirmNumberMin">
+						<FormItem prop="confirmNumber">
 							<InputNumber v-model="searchForm.confirmNumber" placeholder="请输入已确认数" style="width: 100%;" />
 						</FormItem>
 					</Row>
 				</FormItem>
 				<FormItem label="奖励积分">
 					<Row>
-						<FormItem prop="integralMin">
+						<FormItem prop="integral">
 							<InputNumber v-model="searchForm.integral" placeholder="请输入奖励积分" style="width: 100%;" />
 						</FormItem>
 					</Row>
@@ -124,7 +124,7 @@
 				</FormItem>
 				<FormItem label="任务状态">
 					<Row>
-						<FormItem prop="taskStatusMin">
+						<FormItem prop="taskStatus">
 							<Select v-model="searchForm.taskStatus" clearable >
 								<Option value="0">进行中</option>
 								<Option value="1">已完成</option>
@@ -223,21 +223,42 @@
 			<p>是否激活: <span v-text="form.isActive"></span></p>
 
 		</Modal>
+		
+		<Modal :transfer="false" v-model="modal.userDetail" title="用户详情">
+		  <UserDetail :form="userDetailForm" v-on:setDetail="setDetailModal"/>
+		</Modal>
+		
+		<Modal :transfer="false" fullscreen v-model="modal.userDetalSearch" title="搜索主表信息">
+		  <user-list-single ref="UserListSingle" v-on:confirmSelection="confirmSelection"/>
+		  <div slot="footer">
+		    <Button type="text" size="large" @click="cancelModal('userDetalSearch')">取消</Button>
+		    <Button type="primary" size="large" @click="confirm">确认选择</Button>
+		  </div>
+		</Modal>
 	</div>
 </template>
 
 <script>
 	import * as utils from '@/api/utils'
+	import UserListSingle from '@/view/user/UserListSingle.vue'
+	import UserDetail from '@/view/user-detail/UserDetail.vue'
+	import { getUserById } from '@/api/module'
 
 	export default {
 		name: 'WeixinTask',
+		components: {
+			UserDetail,
+			UserListSingle
+		},
 		data() {
 			return {
 				modal: {
 					add: false,
 					edit: false,
 					search: false,
-					detail: false
+					detail: false,
+					userDetail: false,
+					userDetalSearch: false
 				},
 				loading: {
 					add: false,
@@ -273,7 +294,25 @@
 					updateTime: null,
 					version: null,
 					isActive: null,
-
+				},
+				userDetailForm: {
+					id: null,
+					nickname: null,
+					headicon: null,
+					gender: null,
+					birthday: null,
+					age: null,
+					qq: null,
+					qqQrcode: null,
+					wechat: null,
+					wechatQrcode: null,
+					alipay: null,
+					alipayQrcode: null,
+					shareCode: null,
+					version: null,
+					createTime: null,
+					updateTime: null,
+					isActive: null,
 				},
 				validateRules: {
 					userId: [{
@@ -376,14 +415,68 @@
 						{
 							title: '任务编号',
 							key: 'id',
+							align: 'center',
 							minWidth: 120,
 							sortable: true
 						},
 						{
 							title: '发布用户编号',
 							key: 'userId',
-							minWidth: 120,
-							sortable: true
+							minWidth: 150,
+							align: 'center',
+							sortable: true,
+							render: (h, params) => {
+							  return h(
+							    'Dropdown',
+							    {
+							      on: {
+							        'on-click': itemName => {
+							          this.userOpt(itemName, params.row)
+							        }
+							      },
+							      props: {
+							        transfer: true
+							      }
+							    },
+							    [
+							      h('span', [
+							        params.row.userId,
+							        h('Icon', {
+							          props: {
+							            type: 'ios-list',
+							            size: '25'
+							          }
+							        })
+							      ]),
+							      h(
+							        'DropdownMenu',
+							        {
+							          slot: 'list'
+							        },
+							        [
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'userDetail'
+							              }
+							            },
+							            '详情'
+							          ),
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'showUserSearch'
+							              }
+							            },
+							            '搜索'
+							          )
+							        ]
+							      )
+							    ]
+							  )
+							}
 						},
 						{
 							title: '任务标题',
@@ -395,17 +488,20 @@
 							title: '加友总数',
 							key: 'totalNumber',
 							minWidth: 120,
+							align: 'center',
 							sortable: true
 						},
 						{
 							title: '已确认数',
 							key: 'confirmNumber',
+							align: 'center',
 							minWidth: 120,
 							sortable: true
 						},
 						{
 							title: '奖励积分',
 							key: 'integral',
+							align: 'center',
 							minWidth: 120,
 							sortable: true,
 							render: (h, params) => {
@@ -422,6 +518,7 @@
 							title: '任务状态',
 							key: 'taskStatus',
 							minWidth: 120,
+							align: 'center',
 							sortable: true,
 							render: (h, params) => {
 								let txt = null
@@ -599,7 +696,37 @@
 					this.form = JSON.parse(JSON.stringify(row))
 				} else if (itemName === 'remove') {
 					utils.remove(this, row)
+				} else if (itemName === 'userDetail') {
+					this.showUserDetailModal(row.userId)
+				} else if (itemName === 'showUserSearch') {
+					utils.showModal(this, 'userDetalSearch')
 				}
+			},
+			showUserDetailModal(id) {
+			  getUserById(id)
+			    .then(res => {
+			      const data = res.data
+			      if (data.code === 1001) {
+			        this.userDetailForm = data.data
+			        this.modal.userDetail = true
+			      } else {
+			        this.$Message.error(data.message)
+			      }
+			    })
+			    .catch(err => {
+			      this.$Message.error(err)
+			    })
+			},
+			setDetailModal(val) {
+			  this.modal.userDetail = val
+			},
+			confirmSelection(id) {
+			  this.modal.userDetalSearch = false
+			  this.searchForm.userId = id
+			  utils.search(this)
+			},
+			confirm() {
+			  this.$refs.UserListSingle.confirmSelection()
 			},
 			add() {
 				utils.add(this)

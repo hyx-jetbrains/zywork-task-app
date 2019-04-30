@@ -225,18 +225,44 @@
 		</Modal>
 		
 		<WeixinTaskDetail :form="weinxinTaskDetailForm" :detail="modal.weixinTaskDetail" v-on:setDetail="setDetailModal"/>
+		
+		<Modal :transfer="false" fullscreen v-model="modal.weixinTaskDetailSearch" title="搜索主表信息">
+		  <weixin-task-list-single ref="WeixinTaskListSingle" v-on:confirmSelectionTask="confirmSelectionTask"/>
+		  <div slot="footer">
+		    <Button type="text" size="large" @click="cancelModal('weixinTaskDetailSearch')">取消</Button>
+		    <Button type="primary" size="large" @click="taskConfirm">确认选择</Button>
+		  </div>
+		</Modal>
+		
+		<Modal :transfer="false" v-model="modal.userDetail" title="用户详情">
+		  <UserDetail :form="userDetailForm" v-on:setDetail="setUserDetailModal"/>
+		</Modal>
+		
+		<Modal :transfer="false" fullscreen v-model="modal.userDetailSearch" title="搜索主表信息">
+		  <user-list-single ref="UserListSingle" v-on:confirmSelection="confirmSelection"/>
+		  <div slot="footer">
+		    <Button type="text" size="large" @click="cancelModal('userDetailSearch')">取消</Button>
+		    <Button type="primary" size="large" @click="confirm">确认选择</Button>
+		  </div>
+		</Modal>
 	</div>
 </template>
 
 <script>
 	import * as utils from '@/api/utils'
-	import {getWeixinTaskById} from '@/api/module'
+	import {getWeixinTaskById, getUserById} from '@/api/module'
 	import WeixinTaskDetail from '@/view/weixin-task/WeixinTaskDetail.vue'
+	import WeixinTaskListSingle from '@/view/weixin-task/WeixinTaskListSingle.vue'
+	import UserListSingle from '@/view/user/UserListSingle.vue'
+	import UserDetail from '@/view/user-detail/UserDetail.vue'
 
 	export default {
-		name: 'WeixinUserTaskApply',
+		name: 'WeixinUserTaskApply', 
 		components: {
-			WeixinTaskDetail
+			WeixinTaskDetail,
+			WeixinTaskListSingle,
+			UserDetail,
+			UserListSingle
 		},
 		data() {
 			return {
@@ -245,7 +271,10 @@
 					edit: false,
 					search: false,
 					detail: false,
-					weixinTaskDetail: false
+					weixinTaskDetail: false,
+					weixinTaskDetailSearch: false,
+					userDetail: false,
+					userDetailSearch: false
 				},
 				loading: {
 					search: false
@@ -273,7 +302,25 @@
 					weixinTaskApplyIsActive: null,
 					userDetailNickname: null,
 					userPhone: null,
-
+				},
+				userDetailForm: {
+					id: null,
+					nickname: null,
+					headicon: null,
+					gender: null,
+					birthday: null,
+					age: null,
+					qq: null,
+					qqQrcode: null,
+					wechat: null,
+					wechatQrcode: null,
+					alipay: null,
+					alipayQrcode: null,
+					shareCode: null,
+					version: null,
+					createTime: null,
+					updateTime: null,
+					isActive: null,
 				},
 				weinxinTaskDetailForm: {
 					id: null,
@@ -365,23 +412,20 @@
 							          this.userOpt(itemName, params.row)
 							        }
 							      },
-							        props: {
-							          transfer: true
-							        }
+							      props: {
+							        transfer: true
+							      }
 							    },
 							    [
-							      h(
-							        'span',
-							        [
-							          params.row.weixinTaskApplyTaskId,
-							          h('Icon', {
-							            props: {
-							              type: 'ios-list',
-							              size: '25'
-							            }
-							          })
-							        ]
-							      ),
+							      h('span', [
+							        params.row.weixinTaskApplyTaskId,
+							        h('Icon', {
+							          props: {
+							            type: 'ios-list',
+							            size: '25'
+							          }
+							        })
+							      ]),
 							      h(
 							        'DropdownMenu',
 							        {
@@ -392,10 +436,19 @@
 							            'DropdownItem',
 							            {
 							              props: {
-							                name: 'showSearch'
+							                name: 'taskDetail'
 							              }
 							            },
-							            '查看微信任务'
+							            '详情'
+							          ),
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'showTaskSearch'
+							              }
+							            },
+							            '搜索'
 							          )
 							        ]
 							      )
@@ -407,7 +460,59 @@
 							title: '报名用户编号',
 							key: 'weixinTaskApplyUserId',
 							minWidth: 130,
-							sortable: true
+							sortable: true,
+							render: (h, params) => {
+							  return h(
+							    'Dropdown',
+							    {
+							      on: {
+							        'on-click': itemName => {
+							          this.userOpt(itemName, params.row)
+							        }
+							      },
+							      props: {
+							        transfer: true
+							      }
+							    },
+							    [
+							      h('span', [
+							        params.row.weixinTaskApplyUserId,
+							        h('Icon', {
+							          props: {
+							            type: 'ios-list',
+							            size: '25'
+							          }
+							        })
+							      ]),
+							      h(
+							        'DropdownMenu',
+							        {
+							          slot: 'list'
+							        },
+							        [
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'userDetail'
+							              }
+							            },
+							            '详情'
+							          ),
+							          h(
+							            'DropdownItem',
+							            {
+							              props: {
+							                name: 'showUserSearch'
+							              }
+							            },
+							            '搜索'
+							          )
+							        ]
+							      )
+							    ]
+							  )
+							}
 						},
 						{
 							title: '昵称',
@@ -569,14 +674,47 @@
 			  
 			},
 			userOpt(itemName, row) {
-			  if (itemName === 'showSearch') {
-			    this.showModuleDetailModal(row.weixinTaskApplyTaskId)
-			  }
+				if (itemName === 'taskDetail') {
+					this.showTaskDetailModal(row.weixinTaskApplyTaskId)
+				} else if(itemName === 'showTaskSearch') {
+					utils.showModal(this, 'weixinTaskDetailSearch')
+				} else if (itemName === 'userDetail') {
+					this.showUserDetailModal(row.weixinTaskApplyUserId)
+				} else if (itemName === 'showUserSearch') {
+					utils.showModal(this, 'userDetailSearch')
+				}
+			},
+			showUserDetailModal(id) {
+			  getUserById(id)
+			    .then(res => {
+			      const data = res.data
+			      if (data.code === 1001) {
+			        this.userDetailForm = data.data
+			        this.modal.userDetail = true
+			      } else {
+			        this.$Message.error(data.message)
+			      }
+			    })
+			    .catch(err => {
+			      this.$Message.error(err)
+			    })
+			},
+			setUserDetailModal(val) {
+			  this.modal.userDetail = val
+			},
+			confirmSelection(id) {
+			  this.modal.userDetailSearch = false
+			  this.searchForm.weixinTaskApplyUserIdMin = id
+				this.searchForm.weixinTaskApplyUserIdMax = id
+			  utils.search(this)
+			},
+			confirm() {
+			  this.$refs.UserListSingle.confirmSelection()
 			},
 			setDetailModal(val) {
 			  this.modal.weixinTaskDetail = val
 			},
-			showModuleDetailModal(id) {
+			showTaskDetailModal(id) {
 			  getWeixinTaskById(id)
 			    .then(res => {
 			      const data = res.data
@@ -590,7 +728,16 @@
 			    .catch(err => {
 			      this.$Message.error(err)
 			    })
-			}
+			},
+			confirmSelectionTask(id) {
+			  this.modal.weixinTaskDetailSearch = false
+			  this.searchForm.weixinTaskApplyTaskIdMin = id
+				this.searchForm.weixinTaskApplyTaskIdMax = id
+			  utils.search(this)
+			},
+			taskConfirm() {
+			  this.$refs.TaskListSingle.confirmSelection()
+			},
 		}
 	}
 </script>

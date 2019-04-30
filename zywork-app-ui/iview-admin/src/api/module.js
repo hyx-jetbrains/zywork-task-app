@@ -29,3 +29,11 @@ export const getWeixinTaskById = (id) => {
 		data: ''
 	})
 }
+
+export const getUserById = (id) => {
+	return axios.request({
+		url: '/user-detail/admin/one/' + id,
+		method: 'GET',
+		data: ''
+	})
+} 
