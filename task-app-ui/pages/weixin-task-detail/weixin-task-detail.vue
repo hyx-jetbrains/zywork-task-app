@@ -38,7 +38,7 @@
 				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
-				<text class="zy-small-text">{{item.userDetailNickname}}</text>
+				<text class="zy-small-text">{{item.userDetailNickname === null ? '暂无昵称' : item.userDetailNickname}}</text>
 			</view>
 		</view>
 		<view class="zy-apply-user" v-if="taskFrom === 'pub'">
@@ -46,7 +46,7 @@
 				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
-				<text class="zy-small-text">{{item.userDetailNickname}}</text>
+				<text class="zy-small-text">{{item.userDetailNickname === null ? '暂无昵称' : item.userDetailNickname}}</text>
 			</view>
 		</view>
 		<view class="zy-apply-user" v-if="taskFrom === 'join'">
@@ -54,7 +54,7 @@
 				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
-				<text class="zy-small-text">{{item.userDetailNickname}}</text>
+				<text class="zy-small-text">{{item.userDetailNickname === null ? '暂无昵称' : item.userDetailNickname}}</text>
 			</view>
 		</view>
 		<view v-if="applyUsers.length > 0" style="width: 100%; text-align: center; font-size: 24upx;" @click="loadMoreUser">查看更多</view>

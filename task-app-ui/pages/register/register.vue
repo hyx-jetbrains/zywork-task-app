@@ -1,17 +1,14 @@
 <template>
 	<view class="zy-reg-page">
-		<view>
-			<image src="../../static/back-logo.png" class="zy-logo-img" />
-		</view>
 		<view class="zy-form">
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" placeholder="请输入手机号" />
+				<input v-model="regForm.username" class="uni-input" placeholder="请输入手机号" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" password placeholder="请输入密码" />
+				<input v-model="regForm.password" class="uni-input" password placeholder="请输入密码" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input class="uni-input" password placeholder="请再次输入密码" />
+				<input v-model="regForm.confirmPassword" class="uni-input" password placeholder="请再次输入密码" />
 			</view>
 			<view class="uni-form-item">
 				<button type="primary" style="width: 100%;" @click="reg">注册</button>
@@ -22,16 +19,21 @@
 </template>
 
 <script>
+	import {reg} from '../../common/user.js'
 	export default {
 		data() {
-			return {}
+			return {
+				regForm: {
+					username: '',
+					password: '',
+					confirmPassword: ''
+				}
+			}
 		},
 		onLoad() {},
 		methods: {
 			reg() {
-				uni.switchTab({
-					url: '/pages/login/login'
-				})
+				reg(this)
 			},
 			toPrivacy() {
 				uni.navigateTo({

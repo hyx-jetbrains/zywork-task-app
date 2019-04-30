@@ -2,7 +2,7 @@
 	<view>
 		<view class="zy-user-container" v-if="isUserLogin">
 			<image class="zy-headicon" :src="user.headicon === null ? headicon : imgBaseUrl + '/' + user.headicon" @click="chooseImage"></image>
-			<text class="zy-name">{{user.nickname}}</text>
+			<text class="zy-name">{{user.nickname === null ? '暂无昵称' : user.nickname}}</text>
 		</view>
 		<view class="zy-user-container" v-else>
 			<image class="zy-headicon" :src="headicon"></image>
@@ -37,8 +37,10 @@
 			 @click="toPasswordSetting"></zywork-list-item>
 			<zywork-list-item title="帮助中心" show-extra-icon="true" :extra-icon="{color: '#E51C23',size: '18',type: 'iconbangzhu'}"
 			 @click="toHelp"></zywork-list-item>
-			<zywork-list-item title="关于TaskApp" show-extra-icon="true" :extra-icon="{color: '#535CA7',size: '18',type: 'iconguanyu'}"
+			 <!--
+			<zywork-list-item title="关于微解" show-extra-icon="true" :extra-icon="{color: '#535CA7',size: '18',type: 'iconguanyu'}"
 			 @click="toAbout"></zywork-list-item>
+			 -->
 		</uni-list>
 		<view class="zy-list-button" @click="logout" v-if="isUserLogin">退出登录</view>
 	</view>
@@ -148,7 +150,7 @@
 						self.$event.$off('changeNickname')
 					});
 					uni.navigateTo({
-						url: '/pages/nickname/nickname?nickname=' + this.user.nickname
+						url: '/pages/nickname/nickname?nickname=' + (this.user.nickname === null ? '' : this.user.nickname)
 					})
 				} else {
 					toLoginPage()

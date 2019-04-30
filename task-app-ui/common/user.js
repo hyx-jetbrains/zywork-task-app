@@ -3,6 +3,48 @@ import * as ResponseStatus from './response-status.js'
 
 const graceChecker = require("./graceChecker.js");
 
+export const reg = (self) => {
+	const rule = [
+		{name:'username', checkType : 'phoneno', checkRule: '',  errorMsg:'请输入正确的手机号'},
+		{name:'password', checkType : 'notnull', checkRule: '',  errorMsg:'请输入密码'},
+		{name:'confirmPassword', checkType : 'notnull', checkRule: '',  errorMsg:'请输入确认密码'}
+	]
+	const checkRes = graceChecker.check(self.regForm, rule)
+	if(checkRes){
+		if (self.regForm.password !== self.regForm.confirmPassword) {
+			showInfoToast('密码与确认密码不一致')
+			return
+		}
+		uni.request({
+			url: BASE_URL + '/auth/reg-mobile',
+			data: {
+				phone: self.regForm.username,
+				password: self.regForm.password,
+				confirmPassword: self.regForm.confirmPassword
+			},
+			method: 'POST',
+			header: {
+				'content-type': 'application/x-www-form-urlencoded'
+			},
+			success: (res) => {
+				if (res.data.code === ResponseStatus.OK) {
+					uni.navigateBack({
+						
+					})
+					showInfoToast('注册成功，请登录')
+				} else {
+					showInfoToast(res.data.message)
+				}
+			},
+			fail: () => {
+				networkError()
+			}
+		})
+	} else {
+		showInfoToast(graceChecker.error)
+	}
+}
+
 export const login = (self) => {
 	const rule = [
 		{name:'username', checkType : 'phoneno', checkRule: '',  errorMsg:'请输入正确的手机号'},

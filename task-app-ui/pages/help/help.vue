@@ -1,9 +1,20 @@
 <template>
-	<view>
-		<view class="zy-logo">
-			<image src='../../static/back-logo.png' class="zy-logo-img" />
+	<view class="zy-page-text">
+		<view class="zy-text-bold">微解是一款为用户提供加微信好友，报名参加淘宝任务的APP</view>
+		<view class="zy-text-bold">
+			1、微信加友说明
 		</view>
-		帮助
+		<view>a)用户使用手机号注册后登录本APP</view>
+		<view>b)在个人中心中完成个人微信二维码和微信绑定银行卡截图的上传</view>
+		<view>c)等待后台审核上传的微信绑定银行卡截图图片</view>
+		<view>d)微信绑定银行卡截图审核成功后，可报名参加微信加友任务，也可发布微信加友任务</view>
+		<view>e)用户可查看系统公告中充值二维码，扫码完成充值，客服在后台会为您添加相应的积分</view>
+		<view>f)用户可在发布任务菜单中选择微信任务，填写任务相关说明，同时需要注意，发布任务需要消耗个人积分，如果积分不足，需要进行充值</view>
+		<view>g)成功发布任务后，其他用户在任务列表中将看到您发布的任务，并可报名参加任务，报名参加任务必须要上传微信二维码和审核微信绑定银行卡截图</view>
+		<view>h)如果您是任务发布方可在我的任务菜单中点击我发布的任务，查看自己所有发布的任务，在任务中可查看所有已经报名的用户，并可在此选择报名方用户确认是否已经加友成功</view>
+		<view>i)当任务发布方确认添加了某个好友后，任务报名方可在我参与的任务中进行确认，一旦双方都确认成功，则任务报名方将获取任务发布方指定的任务积分，任务积分可提现为现金</view>
+		<view>j)若任务发布方加任务报名方为好友，但是任务发布方超过3天没进行加友确认，则任务报名方可进行申诉，申诉后，后台将会发送消息给任务发布方，提示其进行加友确认</view>
+		<view>k)任务报名方在3天后的加友申诉中，可每隔24小时申诉一遍</view>
 	</view>
 </template>
 
@@ -22,9 +33,7 @@
 <style lang="scss">
 	@import '../../common/zywork-main.scss';
 
-	.zy-logo {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	.zy-page-text {
+		padding: 15upx;
 	}
 </style>

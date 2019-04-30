@@ -220,7 +220,7 @@
 		{
 			"path": "pages/about/about",
 			"style": {
-				"navigationBarTitleText": "关于TaskApp",
+				"navigationBarTitleText": "关于微解",
 				"backgroundTextStyle": "light"
 			}
 		},

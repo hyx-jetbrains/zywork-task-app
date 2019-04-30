@@ -1,8 +1,5 @@
 <template>
 	<view class="zy-login-page">
-		<view>
-			<image src="../../static/back-logo.png" class="zy-logo-img" />
-		</view>
 		<view class="zy-form">
 			<view class="uni-form-item uni-column">
 				<input v-model="loginForm.username" class="uni-input" placeholder="请输入手机号" />
