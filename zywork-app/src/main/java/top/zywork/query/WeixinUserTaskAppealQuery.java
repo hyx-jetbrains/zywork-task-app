@@ -89,6 +89,10 @@ public class WeixinUserTaskAppealQuery extends PageQuery {
 	//t_user_detail表的字段对应的属性
 	// 昵称
 	private String userDetailNickname;
+
+	private String userDetailHeadicon;
+
+	private String userDetailWechatQrcode;
 	
     public WeixinUserTaskAppealQuery () {}
 
@@ -366,8 +370,24 @@ public class WeixinUserTaskAppealQuery extends PageQuery {
 		this.userDetailNickname = userDetailNickname;
 	}
 
-	
-    @Override
+
+	public String getUserDetailHeadicon() {
+		return userDetailHeadicon;
+	}
+
+	public void setUserDetailHeadicon(String userDetailHeadicon) {
+		this.userDetailHeadicon = userDetailHeadicon;
+	}
+
+	public String getUserDetailWechatQrcode() {
+		return userDetailWechatQrcode;
+	}
+
+	public void setUserDetailWechatQrcode(String userDetailWechatQrcode) {
+		this.userDetailWechatQrcode = userDetailWechatQrcode;
+	}
+
+	@Override
     public String toString() {
         return "WeixinUserTaskAppealQuery {" +
                 "weixinTaskAppealId = " + weixinTaskAppealId + 

@@ -9,6 +9,7 @@ import top.zywork.service.AbstractBaseService;
 import top.zywork.service.WeixinUserTaskAppealService;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * WeixinUserTaskAppealServiceImpl服务接口实现类<br/>
@@ -32,5 +33,10 @@ public class WeixinUserTaskAppealServiceImpl extends AbstractBaseService impleme
     @PostConstruct
     public void init() {
         super.init(WeixinUserTaskAppealDO.class, WeixinUserTaskAppealDTO.class);
+    }
+
+    @Override
+    public List<Object> listAllByTaskId(Object obj) {
+        return weixinUserTaskAppealDAO.listAllByTaskId(obj);
     }
 }

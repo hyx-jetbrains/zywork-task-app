@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import top.zywork.common.BeanUtils;
 import top.zywork.dto.PagerDTO;
 import top.zywork.query.WeixinUserTaskAppealQuery;
+import top.zywork.security.JwtUser;
+import top.zywork.security.SecurityUtils;
 import top.zywork.service.WeixinUserTaskAppealService;
 import top.zywork.vo.ResponseStatusVO;
 import top.zywork.vo.PagerVO;
 import top.zywork.vo.WeixinUserTaskAppealVO;
+
+import java.util.List;
 
 /**
  * WeixinUserTaskAppealController控制器类<br/>
@@ -59,6 +63,18 @@ public class WeixinUserTaskAppealController extends BaseController {
         PagerVO pagerVO = BeanUtils.copy(pagerDTO, PagerVO.class);
         pagerVO.setRows(BeanUtils.copyList(pagerDTO.getRows(), WeixinUserTaskAppealVO.class));
         return ResponseStatusVO.ok("查询成功", pagerVO);
+    }
+
+    @PostMapping("user/list-all-taskId")
+    public ResponseStatusVO listAllByTaskId(@RequestBody WeixinUserTaskAppealVO weixinUserTaskAppealVO) {
+        JwtUser jwtUser = SecurityUtils.getJwtUser();
+        if (jwtUser == null) {
+            return ResponseStatusVO.authenticationError();
+        }
+
+        weixinUserTaskAppealVO.setWeixinTaskAppealUserId(jwtUser.getUserId());
+        List<Object> list = weixinUserTaskAppealService.listAllByTaskId(weixinUserTaskAppealVO);
+        return ResponseStatusVO.ok("查询成功", list);
     }
 
     @Autowired

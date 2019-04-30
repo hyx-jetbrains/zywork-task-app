@@ -146,7 +146,7 @@ public class UserMessageDO extends BaseDO {
 		this.userMessageUpdateTime = userMessageUpdateTime;
 	}
 
-	
+
     @Override
     public String toString() {
         return "UserMessageDO {" +

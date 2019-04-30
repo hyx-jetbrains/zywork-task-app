@@ -17,12 +17,11 @@ import top.zywork.dto.WeixinTaskAppealDTO;
 import top.zywork.query.WeixinTaskAppealQuery;
 import top.zywork.security.JwtUser;
 import top.zywork.security.SecurityUtils;
+import top.zywork.service.UserMessageService;
 import top.zywork.service.WeixinTaskAppealService;
 import top.zywork.service.WeixinTaskApplyService;
-import top.zywork.vo.ResponseStatusVO;
-import top.zywork.vo.PagerVO;
-import top.zywork.vo.WeixinTaskAppealVO;
-import top.zywork.vo.WeixinTaskApplyVO;
+import top.zywork.service.WeixinTaskService;
+import top.zywork.vo.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,6 +45,8 @@ public class WeixinTaskAppealController extends BaseController {
 
     private WeixinTaskApplyService weixinTaskApplyService;
 
+    private WeixinTaskService weixinTaskService;
+
     @Value("${appeal.hours}")
     private Long hours;
 
@@ -55,6 +56,13 @@ public class WeixinTaskAppealController extends BaseController {
         if (jwtUser == null) {
             return ResponseStatusVO.authenticationError();
         }
+
+        Object taskObj = weixinTaskService.getById(weixinTaskAppealVO.getTaskId());
+        if(taskObj == null) {
+            return ResponseStatusVO.dataError("微信任务不存在",null);
+        }
+
+        WeixinTaskVO weixinTaskVO = BeanUtils.copy(taskObj, WeixinTaskVO.class);
 
         WeixinTaskApplyVO weixinTaskApplyVO = new WeixinTaskApplyVO();
         weixinTaskApplyVO.setUserId(jwtUser.getUserId());
@@ -78,7 +86,10 @@ public class WeixinTaskAppealController extends BaseController {
             return ResponseStatusVO.dataError("报名三天后才能进行申诉",null);
         }
         weixinTaskAppealVO.setUserId(jwtUser.getUserId());
-        return save(weixinTaskAppealVO, bindingResult);
+
+        weixinTaskAppealService.appeal(weixinTaskAppealVO, weixinTaskVO);
+
+        return ResponseStatusVO.ok("添加成功", null);
     }
 
     @PostMapping("admin/save")
@@ -193,5 +204,10 @@ public class WeixinTaskAppealController extends BaseController {
     @Autowired
     public void setWeixinTaskApplyService(WeixinTaskApplyService weixinTaskApplyService) {
         this.weixinTaskApplyService = weixinTaskApplyService;
+    }
+
+    @Autowired
+    public void setWeixinTaskService(WeixinTaskService weixinTaskService) {
+        this.weixinTaskService = weixinTaskService;
     }
 }

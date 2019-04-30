@@ -25,4 +25,6 @@ public interface WeixinUserTaskAppealDAO extends BaseDAO {
 
     @Override
     Long countByCondition(@Param("query") Object queryObj);
+
+    List<Object> listAllByTaskId(@Param("query") Object queryObj);
 }

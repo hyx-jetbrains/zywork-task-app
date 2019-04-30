@@ -1,5 +1,7 @@
 package top.zywork.service;
 
+import java.util.List;
+
 /**
  * WeixinUserTaskAppealService服务接口<br/>
  *
@@ -9,4 +11,6 @@ package top.zywork.service;
  * @version 1.0
  */
 public interface WeixinUserTaskAppealService extends BaseService {
+
+    List<Object> listAllByTaskId(Object obj);
 }

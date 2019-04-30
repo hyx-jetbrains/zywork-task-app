@@ -42,6 +42,10 @@ public class WeixinUserTaskAppealDO extends BaseDO {
 	//t_user_detail表的字段对应的属性
 	// 昵称
 	private String userDetailNickname;
+
+	private String userDetailHeadicon;
+
+	private String userDetailWechatQrcode;
 	
     public WeixinUserTaskAppealDO () {}
 
@@ -157,8 +161,23 @@ public class WeixinUserTaskAppealDO extends BaseDO {
 		this.userDetailNickname = userDetailNickname;
 	}
 
-	
-    @Override
+	public String getUserDetailHeadicon() {
+		return userDetailHeadicon;
+	}
+
+	public void setUserDetailHeadicon(String userDetailHeadicon) {
+		this.userDetailHeadicon = userDetailHeadicon;
+	}
+
+	public String getUserDetailWechatQrcode() {
+		return userDetailWechatQrcode;
+	}
+
+	public void setUserDetailWechatQrcode(String userDetailWechatQrcode) {
+		this.userDetailWechatQrcode = userDetailWechatQrcode;
+	}
+
+	@Override
     public String toString() {
         return "WeixinUserTaskAppealDO {" +
                 "weixinTaskAppealId = " + weixinTaskAppealId + 

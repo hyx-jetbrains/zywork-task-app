@@ -57,6 +57,10 @@ public class WeixinUserTaskAppealVO extends BaseVO {
 	// 昵称
 	@Size(min = 0, max = 20, message = "必须小于20个字符")
 	private String userDetailNickname;
+
+	private String userDetailHeadicon;
+
+	private String userDetailWechatQrcode;
 	
     public WeixinUserTaskAppealVO () {}
 
@@ -172,8 +176,23 @@ public class WeixinUserTaskAppealVO extends BaseVO {
 		this.userDetailNickname = userDetailNickname;
 	}
 
-	
-    @Override
+	public String getUserDetailHeadicon() {
+		return userDetailHeadicon;
+	}
+
+	public void setUserDetailHeadicon(String userDetailHeadicon) {
+		this.userDetailHeadicon = userDetailHeadicon;
+	}
+
+	public String getUserDetailWechatQrcode() {
+		return userDetailWechatQrcode;
+	}
+
+	public void setUserDetailWechatQrcode(String userDetailWechatQrcode) {
+		this.userDetailWechatQrcode = userDetailWechatQrcode;
+	}
+
+	@Override
     public String toString() {
         return "WeixinUserTaskAppealVO {" +
                 "weixinTaskAppealId = " + weixinTaskAppealId + 

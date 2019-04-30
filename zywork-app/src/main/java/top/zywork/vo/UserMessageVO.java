@@ -57,7 +57,7 @@ public class UserMessageVO extends BaseVO {
 	// 更新时间
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date userMessageUpdateTime;
-	
+
     public UserMessageVO () {}
 
     public UserMessageVO (Long userId, String userPhone, String userEmail, Long messageId, String messageTitle, String messageSummary, String messageContent, String messageMessageType, Byte userMessageIsRead, Date userMessageCreateTime, Date userMessageUpdateTime) {
@@ -163,7 +163,7 @@ public class UserMessageVO extends BaseVO {
 		this.userMessageUpdateTime = userMessageUpdateTime;
 	}
 
-	
+
     @Override
     public String toString() {
         return "UserMessageVO {" +

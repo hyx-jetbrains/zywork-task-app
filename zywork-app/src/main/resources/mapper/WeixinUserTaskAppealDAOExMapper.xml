@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zywork.dao.WeixinUserTaskAppealDAO">
+
+
+	<select id="listAllByTaskId" parameterType="weixinUserTaskAppealDO" resultType="weixinUserTaskAppealDO">
+		select
+			t_weixin_task_appeal.id as weixinTaskAppealId, t_weixin_task_appeal.task_id as weixinTaskAppealTaskId, t_weixin_task_appeal.user_id as weixinTaskAppealUserId, t_weixin_task_appeal.appeal_des as weixinTaskAppealAppealDes, t_weixin_task_appeal.appeal_status as weixinTaskAppealAppealStatus, t_weixin_task_appeal.handle_time as weixinTaskAppealHandleTime, t_weixin_task_appeal.create_time as weixinTaskAppealCreateTime, t_weixin_task_appeal.update_time as weixinTaskAppealUpdateTime, t_weixin_task_appeal.version as weixinTaskAppealVersion, t_weixin_task_appeal.is_active as weixinTaskAppealIsActive, t_user.phone as userPhone, t_user_detail.nickname as userDetailNickname,t_user_detail.headicon as userDetailHeadicon,t_user_detail.wechat_qrcode as userDetailWechatQrcode
+		from
+			t_weixin_task_appeal, t_user, t_user_detail
+		where
+			t_weixin_task_appeal.user_id = t_user.id and t_user_detail.id = t_user.id
+			and t_weixin_task_appeal.task_id = #{query.weixinTaskAppealTaskId}
+			and t_weixin_task_appeal.appeal_status= 0
+		order by t_weixin_task_appeal.create_time desc
+	</select>
+
+</mapper>

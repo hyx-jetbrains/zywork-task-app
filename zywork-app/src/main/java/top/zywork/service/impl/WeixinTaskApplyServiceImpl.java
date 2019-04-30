@@ -12,6 +12,7 @@ import top.zywork.dos.WeixinTaskApplyDO;
 import top.zywork.dto.WeixinTaskApplyDTO;
 import top.zywork.service.AbstractBaseService;
 import top.zywork.service.UserTransferService;
+import top.zywork.service.WeixinTaskAppealService;
 import top.zywork.service.WeixinTaskApplyService;
 import top.zywork.vo.*;
 
@@ -39,6 +40,8 @@ public class WeixinTaskApplyServiceImpl extends AbstractBaseService implements W
     private WeixinCertificationDAO weixinCertificationDAO;
 
     private UserDetailDAO userDetailDAO;
+
+    private WeixinTaskAppealService weixinTaskAppealService;
 
     @Autowired
     public void setWeixinTaskApplyDAO(WeixinTaskApplyDAO weixinTaskApplyDAO) {
@@ -68,17 +71,30 @@ public class WeixinTaskApplyServiceImpl extends AbstractBaseService implements W
         if (weixinTaskApplyVO.getUserId() == null) {
             weixinTaskApplyVO.setUserId(userId);
         }
+
         // 通过taskId 和报名方Id查询 报名记录
         Object appObj = weixinTaskApplyDAO.getByUserId(weixinTaskVO.getId(), weixinTaskApplyVO.getUserId());
         if (appObj == null) {
             return ResponseStatusVO.dataError("不存在的任务或用户未报名该任务", null);
         }
+
         WeixinTaskApplyVO apply = BeanUtils.copy(appObj, WeixinTaskApplyVO.class);
         weixinTaskApplyVO.setId(apply.getId());
         weixinTaskApplyVO.setVersion(apply.getVersion() + 1);
         if (userId == weixinTaskVO.getUserId()) { // 发布方
             weixinTaskApplyVO.setPubConfirmStatus((byte) 1);
             weixinTaskApplyVO.setPubConfirmTime(new Date());
+
+            Object appealObj = weixinTaskAppealService.getByTaskId(weixinTaskVO.getId(), apply.getUserId());
+            if(appealObj != null) {
+                WeixinTaskAppealVO AppealVO = BeanUtils.copy(appealObj, WeixinTaskAppealVO.class);
+
+                WeixinTaskAppealVO weixinTaskAppealVO = new WeixinTaskAppealVO();
+                weixinTaskAppealVO.setId(AppealVO.getId());
+                weixinTaskAppealVO.setAppealStatus((byte) 2);
+                weixinTaskAppealVO.setVersion(AppealVO.getVersion() + 1);
+                weixinTaskAppealService.update(weixinTaskAppealVO);
+            }
         } else { // 报名方确认
             weixinTaskApplyVO.setAppConfirmStatus((byte) 1);
             weixinTaskApplyVO.setAppConfirmTime(new Date());
@@ -165,5 +181,10 @@ public class WeixinTaskApplyServiceImpl extends AbstractBaseService implements W
     @Autowired
     public void setUserDetailDAO(UserDetailDAO userDetailDAO) {
         this.userDetailDAO = userDetailDAO;
+    }
+
+    @Autowired
+    public void setWeixinTaskAppealService(WeixinTaskAppealService weixinTaskAppealService) {
+        this.weixinTaskAppealService = weixinTaskAppealService;
     }
 }
