@@ -53,7 +53,7 @@ public class WeixinTaskAppealServiceImpl extends AbstractBaseService implements 
     }
 
     @Override
-    public int appeal(Object obj, WeixinTaskVO weixinTaskVO) {
+    public int appeal(WeixinTaskAppealVO weixinTaskAppealVO, WeixinTaskVO weixinTaskVO) {
         MessageVO messageVO = new MessageVO();
         messageVO.setTitle("加友申诉");
         messageVO.setContent("您的微信任务:'"+weixinTaskVO.getTitle()+"',有一名用户正在进行申诉，请尽快进行确认操作");
@@ -64,7 +64,17 @@ public class WeixinTaskAppealServiceImpl extends AbstractBaseService implements 
         userMessageVO.setUserId(weixinTaskVO.getUserId());
         userMessageDAO.save(userMessageVO);
 
-        return weixinTaskAppealDAO.save(obj);
+        Object obj = weixinTaskAppealDAO.getByTaskId(weixinTaskVO.getId(), weixinTaskAppealVO.getUserId());
+        if(obj != null) {
+            WeixinTaskAppealVO appeal = BeanUtils.copy(obj, WeixinTaskAppealVO.class);
+            WeixinTaskAppealVO appealVo = new WeixinTaskAppealVO();
+            appealVo.setId(appeal.getId());
+            appealVo.setAppealStatus((byte) 2);
+            appealVo.setVersion(appeal.getVersion() + 1);
+            weixinTaskAppealDAO.update(appealVo);
+        }
+
+        return weixinTaskAppealDAO.save(weixinTaskAppealVO);
     }
 
     @Autowired

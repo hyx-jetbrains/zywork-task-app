@@ -1,6 +1,7 @@
 package top.zywork.service;
 
 import org.apache.ibatis.annotations.Param;
+import top.zywork.vo.WeixinTaskAppealVO;
 import top.zywork.vo.WeixinTaskVO;
 
 /**
@@ -15,5 +16,5 @@ public interface WeixinTaskAppealService extends BaseService {
 
     Object getByTaskId(@Param("taskId") Long taskId, @Param("userId") Long userId);
 
-    int appeal(Object obj, WeixinTaskVO weixinTaskVO);
+    int appeal(WeixinTaskAppealVO weixinTaskAppealVO, WeixinTaskVO weixinTaskVO);
 }

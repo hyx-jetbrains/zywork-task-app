@@ -12,6 +12,7 @@
         where
         	task_id = #{taskId}
         	and user_id = #{userId}
+        	and appeal_status = 0
     </select>
 
 </mapper>
