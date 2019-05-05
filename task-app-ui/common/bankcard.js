@@ -35,6 +35,9 @@ export const bind = (self) => {
 	]
 	const checkRes = graceChecker.check(self.bankForm, rule)
 	if(checkRes){
+		uni.showLoading({
+			title:'绑定中'
+		})
 		uni.request({
 			url: BASE_URL + '/user-bankcard/user/bind',
 			method: 'POST',
@@ -57,6 +60,9 @@ export const bind = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	} else{
@@ -65,6 +71,9 @@ export const bind = (self) => {
 }
 
 export const unbind = (self, cardIndex, bankcardNo) => {
+	uni.showLoading({
+		title:'解绑中'
+	})
 	uni.request({
 		url: BASE_URL + '/user-bankcard/user/unbind',
 		method: 'POST',
@@ -86,6 +95,9 @@ export const unbind = (self, cardIndex, bankcardNo) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 }

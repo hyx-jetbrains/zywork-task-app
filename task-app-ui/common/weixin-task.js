@@ -11,6 +11,9 @@ export const createTask = (self) => {
 	]
 	const checkRes = graceChecker.check(self.weixinTaskForm, rule)
 	if(checkRes){
+		uni.showLoading({
+			title:'创建中'
+		})
 		uni.request({
 			url: BASE_URL + '/weixin-task/user/createTask',
 			data: self.weixinTaskForm,
@@ -30,6 +33,9 @@ export const createTask = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	}else{
@@ -258,6 +264,9 @@ export const taskApplyDetail = (self, taskId) => {
 }
 
 export const applyTask = (taskId) => {
+	uni.showLoading({
+		title:'报名中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-apply/user/join-weixin-task',
 		method: 'POST',
@@ -278,11 +287,17 @@ export const applyTask = (taskId) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 }
 
 export const pubConfirmTask = (self, taskId, applyUserId, refresh) => {
+	uni.showLoading({
+		title:'确认中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-apply/user/confirm-weixin-task-apply',
 		method: 'POST',
@@ -310,11 +325,17 @@ export const pubConfirmTask = (self, taskId, applyUserId, refresh) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 } 
 
 export const appConfirmTask = (self, taskId) => {
+	uni.showLoading({
+		title:'确认中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-apply/user/confirm-weixin-task-apply',
 		method: 'POST',
@@ -337,6 +358,9 @@ export const appConfirmTask = (self, taskId) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 } 
@@ -364,6 +388,9 @@ export const closeTask = (self, taskId) => {
 }
 
 export const taskAppeal = (self, taskId) => {
+	uni.showLoading({
+		title:'申诉中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-appeal/user/task-appeal',
 		method: 'POST',
@@ -385,6 +412,9 @@ export const taskAppeal = (self, taskId) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 }

@@ -15,6 +15,9 @@ export const reg = (self) => {
 			showInfoToast('密码与确认密码不一致')
 			return
 		}
+		uni.showLoading({
+			title: '注册中'
+		})
 		uni.request({
 			url: BASE_URL + '/auth/reg-mobile',
 			data: {
@@ -38,6 +41,9 @@ export const reg = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	} else {
@@ -52,6 +58,9 @@ export const login = (self) => {
 	]
 	const checkRes = graceChecker.check(self.loginForm, rule)
 	if(checkRes){
+		uni.showLoading({
+			title:'登录中'
+		})
 		uni.request({
 			url: BASE_URL + '/auth/login',
 			data: {
@@ -76,6 +85,9 @@ export const login = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	}else{
@@ -84,6 +96,9 @@ export const login = (self) => {
 }
 
 export const logout = (self) => {
+	uni.showLoading({
+		title:'退出中'
+	})
 	uni.request({
 		url: BASE_URL + '/auth/logout',
 		method: 'GET',
@@ -107,6 +122,9 @@ export const logout = (self) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 }
@@ -139,6 +157,9 @@ export const userDetail = (self) => {
 }
 
 export const updateNickname = (self) => {
+	uni.showLoading({
+		title:'修改中'
+	})
 	uni.request({
 		url: BASE_URL + '/user-detail/user/update',
 		method: 'POST',
@@ -162,6 +183,9 @@ export const updateNickname = (self) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 }

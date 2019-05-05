@@ -19,6 +19,9 @@ export const updateLogin = (self) => {
 			showInfoToast('新密码与确认密码不一致')
 			return
 		}
+		uni.showLoading({
+			title:'更新中'
+		})
 		uni.request({
 			url: BASE_URL + '/pwd/update-login',
 			method: 'POST',
@@ -42,6 +45,9 @@ export const updateLogin = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	} else{
@@ -64,6 +70,9 @@ export const updatePay = (self) => {
 			showInfoToast('新密码与确认密码不一致')
 			return
 		}
+		uni.showLoading({
+			title:'更新中'
+		})
 		uni.request({
 			url: BASE_URL + '/pwd/update-pay',
 			method: 'POST',
@@ -86,6 +95,9 @@ export const updatePay = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	} else{
