@@ -133,27 +133,27 @@ storage:
     compressSizes: "800*600,600*400"
     compressScales: "0.8,0.5"
     user:
-      imgParentDir: "."
+      imgParentDir: "/data/task-app/upload"
       imgDir: "image/user"
       imgUrl: "upload/image/user"
     goods:
       #后台保存商品图片的路径
-      imgParentDir: "/data/zywork-app-data/upload"
+      imgParentDir: "/data/task-app/upload"
       imgDir: "image/goods"
       #前端显示商品图片的url路径
       imgUrl: "upload/image/goods"
     article:
-      imgParentDir: "/data/zywork-app-data/upload"
+      imgParentDir: "/data/task-app/upload"
       imgDir: "image/article"
       imgUrl: "upload/image/article"
     notice:
-      imgParentDir: "/data/zywork-app-data/upload"
+      imgParentDir: "/data/task-app/upload"
       imgDir: "image/notice"
       imgUrl: "upload/image/notice"
     certification:
-      imgParentDir: "."
+      imgParentDir: "/data/task-app/upload"
       imgDir: "image/certification"
-      imgUrl: "upload/image/notice"
+      imgUrl: "upload/image/certification"
 appeal:
   # 单位/小时
   hours: 72
