@@ -104,6 +104,7 @@ public class WeixinUserTaskApplyQuery extends PageQuery {
 	private String userDetailNickname;
 	// 头像地址
 	private String userDetailHeadicon;
+	private String userDetailWechatQrcode;
 	
     public WeixinUserTaskApplyQuery () {}
 
@@ -435,8 +436,15 @@ public class WeixinUserTaskApplyQuery extends PageQuery {
 		this.userDetailHeadicon = userDetailHeadicon;
 	}
 
-	
-    @Override
+	public String getUserDetailWechatQrcode() {
+		return userDetailWechatQrcode;
+	}
+
+	public void setUserDetailWechatQrcode(String userDetailWechatQrcode) {
+		this.userDetailWechatQrcode = userDetailWechatQrcode;
+	}
+
+	@Override
     public String toString() {
         return "WeixinUserTaskApplyQuery {" +
                 "weixinTaskApplyId = " + weixinTaskApplyId + 

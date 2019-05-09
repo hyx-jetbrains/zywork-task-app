@@ -61,6 +61,8 @@ public class WeixinUserTaskApplyVO extends BaseVO {
 	// 头像地址
 	@Size(min = 0, max = 500, message = "必须小于500个字符")
 	private String userDetailHeadicon;
+	@Size(min = 0, max = 500, message = "必须小于500个字符")
+	private String userDetailWechatQrcode;
 	
     public WeixinUserTaskApplyVO () {}
 
@@ -194,8 +196,15 @@ public class WeixinUserTaskApplyVO extends BaseVO {
 		this.userDetailHeadicon = userDetailHeadicon;
 	}
 
-	
-    @Override
+	public String getUserDetailWechatQrcode() {
+		return userDetailWechatQrcode;
+	}
+
+	public void setUserDetailWechatQrcode(String userDetailWechatQrcode) {
+		this.userDetailWechatQrcode = userDetailWechatQrcode;
+	}
+
+	@Override
     public String toString() {
         return "WeixinUserTaskApplyVO {" +
                 "weixinTaskApplyId = " + weixinTaskApplyId + 

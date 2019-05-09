@@ -5,7 +5,7 @@
 <mapper namespace="top.zywork.dao.WeixinUserTaskApplyDAO">
 
     <sql id="select_columns">
-        t_weixin_task_apply.id as weixinTaskApplyId, t_weixin_task_apply.task_id as weixinTaskApplyTaskId, t_weixin_task_apply.user_id as weixinTaskApplyUserId, t_weixin_task_apply.pub_confirm_status as weixinTaskApplyPubConfirmStatus, t_weixin_task_apply.pub_confirm_time as weixinTaskApplyPubConfirmTime, t_weixin_task_apply.app_confirm_status as weixinTaskApplyAppConfirmStatus, t_weixin_task_apply.app_confirm_time as weixinTaskApplyAppConfirmTime, t_weixin_task_apply.create_time as weixinTaskApplyCreateTime, t_weixin_task_apply.update_time as weixinTaskApplyUpdateTime, t_weixin_task_apply.version as weixinTaskApplyVersion, t_weixin_task_apply.is_active as weixinTaskApplyIsActive, t_user.phone as userPhone, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon
+        t_weixin_task_apply.id as weixinTaskApplyId, t_weixin_task_apply.task_id as weixinTaskApplyTaskId, t_weixin_task_apply.user_id as weixinTaskApplyUserId, t_weixin_task_apply.pub_confirm_status as weixinTaskApplyPubConfirmStatus, t_weixin_task_apply.pub_confirm_time as weixinTaskApplyPubConfirmTime, t_weixin_task_apply.app_confirm_status as weixinTaskApplyAppConfirmStatus, t_weixin_task_apply.app_confirm_time as weixinTaskApplyAppConfirmTime, t_weixin_task_apply.create_time as weixinTaskApplyCreateTime, t_weixin_task_apply.update_time as weixinTaskApplyUpdateTime, t_weixin_task_apply.version as weixinTaskApplyVersion, t_weixin_task_apply.is_active as weixinTaskApplyIsActive, t_user.phone as userPhone, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon, t_user_detail.wechat_qrcode as userDetailWechatQrcode
     </sql>
 
     <sql id="query_where_clause">
@@ -149,6 +149,9 @@
 		</if>
 		<if test="query != null and query.userDetailHeadicon != null and query.userDetailHeadicon != ''">
 			and t_user_detail.headicon like concat('%', #{query.userDetailHeadicon}, '%')
+		</if>
+		<if test="query != null and query.userDetailWechatQrcode != null and query.userDetailWechatQrcode != ''">
+			and t_user_detail.wechat_qrcode like concat('%', #{query.userDetailWechatQrcode}, '%')
 		</if>
 		
         and

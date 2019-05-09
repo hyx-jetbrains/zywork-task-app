@@ -1,5 +1,6 @@
 package top.zywork.dos;
 
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -46,6 +47,7 @@ public class WeixinUserTaskApplyDO extends BaseDO {
 	private String userDetailNickname;
 	// 头像地址
 	private String userDetailHeadicon;
+	private String userDetailWechatQrcode;
 	
     public WeixinUserTaskApplyDO () {}
 
@@ -179,8 +181,15 @@ public class WeixinUserTaskApplyDO extends BaseDO {
 		this.userDetailHeadicon = userDetailHeadicon;
 	}
 
-	
-    @Override
+	public String getUserDetailWechatQrcode() {
+		return userDetailWechatQrcode;
+	}
+
+	public void setUserDetailWechatQrcode(String userDetailWechatQrcode) {
+		this.userDetailWechatQrcode = userDetailWechatQrcode;
+	}
+
+	@Override
     public String toString() {
         return "WeixinUserTaskApplyDO {" +
                 "weixinTaskApplyId = " + weixinTaskApplyId + 
