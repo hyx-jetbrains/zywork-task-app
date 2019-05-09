@@ -99,13 +99,13 @@ weixin:
 reg:
   code:
     #邮箱注册时是否启用邮箱验证码
-    email: true
+    email: false
     #手机注册时是否启用手机验证码
-    sms: true
+    sms: false
 verify:
   code:
     #是否启用邮箱登录时的验证码功能
-    enable: true
+    enable: false
     #验证码有效期，单位为s
     expiration: 600
     cookie-name: "zywork_verify_code"
