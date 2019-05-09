@@ -11,6 +11,9 @@ export const createTask = (self) => {
 	]
 	const checkRes = graceChecker.check(self.weixinTaskForm, rule)
 	if(checkRes){
+		uni.showLoading({
+			title:'创建中'
+		})
 		uni.request({
 			url: BASE_URL + '/weixin-task/user/createTask',
 			data: self.weixinTaskForm,
@@ -30,6 +33,9 @@ export const createTask = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	}else{
@@ -258,6 +264,9 @@ export const taskApplyDetail = (self, taskId) => {
 }
 
 export const applyTask = (taskId) => {
+	uni.showLoading({
+		title:'报名中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-apply/user/join-weixin-task',
 		method: 'POST',
@@ -278,11 +287,17 @@ export const applyTask = (taskId) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 }
 
-export const pubConfirmTask = (self, userIndex, taskId, applyUserId) => {
+export const pubConfirmTask = (self, taskId, applyUserId, refresh) => {
+	uni.showLoading({
+		title:'确认中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-apply/user/confirm-weixin-task-apply',
 		method: 'POST',
@@ -296,7 +311,12 @@ export const pubConfirmTask = (self, userIndex, taskId, applyUserId) => {
 		success: (res) => {
 			if (res.data.code === ResponseStatus.OK) {
 				showSuccessToast(res.data.message)
-				self.applyUsers[userIndex].weixinTaskApplyPubConfirmStatus = 1
+				if (refresh) {
+					taskApplyUser(self, self.taskId, 'init')
+					if (self.taskFrom === 'pub') {
+						taskAppealList(self, self.taskId)
+					}
+				}
 			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
@@ -305,11 +325,17 @@ export const pubConfirmTask = (self, userIndex, taskId, applyUserId) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 } 
 
 export const appConfirmTask = (self, taskId) => {
+	uni.showLoading({
+		title:'确认中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-apply/user/confirm-weixin-task-apply',
 		method: 'POST',
@@ -332,6 +358,9 @@ export const appConfirmTask = (self, taskId) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 } 
@@ -359,6 +388,9 @@ export const closeTask = (self, taskId) => {
 }
 
 export const taskAppeal = (self, taskId) => {
+	uni.showLoading({
+		title:'申诉中'
+	})
 	uni.request({
 		url: BASE_URL + '/weixin-task-appeal/user/task-appeal',
 		method: 'POST',
@@ -371,7 +403,35 @@ export const taskAppeal = (self, taskId) => {
 		},
 		success: (res) => {
 			if (res.data.code === ResponseStatus.OK) {
-				showSuccessToast('申诉成功，24小时后可再次申诉')
+				showInfoToast('申诉成功，24小时后可再次申诉')
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
+				invalidToken()
+			} else {
+				showInfoToast(res.data.message)
+			}
+		},
+		fail: () => {
+			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
+		}
+	})
+}
+
+export const taskAppealList = (self, taskId) => {
+	uni.request({
+		url: BASE_URL + '/WeixinUserTaskAppeal/user/list-all-taskId',
+		method: 'POST',
+		data: {
+			weixinTaskAppealTaskId: taskId
+		},
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === ResponseStatus.OK) {
+				self.appealUsers = res.data.data
 			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {

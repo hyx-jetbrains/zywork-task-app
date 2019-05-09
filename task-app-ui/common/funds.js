@@ -31,6 +31,9 @@ export const submitWithdraw = (self) => {
 	]
 	const checkRes = graceChecker.check(self.withdrawForm, rule)
 	if(checkRes){
+		uni.showLoading({
+			title:'提交中'
+		})
 		uni.request({
 			url: BASE_URL + '/withdraw/user/submit',
 			data: self.withdrawForm,
@@ -51,6 +54,9 @@ export const submitWithdraw = (self) => {
 			},
 			fail: () => {
 				networkError()
+			},
+			complete: () => {
+				uni.hideLoading()
 			}
 		})
 	} else{
@@ -60,6 +66,9 @@ export const submitWithdraw = (self) => {
 }
 
 export const cancelWithdraw = (self, itemIndex, transactionNo) => {
+	uni.showLoading({
+		title:'取消中'
+	})
 	uni.request({
 		url: BASE_URL + '/withdraw/user/cancel',
 		method: 'POST',
@@ -81,6 +90,9 @@ export const cancelWithdraw = (self, itemIndex, transactionNo) => {
 		},
 		fail: () => {
 			networkError()
+		},
+		complete: () => {
+			uni.hideLoading()
 		}
 	})
 }

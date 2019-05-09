@@ -6,7 +6,9 @@ export const loadMessage = (self, type) => {
 		url: BASE_URL + '/user-message/user/pager-cond',
 		data: {
 			pageNo: self.pager.pageNo,
-			pageSize: self.pager.pageSize
+			pageSize: self.pager.pageSize,
+			sortColumn: 'userMessageCreateTime',
+			sortOrder: 'desc'
 		},
 		method: 'POST',
 		header: {

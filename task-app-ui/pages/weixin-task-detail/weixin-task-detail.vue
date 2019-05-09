@@ -42,8 +42,9 @@
 			</view>
 		</view>
 		<view class="zy-apply-user" v-if="taskFrom === 'pub'">
-			<view class="zy-apply-user-item" v-for="(item, index) in applyUsers" :key="index" @click="confirmApplyUser(index, item)">
-				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
+			<view class="zy-apply-user-item" v-for="(item, index) in applyUsers" :key="index">
+				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"  @click="confirmApplyUser(item)"/>
+				<image class="zy-headicon" :src="imgBaseUrl + '/' + item.userDetailWechatQrcode" @click="showQrcode(item.userDetailWechatQrcode)"/>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 1" size="12" color="#FF0000" type="icongou"></zywork-icon>
 				<zywork-icon v-if="item.weixinTaskApplyPubConfirmStatus === 0" size="12" color="transparent" type="icongou"></zywork-icon>
 				<text class="zy-small-text">{{item.userDetailNickname === null ? '暂无昵称' : item.userDetailNickname}}</text>
@@ -58,6 +59,14 @@
 			</view>
 		</view>
 		<view v-if="applyUsers.length > 0" style="width: 100%; text-align: center; font-size: 24upx;" @click="loadMoreUser">查看更多</view>
+		<view v-if="appealUsers.length > 0" style="text-align: center;margin-top: 20upx; font-size: 26upx;">申诉列表</view>
+		<view class="zy-apply-user" v-if="taskFrom === 'pub'">
+			<view class="zy-apply-user-item" v-for="(item, index) in appealUsers" :key="index" @click="confirmFriendFromAppealModal(item)">
+				<image class="zy-headicon" :src="item.userDetailHeadicon === null ? defaultIcon : imgBaseUrl + '/' + item.userDetailHeadicon"/>
+				<image class="zy-headicon" :src="imgBaseUrl + '/' + item.userDetailWechatQrcode" @click="showQrcode(item.userDetailWechatQrcode)"/>
+				<text class="zy-small-text">{{item.userDetailNickname === null ? '暂无昵称' : item.userDetailNickname}}</text>
+			</view>
+		</view>
 		<neil-modal 
 			:show="showNeilModal"
 			autoClose="false"
@@ -67,6 +76,15 @@
 			@cancel="cancelModal"
 			@confirm="confirmFriend">
 		</neil-modal>
+		<neil-modal 
+			:show="showNeilModal1"
+			autoClose="false"
+			align="center"
+			title="标题" 
+			content="确认已经添加此用户为好友？"
+			@cancel="cancelModal"
+			@confirm="confirmFriendFromAppeal">
+		</neil-modal>
 	</view>
 </template>
 
@@ -75,7 +93,7 @@
 	import neilModal from '@/components/neil-modal/neil-modal.vue'
 	
 	import {DEFAULT_HEADICON, IMAGE_BASE_URL, showInfoToast} from '../../common/util.js'
-	import {taskDetail, taskApplyDetail, taskApplyUser, applyTask, pubConfirmTask, appConfirmTask, closeTask, taskAppeal} from '../../common/weixin-task.js'
+	import {taskDetail, taskApplyDetail, taskApplyUser, applyTask, pubConfirmTask, appConfirmTask, closeTask, taskAppeal, taskAppealList} from '../../common/weixin-task.js'
 	export default {
 		components: {
 			zyworkIcon,
@@ -86,9 +104,11 @@
 				taskDetail: {},
 				taskApplyDetail: {},
 				applyUsers: [],
+				appealUsers: [],
 				confirmUserIndex: null,
 				confirmUserItem: {},
 				showNeilModal: false,
+				showNeilModal1: false,
 				pager: {
 					pageNo: 1,
 					pageSize: 15
@@ -107,6 +127,9 @@
 				taskApplyDetail(this, this.taskId)
 			}
 			taskApplyUser(this, this.taskId, 'init')
+			if (this.taskFrom === 'pub') {
+				taskAppealList(this, this.taskId)
+			}
 		},
 		onPullDownRefresh() {
 			taskDetail(this, this.taskId)
@@ -115,6 +138,9 @@
 			}
 			this.pager.pageNo = 1
 			taskApplyUser(this, this.taskId, 'pullDown')
+			if (this.taskFrom === 'pub') {
+				taskAppealList(this, this.taskId)
+			}
 			uni.stopPullDownRefresh()
 		},
 		methods: {
@@ -125,20 +151,27 @@
 			applyTask() {
 				applyTask(this.taskId)
 			},
-			confirmApplyUser(index, item) {
+			confirmApplyUser(item) {
 				if　(item.weixinTaskApplyPubConfirmStatus === 1) {
 					showInfoToast('已确认添加了此用户为好友，无需重复确认')
 					return
 				}
-				this.confirmUserIndex = index
 				this.confirmUserItem = item
 				this.showNeilModal = true
 			},
 			confirmFriend() {
-				pubConfirmTask(this, this.confirmUserIndex, this.confirmUserItem.weixinTaskApplyTaskId, this.confirmUserItem.weixinTaskApplyUserId)
+				pubConfirmTask(this, this.confirmUserItem.weixinTaskApplyTaskId, this.confirmUserItem.weixinTaskApplyUserId, true)
+			},
+			confirmFriendFromAppealModal(item) {
+				this.confirmUserItem = item
+				this.showNeilModal1 = true
+			},
+			confirmFriendFromAppeal(item) {
+				pubConfirmTask(this, this.confirmUserItem.weixinTaskAppealTaskId, this.confirmUserItem.weixinTaskAppealUserId, true)
 			},
 			cancelModal() {
 				this.showNeilModal = false
+				this.showNeilModal1 = false
 			},
 			confirmTask() {
 				appConfirmTask(this, this.taskId)
@@ -148,6 +181,11 @@
 			},
 			taskAppeal() {
 				taskAppeal(this, this.taskId)
+			},
+			showQrcode(imageUrl) {
+				uni.previewImage({
+					urls: [this.imgBaseUrl + '/' + imageUrl]
+				})
 			}
 		}
 	}
