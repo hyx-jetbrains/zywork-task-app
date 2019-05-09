@@ -18,9 +18,9 @@ export default {
    */
   baseUrl: {
     dev: 'http://localhost:8088',
-    pro: 'http://39.108.116.103:8088',
+    pro: 'http://47.106.132.248:8088/task',
     devServer: 'http://localhost',
-    proServer: 'http://39.108.116.103',
+    proServer: 'http://47.106.132.248',
     cdnUrl: '' // 如果是本地存储，不需要填写，为空；如果使用云存储，则配置cdn url，如http://cdn.zywork.top
   },
   /**
