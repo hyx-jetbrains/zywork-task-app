@@ -1,5 +1,5 @@
-export const BASE_URL = 'http://192.168.203.132:8088'
-export const IMAGE_BASE_URL = 'http://localhost'
+export const BASE_URL = 'http://47.106.132.248:8088'
+export const IMAGE_BASE_URL = 'http://47.106.132.248'
 export const USER_TOKEN_KEY = 'userToken'
 
 export const DEFAULT_HEADICON = '/static/icon/headicon.png'
