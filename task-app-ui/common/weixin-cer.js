@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
+import {BASE_URL, IMAGE_BASE_URL, getUserToken, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
 import * as ResponseStatus from './response-status.js'
 
 export const weixinCer = (self) => {
@@ -11,6 +11,9 @@ export const weixinCer = (self) => {
 		success: (res) => {
 			if (res.data.code === ResponseStatus.OK) {
 				self.weixinCer = res.data.data
+				if (self.weixinCer.url !== null) {
+					self.weixinCer.url = IMAGE_BASE_URL + '/' + self.weixinCer.url
+				}
 			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {

@@ -1,4 +1,4 @@
-import {BASE_URL, DEFAULT_HEADICON, saveUserToken, removeUserToken, getUserToken, clearForm, networkError, invalidToken, showInfoToast, showSuccessToast} from './util.js'
+import {BASE_URL, IMAGE_BASE_URL, DEFAULT_HEADICON, saveUserToken, removeUserToken, getUserToken, clearForm, networkError, invalidToken, showInfoToast, showSuccessToast} from './util.js'
 import * as ResponseStatus from './response-status.js'
 
 const graceChecker = require("./graceChecker.js");
@@ -139,8 +139,12 @@ export const userDetail = (self) => {
 		success: (res) => {
 			if (res.data.code === ResponseStatus.OK) {
 				self.user.nickname = res.data.data.nickname
-				self.user.headicon = res.data.data.headicon
-				self.user.wechatQrcode = res.data.data.wechatQrcode
+				if (res.data.data.headicon !== null) {
+					self.user.headicon = IMAGE_BASE_URL + '/' + res.data.data.headicon
+				}
+				if (res.data.data.wechatQrcode !== null) {
+					self.user.wechatQrcode = IMAGE_BASE_URL + '/' + res.data.data.wechatQrcode
+				}
 			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				showInfoToast('请登录')
 				self.isUserLogin = false

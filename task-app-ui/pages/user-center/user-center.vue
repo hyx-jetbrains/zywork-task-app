@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="zy-user-container" v-if="isUserLogin">
-			<image class="zy-headicon" :src="user.headicon === null ? headicon : imgBaseUrl + '/' + user.headicon" @click="chooseImage"></image>
+			<image class="zy-headicon" :src="user.headicon === null ? headicon : user.headicon" @click="chooseImage"></image>
 			<text class="zy-name">{{user.nickname === null ? '暂无昵称' : user.nickname}}</text>
 		</view>
 		<view class="zy-user-container" v-else>
@@ -48,7 +48,6 @@
 
 <script>
 	import {
-		IMAGE_BASE_URL,
 		DEFAULT_HEADICON,
 		isUserTokenExist,
 		removeUserToken,
@@ -84,7 +83,6 @@
 					usableIntegral: 0,
 					frezeeIntegral: 0
 				},
-				imgBaseUrl: IMAGE_BASE_URL,
 				headicon: DEFAULT_HEADICON
 			}
 		},
