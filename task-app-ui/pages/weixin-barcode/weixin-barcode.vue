@@ -1,20 +1,18 @@
 <template>
 	<view class="zy-page">
 		<view v-if="weixinBarcode === null">未上传微信二维码</view>
-		<image v-else :src="imgBaseUrl + '/' + weixinBarcode"/>
+		<image v-else :src="weixinBarcode"/>
 		<text class="zy-text-info-strong" @click="chooseImage">上传我的微信二维码</text>
 	</view>
 </template>
 
 <script>
-	import {IMAGE_BASE_URL} from '../../common/util.js'
 	import {uploadWechatQrcode} from '../../common/user.js'
 	
 	export default {
 		data() {
 			return {
-				weixinBarcode: null,
-				imgBaseUrl: IMAGE_BASE_URL
+				weixinBarcode: null
 			}
 		},
 		onLoad(option) {

@@ -1,7 +1,7 @@
 <template>
 	<view class="zy-page">
 		<view v-if="weixinCer.url === null">未上传微信认证截图</view>
-		<image v-else :src="imgBaseUrl + '/' + weixinCer.url"/>
+		<image v-else :src="weixinCer.url"/>
 		<text v-if="weixinCer.url !== null && weixinCer.checkStatus === 0" style="font-size: 28upx;">等待审核</text>
 		<text v-if="weixinCer.url !== null && weixinCer.checkStatus === 1" style="font-size: 28upx;">已审核通过</text>
 		<text v-if="weixinCer.url !== null && weixinCer.checkStatus === 2" style="font-size: 28upx;">未审核通过</text>
@@ -20,14 +20,14 @@
 					url: null,
 					checkStatus: 0
 				},
-				weixinCerExp: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/img/ad.png',
-				imgBaseUrl: IMAGE_BASE_URL
+				weixinCerExp: '/upload/cer.jpg'
 			}
 		},
 		onLoad() {
+			this.loadWeixinCer()
 		},
 		onShow() {
-			this.loadWeixinCer()
+			
 		},
 		methods: {
 			loadWeixinCer() {
@@ -38,7 +38,7 @@
 			},
 			previewImage() {
 				uni.previewImage({
-					urls: [this.weixinCerExp]
+					urls: [IMAGE_BASE_URL + this.weixinCerExp]
 				})
 			}
 		}
