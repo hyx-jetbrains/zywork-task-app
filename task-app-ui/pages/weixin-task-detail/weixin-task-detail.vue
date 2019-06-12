@@ -81,7 +81,7 @@
 			autoClose="false"
 			align="center"
 			title="标题" 
-			content="确认已经添加此用户为好友？"
+			content="确认此用户已加入群聊？"
 			@cancel="cancelModal"
 			@confirm="confirmFriendFromAppeal">
 		</neil-modal>
@@ -153,7 +153,7 @@
 			},
 			confirmApplyUser(item) {
 				if　(item.weixinTaskApplyPubConfirmStatus === 1) {
-					showInfoToast('已确认添加了此用户为好友，无需重复确认')
+					showInfoToast('已确认此用户加入群聊，无需重复确认')
 					return
 				}
 				this.confirmUserItem = item

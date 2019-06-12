@@ -7,6 +7,9 @@
 			<view class="uni-form-item uni-column">
 				<input v-model="bankForm.bankcardNo" class="uni-input" placeholder="请输入银行卡卡号" />
 			</view>
+			<view class="uni-form-item uni-column">
+				<input v-model="bankForm.bankcardNo1" class="uni-input" placeholder="请再次输入银行卡卡号" />
+			</view>
 			<view class="uni-form-item">
 				<button type="primary" style="width: 100%;" @click="addBank">添加</button>
 			</view>
@@ -21,7 +24,8 @@
 			return {
 				bankForm: {
 					accountName: null,
-					bankcardNo: null
+					bankcardNo: null,
+					bankcardNo1: null
 				}
 			}
 		},

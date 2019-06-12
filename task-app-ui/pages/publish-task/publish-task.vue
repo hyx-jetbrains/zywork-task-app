@@ -17,10 +17,10 @@
 				<input v-model="weixinTaskForm.title" class="uni-input" placeholder="请输入任务标题" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input v-model="weixinTaskForm.totalNumber" class="uni-input" type="number" placeholder="请输入加友总数" />
+				<input v-model="weixinTaskForm.totalNumber" class="uni-input" type="number" placeholder="请输入需要参与任务总人数" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<input v-model="weixinTaskForm.integral" class="uni-input" type="number" placeholder="请输入单人奖励积分" />
+				<input v-model="weixinTaskForm.integral" class="uni-input" type="number" placeholder="请输入辅助解封后奖励积分" />
 			</view>
 			<view class="uni-form-item uni-column">
 				<view class="uni-textarea">

@@ -31,10 +31,15 @@ export const banks = (self) => {
 export const bind = (self) => {
 	const rule = [
 		{name:'accountName', checkType : 'string', checkRule: '1,5',  errorMsg:'请输入银行卡开户姓名'},
-		{name:'bankcardNo', checkType : 'notnull', checkRule: '',  errorMsg:'请输入银行卡卡号'}
+		{name:'bankcardNo', checkType : 'notnull', checkRule: '',  errorMsg:'请输入银行卡卡号'},
+		{name:'bankcardNo1', checkType : 'notnull', checkRule: '',  errorMsg:'请再次输入银行卡卡号'}
 	]
 	const checkRes = graceChecker.check(self.bankForm, rule)
 	if(checkRes){
+		if (self.bankcardNo !== self.bankcardNo1) {
+			showInfoToast('请确保两次输入的银行卡号一致')
+			return
+		}
 		uni.showLoading({
 			title:'绑定中'
 		})
