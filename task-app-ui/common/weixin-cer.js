@@ -26,6 +26,34 @@ export const weixinCer = (self) => {
 	})
 }
 
+export const updateWeixinCerStatus = (self) => {
+	let checkStatus = 3
+	let url = BASE_URL + '/weixin-certification/user/question-no/' + self.weixinCer.id
+	if (self.question.one === 'oneNo' && self.question.two === 'twoYes' && self.question.three === 'threeYes') {
+		url = BASE_URL + '/weixin-certification/user/question-yes/' + self.weixinCer.id
+		checkStatus = 4
+	}
+	uni.request({
+		url: url,
+		method: 'GET',
+		header: {
+			'Authorization': 'Bearer ' + getUserToken()
+		},
+		success: (res) => {
+			if (res.data.code === ResponseStatus.OK) {
+				self.weixinCer.checkStatus = checkStatus
+			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
+				invalidToken()
+			} else {
+				showInfoToast(res.data.message)
+			}
+		},
+		fail: () => {
+			networkError()
+		}
+	})
+}
+
 export const uploadWeixinCer = (self) => {
 	uni.chooseImage({
 		sizeType: ['original', 'compressed'],

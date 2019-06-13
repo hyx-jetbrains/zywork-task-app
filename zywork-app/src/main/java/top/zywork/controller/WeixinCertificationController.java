@@ -133,12 +133,32 @@ public class WeixinCertificationController extends BaseController {
         if (bindingResult.hasErrors()) {
             return ResponseStatusVO.dataError(BindingResultUtils.errorString(bindingResult), null);
         }
+        return update(weixinCertificationVO);
+    }
+
+    private ResponseStatusVO update(WeixinCertificationVO weixinCertificationVO) {
         int updateRows = weixinCertificationService.update(BeanUtils.copy(weixinCertificationVO, WeixinCertificationDTO.class));
         if (updateRows == 1) {
             return ResponseStatusVO.ok("更新成功", null);
         } else {
             return ResponseStatusVO.dataError("数据版本号有问题，在此更新前数据已被更新", null);
         }
+    }
+
+    @GetMapping("user/question-no/{id}")
+    public ResponseStatusVO userUpdateCheckStatusQuestionNo(@PathVariable("id") Long id) {
+        WeixinCertificationVO weixinCertificationVO = new WeixinCertificationVO();
+        weixinCertificationVO.setId(id);
+        weixinCertificationVO.setCheckStatus((byte) 3);
+        return update(weixinCertificationVO);
+    }
+
+    @GetMapping("user/question-yes/{id}")
+    public ResponseStatusVO userUpdateCheckStatusQuestionYes(@PathVariable("id") Long id) {
+        WeixinCertificationVO weixinCertificationVO = new WeixinCertificationVO();
+        weixinCertificationVO.setId(id);
+        weixinCertificationVO.setCheckStatus((byte) 4);
+        return update(weixinCertificationVO);
     }
 
     @PostMapping("admin/updateCheckStatus")

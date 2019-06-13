@@ -321,9 +321,15 @@
 							render: (h, params) => {
 								let txt = null
 								if(params.row.weixinCertificationCheckStatus == 0) {
-									txt = '未认证'
+									txt = '待认证'
 								} else if(params.row.weixinCertificationCheckStatus == 1) {
 									txt = '已认证'
+								} else if(params.row.weixinCertificationCheckStatus == 2) {
+									txt = '未通过'
+								} else if (params.row.weixinCertificationCheckStatus === 3) {
+									txt = '答题未通过'
+								} else if (params.row.weixinCertificationCheckStatus === 4) {
+									txt = '答题已通过'
 								}
 								return h('span', txt)
 							}
