@@ -69,7 +69,7 @@ public class WeixinCertificationController extends BaseController {
            WeixinCertificationVO weixinCertificationVO = new WeixinCertificationVO();
            weixinCertificationVO.setUserId(jwtUser.getUserId());
            weixinCertificationVO.setUrl(responseStatusVO.getData().toString());
-           weixinCertificationVO.setCheckStatus((byte) 0);
+           weixinCertificationVO.setCheckStatus((byte) 4);
 
            Object obj = weixinCertificationService.getByUserId(jwtUser.getUserId());
            if(obj != null) {
