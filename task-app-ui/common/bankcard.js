@@ -36,7 +36,7 @@ export const bind = (self) => {
 	]
 	const checkRes = graceChecker.check(self.bankForm, rule)
 	if(checkRes){
-		if (self.bankcardNo !== self.bankcardNo1) {
+		if (self.bankForm.bankcardNo !== self.bankForm.bankcardNo1) {
 			showInfoToast('请确保两次输入的银行卡号一致')
 			return
 		}
