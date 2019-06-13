@@ -154,6 +154,10 @@ storage:
       imgParentDir: "/data/task-app/upload"
       imgDir: "image/certification"
       imgUrl: "upload/image/certification"
+    weixinTask:
+      imgParentDir: "/data/task-app/upload"
+      imgDir: "image/weixin-task"
+      imgUrl: "upload/image/weixin-task"
 appeal:
   # 单位/小时
   hours: 72

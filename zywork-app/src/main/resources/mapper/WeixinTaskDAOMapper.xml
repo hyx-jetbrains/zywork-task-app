@@ -193,6 +193,9 @@
 			<if test="integral != null">
 				integral = #{integral},
 			</if>
+			<if test="groupChatQrcode != null">
+				group_chat_qrcode = #{groupChatQrcode},
+			</if>
 			<if test="description != null">
 				description = #{description},
 			</if>
@@ -235,6 +238,9 @@
 			<if test="item.integral != null">
 				integral = #{item.integral},
 			</if>
+			<if test="groupChatQrcode != null">
+				group_chat_qrcode = #{item.groupChatQrcode},
+			</if>
 			<if test="item.description != null">
 				description = #{item.description},
 			</if>
@@ -263,7 +269,7 @@
     </update>
 
     <sql id="select_columns">
-        id as id, user_id as userId, title as title, total_number as totalNumber, confirm_number as confirmNumber, integral as integral, description as description, task_status as taskStatus, create_time as createTime, update_time as updateTime, version as version, is_active as isActive
+        id as id, user_id as userId, title as title, total_number as totalNumber, confirm_number as confirmNumber, integral as integral, group_chat_qrcode as groupChatQrcode, description as description, task_status as taskStatus, create_time as createTime, update_time as updateTime, version as version, is_active as isActive
     </sql>
 
     <sql id="query_where_clause">

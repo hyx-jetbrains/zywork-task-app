@@ -39,6 +39,7 @@ public class WeixinUserTaskVO extends BaseVO {
 	// 奖励积分
 	@NotNull(message = "此项是必须项")
 	private Long weixinTaskIntegral;
+	private String weixinTaskGroupChatQrcode;
 	// 任务描述
 	@Size(min = 0, max = 300, message = "必须小于300个字符")
 	private String weixinTaskDescription;
@@ -133,6 +134,14 @@ public class WeixinUserTaskVO extends BaseVO {
 
 	public void setWeixinTaskIntegral(Long weixinTaskIntegral) {
 		this.weixinTaskIntegral = weixinTaskIntegral;
+	}
+
+	public String getWeixinTaskGroupChatQrcode() {
+		return weixinTaskGroupChatQrcode;
+	}
+
+	public void setWeixinTaskGroupChatQrcode(String weixinTaskGroupChatQrcode) {
+		this.weixinTaskGroupChatQrcode = weixinTaskGroupChatQrcode;
 	}
 
 	public String getWeixinTaskDescription() {

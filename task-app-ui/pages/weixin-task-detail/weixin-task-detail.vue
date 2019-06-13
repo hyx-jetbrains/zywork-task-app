@@ -11,6 +11,18 @@
 					<text style="margin-left: 100upx;">人数：{{taskDetail.weixinTaskConfirmNumber}}/{{taskDetail.weixinTaskTotalNumber}}</text>
 				</view>
 				<view>描述：{{taskDetail.weixinTaskDescription}}</view>
+				<view v-if="taskFrom === 'pub'">
+					微信群聊二维码：
+					<image v-if="taskDetail.weixinTaskGroupChatQrcode !== null" :src="taskDetail.weixinTaskGroupChatQrcode" style="width:100upx; height: 100upx;" 
+					@click="previewImage(taskDetail.weixinTaskGroupChatQrcode)"></image>
+					<text v-else style="color: #0A98D5;" @click="chooseImage">现在上传</text>
+				</view>
+				<view v-if="taskFrom === 'join'">
+					微信群聊二维码：
+					<image v-if="taskDetail.weixinTaskGroupChatQrcode !== null" :src="taskDetail.weixinTaskGroupChatQrcode" style="width:100upx; height: 100upx;" 
+					@click="previewImage(taskDetail.weixinTaskGroupChatQrcode)"></image>
+					<text v-else>未上传</text>
+				</view>
 				<view class="zy-small-text">{{taskDetail.weixinTaskCreateTime}}</view>
 			</view>
 		</view>
@@ -93,7 +105,9 @@
 	import neilModal from '@/components/neil-modal/neil-modal.vue'
 	
 	import {DEFAULT_HEADICON, IMAGE_BASE_URL, showInfoToast} from '../../common/util.js'
-	import {taskDetail, taskApplyDetail, taskApplyUser, applyTask, pubConfirmTask, appConfirmTask, closeTask, taskAppeal, taskAppealList} from '../../common/weixin-task.js'
+	import {taskDetail, taskApplyDetail, taskApplyUser, applyTask, 
+	pubConfirmTask, appConfirmTask, closeTask, taskAppeal, 
+	taskAppealList, uploadQrcode} from '../../common/weixin-task.js'
 	export default {
 		components: {
 			zyworkIcon,
@@ -185,6 +199,14 @@
 			showQrcode(imageUrl) {
 				uni.previewImage({
 					urls: [this.imgBaseUrl + '/' + imageUrl]
+				})
+			},
+			chooseImage() {
+				uploadQrcode(this)
+			},
+			previewImage(imageUrl) {
+				uni.previewImage({
+					urls: [imageUrl]
 				})
 			}
 		}

@@ -3,24 +3,33 @@ package top.zywork.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import top.zywork.common.BeanUtils;
 import top.zywork.common.BindingResultUtils;
 import top.zywork.common.StringUtils;
+import top.zywork.common.UploadUtils;
 import top.zywork.dos.RateConfig;
 import top.zywork.dto.PagerDTO;
+import top.zywork.dto.WeixinCertificationDTO;
 import top.zywork.dto.WeixinTaskDTO;
+import top.zywork.enums.ResponseStatusEnum;
+import top.zywork.enums.StorageProviderEnum;
 import top.zywork.enums.SysConfigEnum;
+import top.zywork.enums.UploadTypeEnum;
 import top.zywork.query.WeixinTaskQuery;
 import top.zywork.security.JwtUser;
 import top.zywork.security.SecurityUtils;
 import top.zywork.service.SysConfigService;
+import top.zywork.service.UploadService;
 import top.zywork.service.WeixinTaskService;
 import top.zywork.vo.ResponseStatusVO;
 import top.zywork.vo.PagerVO;
+import top.zywork.vo.WeixinCertificationVO;
 import top.zywork.vo.WeixinTaskVO;
 
 import java.util.List;
@@ -39,9 +48,20 @@ public class WeixinTaskController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(WeixinTaskController.class);
 
+    @Value("${storage.local.weixinTask.imgParentDir}")
+    private String imgParentDir;
+
+    @Value("${storage.local.weixinTask.imgDir}")
+    private String imgDir;
+
+    @Value("${storage.local.weixinTask.imgUrl}")
+    private String imgUrl;
+
     private WeixinTaskService weixinTaskService;
 
     private SysConfigService sysConfigService;
+
+    private UploadService uploadService;
 
     @PostMapping("user/createTask")
     public ResponseStatusVO createTask(@RequestBody @Validated WeixinTaskVO weixinTaskVO, BindingResult bindingResult) {
@@ -189,6 +209,23 @@ public class WeixinTaskController extends BaseController {
         return ResponseStatusVO.ok("查询成功", pagerVO);
     }
 
+    @PostMapping("user/upload-qrcode/{taskId}")
+    public ResponseStatusVO userUploadQrcode(@PathVariable("taskId") Long taskId, MultipartFile file) {
+        JwtUser jwtUser = SecurityUtils.getJwtUser();
+        if (jwtUser == null) {
+            return ResponseStatusVO.authenticationError();
+        }
+        UploadUtils.UploadOptions uploadOptions = new UploadUtils.UploadOptions(imgParentDir, imgDir, imgUrl);
+        ResponseStatusVO responseStatusVO = uploadService.uploadFile(StorageProviderEnum.LOCAL.getProvider(),file, UploadTypeEnum.IMAGE.getAllowedExts(),UploadTypeEnum.IMAGE.getMaxSize(),uploadOptions);
+        if (responseStatusVO.getCode().intValue() == ResponseStatusEnum.OK.getCode().intValue()) {
+            WeixinTaskVO weixinTaskVO = new WeixinTaskVO();
+            weixinTaskVO.setId(taskId);
+            weixinTaskVO.setGroupChatQrcode(responseStatusVO.getData().toString());
+            weixinTaskService.update(BeanUtils.copy(weixinTaskVO, WeixinTaskDTO.class));
+        }
+        return responseStatusVO;
+    }
+
     @Autowired
     public void setWeixinTaskService(WeixinTaskService weixinTaskService) {
         this.weixinTaskService = weixinTaskService;
@@ -197,5 +234,10 @@ public class WeixinTaskController extends BaseController {
     @Autowired
     public void setSysConfigService(SysConfigService sysConfigService) {
         this.sysConfigService = sysConfigService;
+    }
+
+    @Autowired
+    public void setUploadService(UploadService uploadService) {
+        this.uploadService = uploadService;
     }
 }

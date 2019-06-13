@@ -151,7 +151,7 @@ public class WeixinTaskApplyServiceImpl extends AbstractBaseService implements W
             Object appObj = weixinTaskApplyDAO.getByUserId(weixinTaskVO.getId(), weixinTaskApplyVO.getUserId());
             if (appObj == null) {
                 weixinTaskApplyDAO.save(weixinTaskApplyVO);
-                return ResponseStatusVO.ok("成功参加", null);
+                return ResponseStatusVO.ok("成功参加任务，请在参与的任务中查看微信群聊二维码", null);
             }
             return ResponseStatusVO.dataError("你已参加任务，请勿重新参加", null);
         }

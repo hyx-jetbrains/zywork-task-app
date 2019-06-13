@@ -1,4 +1,4 @@
-import {BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
+import {BASE_URL, IMAGE_BASE_URL, getUserToken, clearForm, invalidToken, networkError, showInfoToast, showSuccessToast} from './util.js'
 import * as ResponseStatus from './response-status.js'
 
 const graceChecker = require("./graceChecker.js");
@@ -6,8 +6,8 @@ const graceChecker = require("./graceChecker.js");
 export const createTask = (self) => {
 	const rule = [
 		{name:'title', checkType : 'string', checkRule: '1,20',  errorMsg:'请输入1-' + '20个文字的标题'},
-		{name:'totalNumber', checkType : 'betweenD', checkRule: '1,1000',  errorMsg:'请输入1-' + '1000的总人数'},
-		{name:'integral', checkType : 'betweenD', checkRule: '1,1000',  errorMsg:'请输入1-' + '1000的单人积分'}
+		{name:'totalNumber', checkType : 'betweenD', checkRule: '1,1000',  errorMsg:'请输入1-' + '1000的参与任务总人数'},
+		{name:'integral', checkType : 'betweenD', checkRule: '1,1000',  errorMsg:'请输入1-' + '1000的辅助解封奖励积分'}
 	]
 	const checkRes = graceChecker.check(self.weixinTaskForm, rule)
 	if(checkRes){
@@ -23,7 +23,10 @@ export const createTask = (self) => {
 			},
 			success: (res) => {
 				if (res.data.code === ResponseStatus.OK) {
-					showSuccessToast('发布微信任务成功')
+					uni.showToast({
+						title: '发布微信任务成功，请在发布的任务中及时上传微信群聊二维码',
+						duration: 5000
+					})
 					clearForm(self.weixinTaskForm)
 				} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 					invalidToken()
@@ -193,6 +196,9 @@ export const taskDetail = (self, taskId) => {
 		success: (res) => {
 			if (res.data.code === ResponseStatus.OK) {
 				self.taskDetail = res.data.data
+				if (self.taskDetail.weixinTaskGroupChatQrcode !== null) {
+					self.taskDetail.weixinTaskGroupChatQrcode = IMAGE_BASE_URL + '/' + self.taskDetail.weixinTaskGroupChatQrcode
+				}
 			} else if (res.data.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
 				invalidToken()
 			} else {
@@ -440,6 +446,41 @@ export const taskAppealList = (self, taskId) => {
 		},
 		fail: () => {
 			networkError()
+		}
+	})
+}
+
+export const uploadQrcode = (self) => {
+	uni.chooseImage({
+		sizeType: ['original', 'compressed'],
+		sourceType: ['album', 'camera'],
+		count: 1,
+		success: (res) => {
+			self.taskDetail.weixinTaskGroupChatQrcode = res.tempFilePaths[0]
+			uni.uploadFile({
+				url: BASE_URL +　'/weixin-task/user/upload-qrcode/' + self.taskDetail.weixinTaskId,
+				filePath: res.tempFilePaths[0],
+				name: 'file',
+				header: {
+					'Authorization': 'Bearer ' + getUserToken()
+				},
+				success: (uploadFileRes) => {
+					const json = JSON.parse(uploadFileRes.data)
+					if (json.code === ResponseStatus.OK) {
+						showSuccessToast('上传成功')
+					} else if (json.code === ResponseStatus.AUTHENTICATION_TOKEN_ERROR) {
+						invalidToken()
+					} else {
+						showInfoToast(res.data.message)
+					}
+				},
+				fail: () => {
+					networkError()
+				}
+			})
+		},
+		fail: (res) => {
+			console.log(res)
 		}
 	})
 }

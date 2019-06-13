@@ -28,6 +28,7 @@ public class WeixinUserTaskDTO extends BaseDTO {
 	private Integer weixinTaskConfirmNumber;
 	// 奖励积分
 	private Long weixinTaskIntegral;
+	private String weixinTaskGroupChatQrcode;
 	// 任务描述
 	private String weixinTaskDescription;
 	// 任务状态
@@ -116,6 +117,14 @@ public class WeixinUserTaskDTO extends BaseDTO {
 
 	public void setWeixinTaskIntegral(Long weixinTaskIntegral) {
 		this.weixinTaskIntegral = weixinTaskIntegral;
+	}
+
+	public String getWeixinTaskGroupChatQrcode() {
+		return weixinTaskGroupChatQrcode;
+	}
+
+	public void setWeixinTaskGroupChatQrcode(String weixinTaskGroupChatQrcode) {
+		this.weixinTaskGroupChatQrcode = weixinTaskGroupChatQrcode;
 	}
 
 	public String getWeixinTaskDescription() {

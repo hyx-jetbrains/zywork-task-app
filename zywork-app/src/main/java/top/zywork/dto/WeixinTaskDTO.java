@@ -27,6 +27,7 @@ public class WeixinTaskDTO extends BaseDTO {
 	private Integer confirmNumber;
 	// 奖励积分
 	private Long integral;
+	private String groupChatQrcode;
 	// 任务描述
 	private String description;
 	// 任务状态
@@ -104,6 +105,14 @@ public class WeixinTaskDTO extends BaseDTO {
 
 	public void setIntegral(Long integral) {
 		this.integral = integral;
+	}
+
+	public String getGroupChatQrcode() {
+		return groupChatQrcode;
+	}
+
+	public void setGroupChatQrcode(String groupChatQrcode) {
+		this.groupChatQrcode = groupChatQrcode;
 	}
 
 	public String getDescription() {

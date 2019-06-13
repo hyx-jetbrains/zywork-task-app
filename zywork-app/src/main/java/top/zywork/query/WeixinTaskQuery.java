@@ -49,6 +49,7 @@ public class WeixinTaskQuery extends PageQuery {
 	private Long integralMin;
 	// 奖励积分（最大值）
 	private Long integralMax;
+	private String groupChatQrcode;
 	// 任务描述
 	private String description;
 	// 任务状态
@@ -252,6 +253,14 @@ public class WeixinTaskQuery extends PageQuery {
 
 	public void setIntegralMax(Long integralMax) {
 		this.integralMax = integralMax;
+	}
+
+	public String getGroupChatQrcode() {
+		return groupChatQrcode;
+	}
+
+	public void setGroupChatQrcode(String groupChatQrcode) {
+		this.groupChatQrcode = groupChatQrcode;
 	}
 
 	public String getDescription() {

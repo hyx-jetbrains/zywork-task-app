@@ -37,6 +37,7 @@ public class WeixinTaskVO extends BaseVO {
 	// 奖励积分
 	@NotNull(message = "此项是必须项")
 	private Long integral;
+	private String groupChatQrcode;
 	// 任务描述
 	@Size(min = 0, max = 300, message = "必须小于300个字符")
 	private String description;
@@ -117,6 +118,14 @@ public class WeixinTaskVO extends BaseVO {
 
 	public void setIntegral(Long integral) {
 		this.integral = integral;
+	}
+
+	public String getGroupChatQrcode() {
+		return groupChatQrcode;
+	}
+
+	public void setGroupChatQrcode(String groupChatQrcode) {
+		this.groupChatQrcode = groupChatQrcode;
 	}
 
 	public String getDescription() {

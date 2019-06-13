@@ -50,6 +50,7 @@ public class WeixinUserTaskQuery extends PageQuery {
 	private Long weixinTaskIntegralMin;
 	// 奖励积分（最大值）
 	private Long weixinTaskIntegralMax;
+	private String weixinTaskGroupChatQrcode;
 	// 任务描述
 	private String weixinTaskDescription;
 	// 任务状态
@@ -264,6 +265,14 @@ public class WeixinUserTaskQuery extends PageQuery {
 
 	public void setWeixinTaskIntegralMax(Long weixinTaskIntegralMax) {
 		this.weixinTaskIntegralMax = weixinTaskIntegralMax;
+	}
+
+	public String getWeixinTaskGroupChatQrcode() {
+		return weixinTaskGroupChatQrcode;
+	}
+
+	public void setWeixinTaskGroupChatQrcode(String weixinTaskGroupChatQrcode) {
+		this.weixinTaskGroupChatQrcode = weixinTaskGroupChatQrcode;
 	}
 
 	public String getWeixinTaskDescription() {

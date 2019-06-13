@@ -16,7 +16,7 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/zywork_app?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true&useAffectedRows=true&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://localhost:3306/task_app?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true&useAffectedRows=true&allowPublicKeyRetrieval=true
       username: root
       password: root123456
       validation-query: select 1
@@ -154,6 +154,10 @@ storage:
       imgParentDir: "/data/task-app/upload"
       imgDir: "image/certification"
       imgUrl: "upload/image/certification"
+    weixinTask:
+      imgParentDir: "/data/task-app/upload"
+      imgDir: "image/weixin-task"
+      imgUrl: "upload/image/weixin-task"
 appeal:
   # 单位/小时
   hours: 72

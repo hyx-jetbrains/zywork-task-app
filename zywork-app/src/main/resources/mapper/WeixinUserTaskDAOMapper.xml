@@ -5,7 +5,8 @@
 <mapper namespace="top.zywork.dao.WeixinUserTaskDAO">
 
     <sql id="select_columns">
-        t_weixin_task.id as weixinTaskId, t_weixin_task.user_id as weixinTaskUserId, t_weixin_task.title as weixinTaskTitle, t_weixin_task.total_number as weixinTaskTotalNumber, t_weixin_task.confirm_number as weixinTaskConfirmNumber, t_weixin_task.integral as weixinTaskIntegral, t_weixin_task.description as weixinTaskDescription, t_weixin_task.task_status as weixinTaskTaskStatus, t_weixin_task.create_time as weixinTaskCreateTime, t_weixin_task.update_time as weixinTaskUpdateTime, t_weixin_task.version as weixinTaskVersion, t_weixin_task.is_active as weixinTaskIsActive, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon, t_user.phone as userPhone
+        t_weixin_task.id as weixinTaskId, t_weixin_task.user_id as weixinTaskUserId, t_weixin_task.title as weixinTaskTitle, t_weixin_task.total_number as weixinTaskTotalNumber, t_weixin_task.confirm_number as weixinTaskConfirmNumber, t_weixin_task.integral as weixinTaskIntegral,
+        t_weixin_task.group_chat_qrcode AS weixinTaskGroupChatQrcode, t_weixin_task.description as weixinTaskDescription, t_weixin_task.task_status as weixinTaskTaskStatus, t_weixin_task.create_time as weixinTaskCreateTime, t_weixin_task.update_time as weixinTaskUpdateTime, t_weixin_task.version as weixinTaskVersion, t_weixin_task.is_active as weixinTaskIsActive, t_user_detail.nickname as userDetailNickname, t_user_detail.headicon as userDetailHeadicon, t_user.phone as userPhone
     </sql>
 
     <sql id="query_where_clause">

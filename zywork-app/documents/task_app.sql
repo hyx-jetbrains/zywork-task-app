@@ -4066,6 +4066,7 @@ CREATE TABLE `t_weixin_task`  (
   `total_number` int(11) NOT NULL COMMENT '加友总数',
   `confirm_number` int(11) NULL DEFAULT 0 COMMENT '已确认数',
   `integral` bigint(20) NOT NULL COMMENT '奖励积分',
+  `group_chat_qrcode` varchar(500) NULL COMMENT '群聊二维码',
   `description` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '任务描述',
   `task_status` int(4) NULL DEFAULT 0 COMMENT '任务状态',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',

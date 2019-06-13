@@ -1,5 +1,7 @@
 export const BASE_URL = 'http://47.106.132.248:8088'
 export const IMAGE_BASE_URL = 'http://47.106.132.248'
+//export const BASE_URL = 'http://localhost:8088'
+//export const IMAGE_BASE_URL = 'http://localhost'
 export const USER_TOKEN_KEY = 'userToken'
 
 export const DEFAULT_HEADICON = '/static/icon/headicon.png'
@@ -58,7 +60,7 @@ export const showInfoToast = (title) => {
 	uni.showToast({
 		title: title,
 		icon: 'none',
-		duration: 2000
+		duration: 3000
 	})
 }
 

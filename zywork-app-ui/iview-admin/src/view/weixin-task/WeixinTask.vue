@@ -252,6 +252,7 @@
 		},
 		data() {
 			return {
+				descriptionAutoSize: true,
 				modal: {
 					add: false,
 					edit: false,
@@ -507,6 +508,13 @@
 							render: (h, params) => {
 								return h('span', params.row.integral/100)
 							}
+						},
+						{
+							title: '群聊二维码',
+							key: 'groupChatQrcode',
+							align: 'center',
+							minWidth: 120,
+							sortable: true
 						},
 						{
 							title: '任务描述',
